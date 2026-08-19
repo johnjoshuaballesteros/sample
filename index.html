@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AACCUP Accreditation Document System — OMSC</title>
     <style>
-        /* ===== RESET & VARIABLES ===== */
+        /* ===== ROOT ===== */
         :root {
             --primary: #0047AB;
             --primary-dark: #002a66;
@@ -30,6 +30,7 @@
             --btn-glow: rgba(63, 127, 224, .45);
         }
 
+        /* ===== RESET ===== */
         * {
             margin: 0;
             padding: 0;
@@ -92,6 +93,7 @@
             flex-shrink: 0;
             border: .5px solid var(--gold-light);
             box-shadow: 0 2px 10px rgba(0, 0, 0, .25);
+            overflow: hidden;
         }
         .logo img {
             height: 100%;
@@ -116,9 +118,9 @@
         /* ===== MAIN ===== */
         main {
             flex: 1;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 32px 24px 60px;
+            padding: 32px 16px 60px;
             width: 100%;
         }
 
@@ -149,18 +151,20 @@
             color: var(--line);
         }
         .breadcrumb .current {
-            display: none;
+            color: var(--ink-soft);
+            font-weight: 500;
+            padding: 4px 8px;
         }
 
         /* ===== PAGE HEADER ROW ===== */
         .page-header-row {
-            display: flex;
+            display: grid;
+            grid-template-columns: auto 1fr 120px;
             align-items: center;
             gap: 16px;
-            margin-bottom: 8px;
+            margin-bottom: 70px;
         }
         .page-header-row h2 {
-            flex: 1;
             text-align: center;
             margin: 0;
             font-size: clamp(1.35rem, 2.6vw, 1.9rem);
@@ -168,15 +172,12 @@
             letter-spacing: -0.3px;
         }
         .page-header-row .btn-back {
-            flex-shrink: 0;
+            justify-self: start;
             padding: 8px 20px;
             font-size: .9rem;
         }
-        .page-subtitle {
-            text-align: center;
-            color: var(--ink-soft);
-            font-size: .95rem;
-            margin-bottom: 26px;
+        .page-header-row .spacer {
+            /* empty for grid balance */
         }
 
         /* ===== HERO / LANDING ===== */
@@ -197,67 +198,59 @@
             margin-bottom: 16px;
         }
         .hero h2 {
-            font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
             color: var(--ink);
             margin-bottom: 12px;
             font-weight: 800;
             letter-spacing: -.5px;
         }
         .hero p {
-            font-size: 1.02rem;
+            font-size: 1.1rem;
             color: var(--ink-soft);
-            max-width: 560px;
+            max-width: 600px;
             margin: 0 auto;
+            line-height: 1.6;
         }
 
-        /* ===== GRIDS ===== */
-        .program-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            margin-top: 28px;
-        }
-        .area-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 18px;
-            margin-top: 24px;
-        }
-        .param-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 18px;
-            margin-top: 24px;
-        }
-        .doc-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            margin-top: 24px;
-        }
+        /* ===== UNIFIED GRID — FLEX + EQUAL SIZE ===== */
+        .program-grid,
+        .area-grid,
+        .param-grid,
+        .doc-grid,
         .hierarchy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 16px;
             margin-top: 24px;
         }
 
-        /* ===== GLOSSY CONVEX BUTTONS ===== */
-        .btn-program,
-        .btn-area,
-        .btn-param,
-        .btn-doc,
-        .btn-file,
-        .btn-open,
-        .btn-back {
-            position: relative;
-            isolation: isolate;
-            overflow: hidden;
+        /*
+            Bawat direktang anak (button) ay may pantay na lapad at taas.
+            - lapad: 25% ng container (4 per row)
+            - taas: fixed 130px para pantay-pantay ang lahat ng button sa page
+            - content centered gamit ang inner flex
+        */
+        .program-grid>*,
+        .area-grid>*,
+        .param-grid>*,
+        .doc-grid>*,
+        .hierarchy-grid>* {
+            flex: 0 0 calc(25% - 16px);
+            /* 4 columns */
+            height: 130px;
+            /* fixed height – lahat pantay */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            text-align: center;
+            word-break: break-word;
+            border-radius: 12px;
             background:
                 radial-gradient(120% 140% at 20% -20%, rgba(255, 255, 255, .55) 0%, rgba(255, 255, 255, 0) 45%),
                 linear-gradient(165deg, var(--blue-3) 0%, var(--blue-4) 42%, var(--blue-5) 100%);
             border: 1px solid rgba(0, 20, 60, .4);
-            border-radius: 12px;
             color: var(--white);
             text-shadow: 0 1px 3px rgba(0, 10, 40, .45);
             box-shadow:
@@ -267,13 +260,17 @@
             transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease), background .35s var(--ease);
             cursor: pointer;
             font-weight: 600;
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
         }
 
-        .btn-program::before,
-        .btn-area::before,
-        .btn-param::before,
-        .btn-doc::before,
-        .btn-file::before {
+        /* Gold seam sa itaas */
+        .program-grid>*::before,
+        .area-grid>*::before,
+        .param-grid>*::before,
+        .doc-grid>*::before,
+        .hierarchy-grid>*::before {
             content: '';
             position: absolute;
             top: 0;
@@ -285,13 +282,12 @@
             z-index: 1;
         }
 
-        .btn-program:hover,
-        .btn-area:hover,
-        .btn-param:hover,
-        .btn-doc:hover,
-        .btn-file:hover,
-        .btn-open:hover,
-        .btn-back:hover {
+        /* Hover / Focus / Active */
+        .program-grid>*:hover,
+        .area-grid>*:hover,
+        .param-grid>*:hover,
+        .doc-grid>*:hover,
+        .hierarchy-grid>*:hover {
             background:
                 radial-gradient(120% 140% at 20% -20%, rgba(255, 255, 255, .65) 0%, rgba(255, 255, 255, 0) 48%),
                 linear-gradient(165deg, #6fa2ea 0%, var(--primary-light) 42%, var(--blue-4) 100%);
@@ -303,44 +299,39 @@
                 inset 0 1px 0 rgba(255, 255, 255, .65),
                 inset 0 -10px 16px rgba(0, 10, 40, .22);
         }
-
-        .btn-program:focus-visible,
-        .btn-area:focus-visible,
-        .btn-param:focus-visible,
-        .btn-doc:focus-visible,
-        .btn-file:focus-visible,
-        .btn-open:focus-visible,
-        .btn-back:focus-visible {
+        .program-grid>*:focus-visible,
+        .area-grid>*:focus-visible,
+        .param-grid>*:focus-visible,
+        .doc-grid>*:focus-visible,
+        .hierarchy-grid>*:focus-visible {
             outline: none;
             border-color: var(--gold);
-            box-shadow: 0 4px 14px rgba(0, 20, 60, .28), 0 0 0 3px var(--gold-light), inset 0 1px 0 rgba(255, 255, 255, .55);
+            box-shadow:
+                0 4px 14px rgba(0, 20, 60, .28),
+                0 0 0 3px var(--gold-light),
+                inset 0 1px 0 rgba(255, 255, 255, .55);
         }
-
-        .btn-program:active,
-        .btn-area:active,
-        .btn-param:active,
-        .btn-doc:active,
-        .btn-file:active,
-        .btn-open:active,
-        .btn-back:active {
+        .program-grid>*:active,
+        .area-grid>*:active,
+        .param-grid>*:active,
+        .doc-grid>*:active,
+        .hierarchy-grid>*:active {
             transform: scale(.97) translateY(0);
             background: linear-gradient(165deg, var(--blue-5) 0%, #001433 100%);
-            box-shadow: inset 0 3px 8px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .2);
+            box-shadow:
+                inset 0 3px 8px rgba(0, 0, 0, .4),
+                inset 0 1px 0 rgba(255, 255, 255, .2);
         }
 
-        /* Program Buttons */
-        .btn-program {
-            padding: 32px 24px;
-            border-radius: 14px;
-            text-align: center;
-            font-size: 1.1rem;
-            letter-spacing: .5px;
+        /* ===== PROGRAM BUTTONS ===== */
+        .program-grid>* {
+            flex-direction: column;
+            padding: 20px 16px;
         }
-        .btn-program .code {
+        .program-grid .code {
             display: block;
             font-size: 2rem;
             font-weight: 800;
-            margin-bottom: 6px;
             letter-spacing: 2px;
             background: linear-gradient(180deg, #ffffff, var(--gold-light));
             -webkit-background-clip: text;
@@ -348,25 +339,34 @@
             -webkit-text-fill-color: transparent;
             text-shadow: none;
             filter: drop-shadow(0 1px 2px rgba(0, 10, 40, .5));
+            margin-bottom: 4px;
         }
-        .btn-program .full {
+        .program-grid .full {
             font-size: .85rem;
             font-weight: 400;
             color: var(--white);
             opacity: .92;
+            -webkit-text-fill-color: var(--white);
+            /* truncate to 3 lines */
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 3.6em;
+            line-height: 1.2;
         }
 
-        /* Area Buttons */
-        .btn-area {
-            padding: 20px 24px;
-            border-radius: var(--radius);
-            text-align: left;
-            font-size: .95rem;
+        /* ===== AREA BUTTONS ===== */
+        .area-grid>* {
             display: flex;
             align-items: center;
             gap: 14px;
+            padding: 16px 20px;
+            text-align: left;
+            font-size: .95rem;
         }
-        .btn-area .num {
+        .area-grid .num {
             flex-shrink: 0;
             width: 34px;
             height: 34px;
@@ -380,27 +380,35 @@
             font-size: .78rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .6);
         }
-        .btn-area .label {
+        .area-grid .label {
             flex: 1;
             font-weight: 600;
+            /* truncate to 3 lines */
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 3.6em;
+            line-height: 1.2;
         }
-        .btn-area .arrow {
+        .area-grid .arrow {
             color: var(--white);
             font-size: .8rem;
             opacity: .75;
+            flex-shrink: 0;
         }
 
-        /* Parameter Buttons */
-        .btn-param {
-            padding: 18px 24px;
-            border-radius: var(--radius);
-            text-align: left;
-            font-size: .95rem;
+        /* ===== PARAMETER BUTTONS ===== */
+        .param-grid>* {
             display: flex;
             align-items: center;
             gap: 14px;
+            padding: 16px 20px;
+            text-align: left;
+            font-size: .95rem;
         }
-        .btn-param .letter {
+        .param-grid .letter {
             flex-shrink: 0;
             width: 30px;
             height: 30px;
@@ -414,65 +422,167 @@
             font-size: .72rem;
             box-shadow: 0 2px 4px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .6);
         }
-        .btn-param .label {
+        .param-grid .label {
             flex: 1;
             font-weight: 600;
+            /* truncate to 3 lines */
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 3.6em;
+            line-height: 1.2;
         }
-        .btn-param .arrow {
+        .param-grid .arrow {
             color: var(--white);
             font-size: .8rem;
             opacity: .75;
+            flex-shrink: 0;
         }
 
-        /* Document Category Buttons */
-        .btn-doc {
-            padding: 24px 20px;
-            border-radius: var(--radius);
-            text-align: center;
+        /* ===== DOCUMENT CATEGORY BUTTONS ===== */
+        .doc-grid>* {
+            flex-direction: column;
+            padding: 16px 12px;
         }
-        .btn-doc .icon {
+        .doc-grid .icon {
             font-size: 2rem;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
-        .btn-doc .label {
+        .doc-grid .label {
             display: block;
             font-weight: 700;
             font-size: .95rem;
-            margin-bottom: 4px;
             color: var(--white);
+            /* truncate to 3 lines */
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 3.6em;
+            line-height: 1.2;
         }
-        .btn-doc .desc {
+        .doc-grid .desc {
             display: block;
             font-size: .8rem;
             color: var(--white);
             opacity: .85;
         }
 
-        /* Hierarchy / File Buttons */
-        .hierarchy-grid .btn-file {
+        /* ===== HIERARCHY BUTTONS (file browser) ===== */
+        .hierarchy-grid>* {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 18px 22px;
-            border-radius: var(--radius);
+            padding: 14px 18px;
             text-align: left;
-            width: 100%;
+            font-weight: 600;
+            justify-content: flex-start;
         }
-        .hierarchy-grid .btn-file .file-icon {
+        .hierarchy-grid .file-icon {
             font-size: 1.6rem;
+            flex-shrink: 0;
         }
-        .hierarchy-grid .btn-file .file-name {
+        .hierarchy-grid .file-name {
             flex: 1;
             font-weight: 600;
+            word-break: break-word;
+            font-size: .9rem;
+            /* truncate to 3 lines */
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 3.6em;
+            line-height: 1.2;
         }
-        .hierarchy-grid .btn-file .arrow {
+        .hierarchy-grid .arrow {
             font-size: 1.2rem;
             opacity: .7;
-        }
-        .hierarchy-grid .btn-file:hover .arrow {
-            transform: translateX(4px);
+            flex-shrink: 0;
             transition: transform .2s var(--ease);
+        }
+        .hierarchy-grid>*:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        /* ===== BACK BUTTON ===== */
+        .btn-back {
+            background: linear-gradient(180deg, #ffffff 0%, var(--paper) 100%);
+            border: 2px solid var(--line);
+            color: var(--primary);
+            text-shadow: none;
+            padding: 12px 32px;
+            border-radius: var(--radius);
+            font-size: .9rem;
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, .08),
+                inset 0 1px 1px rgba(255, 255, 255, .9);
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease), background .35s var(--ease);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-back:hover {
+            background: linear-gradient(180deg, #ffffff 0%, #eef4ff 100%);
+            border-color: var(--primary);
+            color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        .btn-back:active {
+            transform: scale(.97);
+            background: var(--paper);
+        }
+
+        /* ===== OPEN BUTTON ===== */
+        .btn-open {
+            padding: 12px 32px;
+            border-radius: var(--radius);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: .9rem;
+            font-weight: 600;
+            background:
+                radial-gradient(120% 140% at 20% -20%, rgba(255, 255, 255, .55) 0%, rgba(255, 255, 255, 0) 45%),
+                linear-gradient(165deg, var(--blue-3) 0%, var(--blue-4) 42%, var(--blue-5) 100%);
+            border: 1px solid rgba(0, 20, 60, .4);
+            color: var(--white);
+            text-shadow: 0 1px 3px rgba(0, 10, 40, .45);
+            box-shadow:
+                0 4px 14px rgba(0, 20, 60, .28),
+                inset 0 1px 0 rgba(255, 255, 255, .55),
+                inset 0 -10px 16px rgba(0, 10, 40, .28);
+            transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease), background .35s var(--ease);
+            cursor: pointer;
+        }
+        .btn-open:hover {
+            background:
+                radial-gradient(120% 140% at 20% -20%, rgba(255, 255, 255, .65) 0%, rgba(255, 255, 255, 0) 48%),
+                linear-gradient(165deg, #6fa2ea 0%, var(--primary-light) 42%, var(--blue-4) 100%);
+            border-color: var(--gold);
+            transform: translateY(-3px);
+            box-shadow:
+                0 10px 24px rgba(0, 20, 60, .35),
+                0 0 0 4px var(--btn-glow),
+                inset 0 1px 0 rgba(255, 255, 255, .65),
+                inset 0 -10px 16px rgba(0, 10, 40, .22);
+        }
+        .btn-open:active {
+            transform: scale(.97) translateY(0);
+            background: linear-gradient(165deg, var(--blue-5) 0%, #001433 100%);
+            box-shadow:
+                inset 0 3px 8px rgba(0, 0, 0, .4),
+                inset 0 1px 0 rgba(255, 255, 255, .2);
         }
 
         /* ===== PDF VIEWER ===== */
@@ -496,39 +606,6 @@
             gap: 14px;
             flex-wrap: wrap;
             margin-top: 8px;
-        }
-
-        /* Action Buttons */
-        .btn-open {
-            padding: 12px 32px;
-            border-radius: var(--radius);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-decoration: none;
-            font-size: .9rem;
-        }
-
-        .btn-back {
-            background: linear-gradient(180deg, #ffffff 0%, var(--paper) 100%);
-            border: 2px solid var(--line);
-            color: var(--primary);
-            text-shadow: none;
-            padding: 12px 32px;
-            border-radius: var(--radius);
-            font-size: .9rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, .08), inset 0 1px 1px rgba(255, 255, 255, .9);
-        }
-        .btn-back:hover {
-            background: linear-gradient(180deg, #ffffff 0%, #eef4ff 100%);
-            border-color: var(--primary);
-            color: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-        .btn-back:active {
-            transform: scale(.97);
-            background: var(--paper);
         }
 
         /* ===== EMPTY / ERROR ===== */
@@ -574,7 +651,25 @@
         }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
+        @media (max-width: 1023px) {
+            .program-grid>*,
+            .area-grid>*,
+            .param-grid>*,
+            .doc-grid>*,
+            .hierarchy-grid>* {
+                flex: 0 0 calc(33.33% - 16px);
+                height: 120px;
+            }
+        }
+        @media (max-width: 767px) {
+            .program-grid>*,
+            .area-grid>*,
+            .param-grid>*,
+            .doc-grid>*,
+            .hierarchy-grid>* {
+                flex: 0 0 calc(50% - 12px);
+                height: 110px;
+            }
             .title-block h1 {
                 font-size: .95rem;
             }
@@ -584,23 +679,13 @@
             .hero h2 {
                 font-size: 1.5rem;
             }
-            .program-grid,
-            .area-grid,
-            .param-grid,
-            .doc-grid,
-            .hierarchy-grid {
-                grid-template-columns: 1fr;
-            }
             .pdf-container iframe {
                 min-height: 420px;
             }
             main {
                 padding: 22px 16px 44px;
             }
-            .btn-program {
-                padding: 24px 20px;
-            }
-            .btn-program .code {
+            .program-grid .code {
                 font-size: 1.5rem;
             }
             .doc-actions {
@@ -612,18 +697,30 @@
                 justify-content: center;
             }
             .page-header-row {
-                flex-wrap: wrap;
-                justify-content: center;
+                grid-template-columns: 1fr;
+                justify-items: center;
+                gap: 8px;
+            }
+            .page-header-row .btn-back {
+                justify-self: center;
+                order: 1;
             }
             .page-header-row h2 {
                 order: 2;
-                flex-basis: 100%;
             }
-            .page-header-row .btn-back {
-                order: 1;
+        }
+        @media (max-width: 479px) {
+            .program-grid>*,
+            .area-grid>*,
+            .param-grid>*,
+            .doc-grid>*,
+            .hierarchy-grid>* {
+                flex: 0 0 100%;
+                height: 100px;
             }
         }
 
+        /* ===== ANIMATION ===== */
         @keyframes fadeUp {
             from {
                 opacity: 0;
@@ -637,11 +734,6 @@
         #app {
             animation: fadeUp .4s var(--ease);
         }
-
-        /* ===== SERVER CONFIG NOTE (hidden in UI) ===== */
-        .server-note {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -649,7 +741,9 @@
     <header>
         <div class="header-container">
             <div class="logo-section">
-                <div class="logo"><img src="images/OMSU-Logo.png" alt="OMSC Logo" onerror="this.parentElement.innerHTML='OMSC'"></div>
+                <div class="logo">
+                    <img src="images/OMSU-Logo.png" alt="OMSC Logo" onerror="this.parentElement.innerHTML='OMSC'" />
+                </div>
                 <div class="title-block">
                     <h1>Occidental Mindoro State University</h1>
                     <span class="tagline">AACCUP</span>
@@ -661,43 +755,47 @@
     <main id="app"></main>
 
     <footer>
-        <p>&copy; 2026 Occidental Mindoro State University — <strong>AACCUP Accreditation Document Management System</strong></p>
+        <p>&copy; 2026 Occidental Mindoro State University &mdash; <strong>AACCUP Accreditation Document Management System</strong></p>
     </footer>
 
     <script>
         // =========================================================
         // DATA
         // =========================================================
-        const PROGRAMS = {
+        var PROGRAMS = {
             BSIT: 'Bachelor of Science in Information Technology',
             BEED: 'Bachelor of Elementary Education',
             BSBA: 'Bachelor of Science in Business Administration'
         };
 
-        const AREAS = {
+        // ── Full parameter definitions for BSIT (unchanged) ──
+        var AREAS_FULL = {
             1: {
                 name: 'Vision, Mission, Goals, and Objectives',
-                params: { A: 'PARAMETER A: STATEMENT OF VISION, MISSION, GOALS AND OBJECTIVES', B: 'PARAMETER B: DISSEMINATION AND ACCEPTABILITY' }
+                params: {
+                    A: 'PARAMETER A: STATEMENT OF VISION, MISSION, GOALS AND OBJECTIVES',
+                    B: 'PARAMETER B: DISSEMINATION AND ACCEPTABILITY'
+                }
             },
             2: {
                 name: 'Faculty',
                 params: {
                     A: 'PARAMETER A: ACADEMIC QUALIFICATIONS AND PROFESSIONAL EXPERIENCE',
                     B: 'PARAMETER B: RECRUITMENT, SELECTION, AND ORIENTATION',
-                    C: 'PARAMETER C: FACULTY ADEQUENCY AND LEADING',
-                    D: 'PARAMETER D: RANK AND TANURE',
+                    C: 'PARAMETER C: FACULTY ADEQUACY AND LEADING',
+                    D: 'PARAMETER D: RANK AND TENURE',
                     E: 'PARAMETER E: FACULTY DEVELOPMENT',
                     F: 'PARAMETER F: PROFESSIONAL PERFORMANCE AND SCHOLARLY WORKS',
-                    G: 'PARAMETER G: SALARIES, FRINGE BENIFITS, AND INCENTIVES',
+                    G: 'PARAMETER G: SALARIES, FRINGE BENEFITS, AND INCENTIVES',
                     H: 'PARAMETER H: PROFESSIONALISM'
                 }
             },
             3: {
                 name: 'Curriculum and Instruction',
                 params: {
-                    A: 'PARAMETPARAMETER A: CURRICULUM AND PROGRAM STUDIES',
-                    B: 'PARAMETER B:INSTRUCTIONAL PROCESS, METHODOLOGIES AND LEARNING OPPORTUNITIES',
-                    C: 'PARAMETER C: ASSESMENT OF ACADEMIC PERFORMANCE ',
+                    A: 'PARAMETER A: CURRICULUM AND PROGRAM STUDIES',
+                    B: 'PARAMETER B: INSTRUCTIONAL PROCESS, METHODOLOGIES AND LEARNING OPPORTUNITIES',
+                    C: 'PARAMETER C: ASSESSMENT OF ACADEMIC PERFORMANCE',
                     D: 'PARAMETER D: MANAGEMENT OF LEARNING',
                     E: 'PARAMETER E: GRADUATION REQUIREMENTS',
                     F: 'PARAMETER F: ADMINISTRATIVE SUPPORT FOR EFFECTIVE INSTRUCTION'
@@ -707,7 +805,7 @@
                 name: 'Student Services',
                 params: {
                     A: 'PARAMETER A: STUDENT SERVICES PROGRAM (SSP)',
-                    B: 'PARAMETER B: STUDENT WELFARE ',
+                    B: 'PARAMETER B: STUDENT WELFARE',
                     C: 'PARAMETER C: STUDENT DEVELOPMENT',
                     D: 'PARAMETER D: INSTITUTIONAL STUDENT PROGRAM AND SERVICE',
                     E: 'PARAMETER E: RESEARCH, MONITORING AND EVALUATION'
@@ -716,10 +814,10 @@
             5: {
                 name: 'Research',
                 params: {
-                    A: 'PARAMETER A:PRIORITIES AND RELEVANCE',
+                    A: 'PARAMETER A: PRIORITIES AND RELEVANCE',
                     B: 'PARAMETER B: FUNDING AND OTHER RESOURCES',
                     C: 'PARAMETER C: IMPLEMENTATION, MONITORING, EVALUATION AND UTILIZATION OF RESEARCH RESULTS/OUTPUTS',
-                    D: 'PARAMETER D: PUBLICATION AND DESSEMINATION'
+                    D: 'PARAMETER D: PUBLICATION AND DISSEMINATION'
                 }
             },
             6: {
@@ -727,14 +825,22 @@
                 params: {
                     A: 'PARAMETER A: PRIORITIES AND RELEVANCE',
                     B: 'PARAMETER B: PLANNING, IMPLEMENTATION, MONITORING, AND EVALUATION',
-                    C: 'PARAMETER C: FUNDING AND OTHER RESOURCES C',
+                    C: 'PARAMETER C: FUNDING AND OTHER RESOURCES',
                     D: 'PARAMETER D: MANAGEMENT OF LEARNING'
                 }
             },
             7: {
                 name: 'Library',
-                params: { A: 'PARAMETER A', B: 'PARAMETER B', C: 'PARAMETER C', D: 'PARAMETER D', E: 'PARAMETER E',
-                    F: 'PARAMETER F', G: 'PARAMETER G', H: 'PARAMETER H' }
+                params: {
+                    A: 'PARAMETER A: ORGANIZATION AND ADMINISTRATION',
+                    B: 'PARAMETER B: COLLECTION DEVELOPMENT, ORGANIZATION AND PRESERVATION',
+                    C: 'PARAMETER C: LIBRARY SERVICES AND UTILIZATION',
+                    D: 'PARAMETER D: PHYSICAL FACILITIES AND EQUIPMENT',
+                    E: 'PARAMETER E: LIBRARY PERSONNEL',
+                    F: 'PARAMETER F: FINANCIAL SUPPORT',
+                    G: 'PARAMETER G: LINKAGES AND NETWORKING',
+                    H: 'PARAMETER H: EVALUATION AND MONITORING'
+                }
             },
             8: {
                 name: 'Physical Plant and Facilities',
@@ -745,18 +851,18 @@
                     D: 'PARAMETER D: OFFICE AND STAFF ROOMS',
                     E: 'PARAMETER E: ASSEMBLY, ATHLETIC AND SPORTS FACILITIES',
                     F: 'PARAMETER F: MEDICAL AND DENTAL CLINIC',
-                    G: 'PARAMETER G: STUDENT CENTE',
+                    G: 'PARAMETER G: STUDENT CENTER',
                     H: 'PARAMETER H: FOOD SERVICES/CANTEEN/CAFETERIA',
                     I: 'PARAMETER I: ACCREDITATION CENTER',
-                    J: 'PARAMETER PARAMETER J: HOUSING (optional)'
+                    J: 'PARAMETER J: HOUSING (optional)'
                 }
             },
             9: {
                 name: 'Laboratories',
                 params: {
                     A: 'PARAMETER A: LABORATORIES, SHOPS/FACILITIES',
-                    B: 'PARAMETER B: EQUIPMENTS AND MATERIALS',
-                    C: 'PARAMETER C: MAINTENACE',
+                    B: 'PARAMETER B: EQUIPMENT AND MATERIALS',
+                    C: 'PARAMETER C: MAINTENANCE',
                     D: 'PARAMETER D: SPECIAL PROVISIONS'
                 }
             },
@@ -765,7 +871,7 @@
                 params: {
                     A: 'PARAMETER A: ORGANIZATIONAL',
                     B: 'PARAMETER B: ACADEMIC ADMINISTRATION',
-                    C: 'PARAMETER C:ATUDENT ADMINISTRATION',
+                    C: 'PARAMETER C: STUDENT ADMINISTRATION',
                     D: 'PARAMETER D: FINANCIAL MANAGEMENT',
                     E: 'PARAMETER E: SUPPLY MANAGEMENT',
                     F: 'PARAMETER F: RECORDS MANAGEMENT',
@@ -775,110 +881,649 @@
             }
         };
 
-        const CATEGORIES = [
-            { key: 'SIP', label: 'System - Inputs and Processes', icon: '📋' },
+        // ── Custom parameter sets for BEED and BSBA (sample – only "Parameter A" for now) ──
+        // You can add more letters (B, C, ...) as needed.
+        var PROGRAM_PARAMS_CUSTOM = {
+            BEED: {
+                1: { A: 'Parameter A (sample)' },
+                2: { A: 'Parameter A (sample)' },
+                3: { A: 'Parameter A (sample)' },
+                4: { A: 'Parameter A (sample)' },
+                5: { A: 'Parameter A (sample)' },
+                6: { A: 'Parameter A (sample)' },
+                7: { A: 'Parameter A (sample)' },
+                8: { A: 'Parameter A (sample)' },
+                9: { A: 'Parameter A (sample)' },
+                10: { A: 'Parameter A (sample)' }
+            },
+            BSBA: {
+                1: { A: 'Parameter A (sample)' },
+                2: { A: 'Parameter A (sample)' },
+                3: { A: 'Parameter A (sample)' },
+                4: { A: 'Parameter A (sample)' },
+                5: { A: 'Parameter A (sample)' },
+                6: { A: 'Parameter A (sample)' },
+                7: { A: 'Parameter A (sample)' },
+                8: { A: 'Parameter A (sample)' },
+                9: { A: 'Parameter A (sample)' },
+                10: { A: 'Parameter A (sample)' }
+            }
+        };
+
+        // ── Get parameters for a given program and area ──
+        function getParamsForProgram(program, areaNum) {
+            if (program === 'BSIT') {
+                var areaData = AREAS_FULL[areaNum];
+                return areaData ? areaData.params : {};
+            } else {
+                // BEED or BSBA
+                var custom = PROGRAM_PARAMS_CUSTOM[program];
+                if (!custom) return {};
+                return custom[areaNum] || {};
+            }
+        }
+
+        // ── Get area name ──
+        function getAreaNameForProgram(program, areaNum) {
+            if (program === 'BSIT') {
+                var areaData = AREAS_FULL[areaNum];
+                return areaData ? areaData.name : 'Area ' + areaNum;
+            } else {
+                // Use common area names from AREAS_FULL (same for all)
+                var common = AREAS_FULL[areaNum];
+                return common ? common.name : 'Area ' + areaNum;
+            }
+        }
+
+        var CATEGORIES = [
+            { key: 'SIP', label: 'System — Inputs and Processes', icon: '📋' },
             { key: 'IMP', label: 'Implementation', icon: '⚙️' },
             { key: 'OUT', label: 'Outcome/s', icon: '🏆' }
         ];
 
         // =========================================================
-        // DOCUMENT FILES
+        // DOCUMENT FILES — BSIT has full data; BEED & BSBA have sample data
         // =========================================================
-        const DOCUMENT_FILES = {
+        var DOCUMENT_FILES = {
+
+            // ─── BSIT (full) ───
             'BSIT-1-A-SIP': [
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n', name: 'S. 1. The institution has a system of determining the Vision and Mission.' },
-                { id: 'FILE_ID_HERE_2', name: 'S.2. The Vision clearly reflects what the institution hopes to become in the future.' },
-                { id: 'FILE_ID_HERE_3', name: 'S.3. The Mission clearly reflects the institutions legal and other statutory mandate.' },
-                { id: 'FILE_ID_HERE_3', name: 'S.4. The Goals of the College/ Academic Unit are consistent with the Mission of the institution.' },
-                { id: 'FILE_ID_HERE_3', name: 'S.5. The Objectives of the program have the expected outcomes in terms of competencies (skills and knowledge), values and other attributes of the graduates which include the development of:' },
-                { id: 'FILE_ID_HERE_3', name: 'S.5.1. technical skills in Information Technology Education;' },
-                { id: 'FILE_ID_HERE_3', name: 'S.5.2. research and extension capabilities;' },
-                { id: 'FILE_ID_HERE_3', name: 'S.5.3. students own ideas, desirable attitudes, personal discipline' },
-                { id: 'FILE_ID_HERE_3', name: 'S.5.4. moral character;' },
-                { id: 'FILE_ID_HERE_3', name: 'S.5.5. critical thinking skills; and' },
-                { id: 'FILE_ID_HERE_3', name: 'S.5.6. aesthetic and cultural values.' }
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.1. The institution has a system of determining the Vision and Mission.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.2. The Vision clearly reflects what the institution hopes to become in the future.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.3. The Mission clearly reflects the institutions legal and other statutory mandate.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.4. The Goals of the College/ Academic Unit are consistent with the Mission of the institution.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.5. The Objectives of the program have the expected outcomes in terms of competencies (skills and knowledge), values and other attributes of the graduates which include the development of:' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.5.1. technical skills in Information Technology Education;' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.5.2. research and extension capabilities;' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.5.3. students own ideas, desirable attitudes, personal discipline' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.5.4. moral character;' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.5.5. critical thinking skills; and' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.5.6. aesthetic and cultural values.' }
             ],
             'BSIT-1-A-IMP': [
-                { id: 'FILE_ID_HERE', name: 'I.1. The institution/College conducts a review on the statement of the Vision and Mission as well as its goals and program objectives for the approval of authorities concerned.' },
-                { id: 'FILE_ID_HERE', name: 'I.2. The College/Academic Unit follows a system of formulating its goals and the objectives of the program.' },
-                { id: 'FILE_ID_HERE', name: 'I.3. The College/Academic Units faculty, personel, students and other stakeholders (cooperating agencies, linkages, alumni, industry sector and other concerned groups) participates in the formulation, review and/or revision of the VMGO' }
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.1. The institution/College conducts a review on the statement of the Vision and Mission as well as its goals and program objectives for the approval of authorities concerned.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.2. The College/Academic Unit follows a system of formulating its goals and the objectives of the program.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.3. The College/Academic Units faculty, personnel, students and other stakeholders (cooperating agencies, linkages, alumni, industry sector and other concerned groups) participates in the formulation, review and/or revision of the VMGO' }
             ],
             'BSIT-1-A-OUT': [
-                { id: 'FILE_ID_HERE', name: 'O.1. The VMGO are crafted and duly approved by the BOR/BOT.' }
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'O.1. The VMGO are crafted and duly approved by the BOR/BOT.' }
             ],
             'BSIT-1-B-SIP': [
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n', name: 'S. l . The VMGO are available on bulletin boards, in catalogs/manuals and in other forms of communication media.' }
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.1. The VMGO are available on bulletin boards, in catalogs/manuals and in other forms of communication media.' }
             ],
             'BSIT-1-B-IMP': [
-                { id: 'FILE_ID_HERE', name: 'I.1. A system of dissemination and acceptability of the VMGO is enforced' },
-                { id: 'FILE_ID_HERE', name: 'I.2. The administrators/faculty attend in-service seminars and training on awareness and acceptability of the:' },
-                { id: 'FILE_ID_HERE', name: 'I.2.1. Vision and Mission of the Institution;' },
-                { id: 'FILE_ID_HERE', name: 'I.2.2. Goals of the College/Academic Unit; and' },
-                { id: 'FILE_ID_HERE', name: 'I.2.3. Objectives of the Program.' },
-                { id: 'FILE_ID_HERE', name: 'I.3. The formulation/review/revision of the VMGO is participated in by the following:' },
-                { id: 'FILE_ID_HERE', name: 'I.3.1. administrators;' },
-                { id: 'FILE_ID_HERE', name: 'I.3.2. faculty;' },
-                { id: 'FILE_ID_HERE', name: 'I.3.3. staff;' },
-                { id: 'FILE_ID_HERE', name: 'I.3.4. students; and' },
-                { id: 'FILE_ID_HERE', name: 'I.3.5. other stakeholders.' },
-                { id: 'FILE_ID_HERE', name: 'I.4. The faculty and staff perform their jobs/functions in consonance with the VMGO.' },
-                { id: 'FILE_ID_HERE', name: 'I.5. The VMGO are widely disseminated to different agencies, institutions, industry sector and the community.' }
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.1. A system of dissemination and acceptability of the VMGO is enforced' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.2. The administrators/faculty attend in-service seminars and training on awareness and acceptability of the:' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.2.1. Vision and Mission of the Institution;' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.2.2. Goals of the College/Academic Unit; and' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.2.3. Objectives of the Program.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.3. The formulation/review/revision of the VMGO is participated in by the following:' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.3.1. administrators;' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.3.2. faculty;' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.3.3. staff;' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.3.4. students; and' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.3.5. other stakeholders.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.4. The faculty and staff perform their jobs/functions in consonance with the VMGO.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.5. The VMGO are widely disseminated to different agencies, institutions, industry sector and the community.' }
             ],
             'BSIT-1-B-OUT': [
-                { id: 'FILE_ID_HERE', name: 'O.1. There is full awareness and acceptance of the VMGO by the administrators, faculty, staff, students and other stakeholders.' },
-                { id: 'FILE_ID_HERE', name: 'O.2. There is congruency between actual educational practices and activities with the following:' },
-                { id: 'FILE_ID_HERE', name: 'O.2.1. Vision and Mission of the SUC;' },
-                { id: 'FILE_ID_HERE', name: 'O.2.2. Goals of the College/ Academic Unit' },
-                { id: 'FILE_ID_HERE', name: 'O.2.3. Objectives of the Information Technology Education program' },
-                { id: 'FILE_ID_HERE', name: 'O.3. The goals and objectives are being achieved.' }
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'O.1. There is full awareness and acceptance of the VMGO by the administrators, faculty, staff, students and other stakeholders.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'O.2. There is congruency between actual educational practices and activities with the following:' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'O.2.1. Vision and Mission of the SUC;' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'O.2.2. Goals of the College/ Academic Unit' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'O.2.3. Objectives of the Information Technology Education program' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'O.3. The goals and objectives are being achieved.' }
             ],
             'BSIT-2-A-SIP': [
-                { id: 'FILE_ID_HERE', name: 'S.1. The required number of faculty possess graduate degrees appropriate and relevant to the Program or any of the allied fields.' },
-                { id: 'FILE_ID_HERE', name: 'S.1. The required number of faculty (3 full time) possess graduate degrees appropriate and relevant to the program (CMO 53 s. 2006) and other qualifications namely:' },
-                { id: 'FILE_ID_HERE', name: 'S.1.1. Master in Information Technology for 30% of the faculty handling IT courses; and' },
-                { id: 'FILE_ID_HERE', name: 'S.1.2. IT or allied degrees and any of the following:' },
-                { id: 'FILE_ID_HERE', name: 'S.1.2.1 IT industry experience of 20% of the faculty for years in technical administration, system design, applications programming or equivalent within the last 5 years; and' },
-                { id: 'FILE_ID_HERE', name: 'S.1.2.2. proficiency in the teaching ITE courses as proven by the certification issued by a certification issued by a certifying body as the Philippine National IT Standard (PhilNITS), Brainbench, Oracle or Microsoft, etc. provide that the teaching load assigned to him/her is aligned with the area of certification.' },
-                { id: 'FILE_ID_HERE', name: 'S.2. Other qualifications such as the following are considered:' },
-                { id: 'FILE_ID_HERE', name: 'S.2.2. Computer literacy.' },
-                { id: 'FILE_ID_HERE', name: 'S.2.3. technical skills and competence;' },
-                { id: 'FILE_ID_HERE', name: 'S.2.4. special abilities' },
-                { id: 'FILE_ID_HERE', name: 'S.2.5. research capability;' },
-                { id: 'FILE_ID_HERE', name: 'S.3. Faculty handling OJT/practicum courses have had at least three (3) Years of teaching and industry-based experience in the field, if applicable.' },
-                { id: 'FILE_ID_HERE', name: 'S.4. At least 50% of the faculty are Graduate Degree holders.' }
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.1. The required number of faculty possess graduate degrees appropriate and relevant to the Program or any of the allied fields.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.1.1. Master in Information Technology for 30% of the faculty handling IT courses; and' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.1.2. IT or allied degrees and any of the following:' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.1.2.1 IT industry experience of 20% of the faculty for years in technical administration, system design, applications programming or equivalent within the last 5 years; and' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.1.2.2. proficiency in the teaching ITE courses as proven by the certification issued by a certifying body as the Philippine National IT Standard (PhilNITS), Brainbench, Oracle or Microsoft, etc. provide that the teaching load assigned to him/her is aligned with the area of certification.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.2. Other qualifications such as the following are considered:' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.2.2. Computer literacy.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.2.3. technical skills and competence;' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.2.4. special abilities' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.2.5. research capability;' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.3. Faculty handling OJT/practicum courses have had at least three (3) Years of teaching and industry-based experience in the field, if applicable.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.4. At least 50% of the faculty are Graduate Degree holders.' }
             ],
             'BSIT-2-A-IMP': [
-                { id: 'FILE_ID_HERE', name: 'I.1. The faculty demonstrate professional competence and are engage in any or a combination of the following:' },
-                { id: 'FILE_ID_HERE', name: 'I.1.1. instruction;' },
-                { id: 'FILE_ID_HERE', name: 'I.1.2. research;' },
-                { id: 'FILE_ID_HERE', name: 'I.1.3. extension;' },
-                { id: 'FILE_ID_HERE', name: 'I.1.4. Production;' },
-                { id: 'FILE_ID_HERE', name: 'I.1.5. consultancy and expert service; and' },
-                { id: 'FILE_ID_HERE', name: 'I.1.6. publication, creative and scholarly works.' },
-                { id: 'FILE_ID_HERE', name: 'I.2. Faculty pursue graduate degrees in Information Technology and/or allied fields from reputable institutions (with at least Level II accreditation status or Word/Asia rank.' }
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.1. The faculty demonstrate professional competence and are engage in any or a combination of the following:' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.1.1. instruction;' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.1.2. research;' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.1.3. extension;' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.1.4. Production;' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.1.5. consultancy and expert service; and' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.1.6. publication, creative and scholarly works.' },
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'I.2. Faculty pursue graduate degrees in Information Technology and/or allied fields from reputable institutions (with at least Level II accreditation status or Word/Asia rank.' }
             ],
             'BSIT-2-A-OUT': [
-                { id: 'FILE_ID_HERE', name: 'O.1. The institution has qualified and competent faculty.' }
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'O.1. The institution has qualified and competent faculty.' }
+            ],
+            'BSIT-3-A-SIP': [
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.1. The curriculum provides for the development of the following 	professional competencies:' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.1.1. acquisition of knowledge of theories in the discipline;' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.1.2. application to real problems in the field; and' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.1.3. demonstration of skills in applying different strategies in actual work setting.' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.2. There is a system of validation of subjects taken from other schools.' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.3. The curiculum reflects the local, regional and national development goals as well as the institutions vision and mission.' }
+            ],
+
+            'BSIT-3-A-IMP': [
+                { id: 'SAMPLE LINK',
+                    name: 'I.1. The curiculum/ program is implemented utilizing and/ or even judiciouly exceeding CHED requirements and standards as follows:' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.1.1. General Education (54 units)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.1.2. Basic ITE Core Courses (18 units)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.1.3. Professional Courses (33 units)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.1.4. ITE Elective (12 units)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.1.5. Free Elective (9 units)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.1.6. P.E. (8 units)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.1.7. NSTP (6 units)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.2. THe subjects are logically sequenced and prerequisite couses are identified.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.3. The Currucular content is responsive to the needs of the country and recent developments in the profession.]' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.4. The curricular content covers the exelent of the professional and technical preparation required of its graduates.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.5. The curriculum integrates values, reflective of national customs, culture and tradition (incase where applicable).' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.6. Opportunity for participation in hands-on activities, such as immersion/ practical training and field study are maintaied in the curriculum.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7. The following activities are undertaken to ensure quality in the process of curriculum development:' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1. participative planning and designing by the following stakeholders;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1.1. administration;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1.2. faculty;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1.3. students;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1.4. alumni;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1.5. representatives from the industry/ sector; and' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1.6. others (please spacify)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.2. periodic review, assessment, updating of the curriculum by the Academic Council;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.3. Confirmation of the curiculum by the Board of Regents (BOR)/ Trustees (BOT); and' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.4. others (please spacify) CHED approval' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8. The program of study allows the accommodation of students with special needs and assist them to finish the degree.' }
+            ],
+
+            'BSIT-3-A-OUT': [
+                { id: 'SAMPLE LINK',
+                    name: 'O.1. The curriculum is resposive and relevant to the demands the times.' }
+            ],
+
+            'BSIT-3-B-SIP': [
+                { id: 'SAMPLE LINK',
+                    name: 'S.1. There is an instructional outcomes-based standard format in the preparation of course syllabi.' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.2. The syllabi includes a list of suggested readings and referenvces of print and electronics resources within the last ten (10) years.' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.3. Copies of all syllabi during the term are the Deans office or any other appropriate repository.' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.4. Copies of all course syllabi in the previous terms ore field for reference puposes.' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.5. There is provision for remidial measures to strengthen the basic skills in mathematics and English, and othe "tool" subjects.' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.6. There is a mechanism to facilitate the teaching learning process.' }
+            ],
+
+            'BSIT-3-B-IMP': [
+                { id: 'SAMPLE LINK',
+                    name: 'I.1. The Dean or official concerned approves the updated syllabus for each subject.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.2. The faculty prepares syllab eith comprehensive contents.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.3. The Faculty revise and enhances their syllabi preferably every two (2) years.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.4. The faculty provide a copy of the syllabus to each student.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.5. Teaching strategies stimulate the development of the students Higher-Order Thinking Skills (HOTS) such as critical thinking and problem solving.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.6. Classroom instruction is enriched through the use of the following strategies;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.6.1. Symposia, seminars, workshops, professional lectures;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.6.2. Educational tours/ learning/ other co-curricular activities;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.6.3. Peer teaching/ cooperative learning' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.6.4. Computer-assisted instruction (CAI) and computer-assisted learning (CAL).' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7. At least three (3) of the folloeing course requirements are used;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1. Group/ individual projects;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.2. Group/ individual reports;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.3. Group/ individual term papers;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.4. Performance activities;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.5. Learning contacts;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.6. Portfolio;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.7. Learning modules;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.8. Research study;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.9. Others (please specify)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.8. Research study;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.9. others (please specify)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8. Instruction is enriched through the use of the least ten (10) of the folloeing techniques/ strategies:' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.1. Film showing;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.2. Projects;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.3. Group dynamics' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.4. Case study;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.5. Workshops;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.6. Simulations' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.7. Dimentional Question approach;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.8. Brainstorming;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.9. buzz sessions;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.10. Informal creative groups;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.11. Interactive training;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.12. Team teaching;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.13. Micro Teaching;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.14. Macro teaching' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.15. Tandem Teaching;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.16. Peer Teaching;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.17. Multi-media/ Courseware/ Teachware;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.18. Experience;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.19. Problem solving;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.20. Type of study method;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.21. Reporting;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.22. Panel discussion;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.23. others (plase specify)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.9. Intructional strategies provide for students individual neeeds and multiplw inteligences.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10. Introduction in enhanced through the following:' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10.1. Submission of approved and updated syllabus per course' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10.2. Regular classroom observation/supervision' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10.3. Regular meeting with the College/ Academic Unit/ Dean/ Department Chair.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10.4. Regular faculty performance evaluation.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10.5. Attendance/ participation of the faculty in in-service training.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10.6. Conduct experimental classes.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10.7. Adoption of alternative instruction delivery modes such as modular instruction, e-learning and on-line study.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.11. Instructinal Materials (MIs) are reviewed and recommendational Materials Committee (IMC)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.12. Varied, multi-sensory materials and computer programs are utilized.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.13. The College/ Academic Unit maintains consortia and linkage with other learning institutions for academic axchange of instructional materials.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.14. The faculty are encouraged to produce their own instructional materials such as modules, software, visual aids, manuals and textbooks.' }
+            ],
+
+            'BSIT-3-B-OUT': [
+                { id: 'SAMPLE LINK',
+                    name: 'O.1. Course syllabi are updated and approved by concerned authorities.' },
+                { id: 'SAMPLE LINK',
+                    name: 'O.2. Varied teaching strategies are efficiently and effectively used.' },
+                { id: 'SAMPLE LINK',
+                    name: 'O.3. Instructional materials procedured by the faculty are copyrighted/patented.' }
+            ],
+
+            'BSIT-3-C-SIP': [
+                { id: 'SAMPLE LINK',
+                    name: 'S.1. The program of studies has a system of evaluating student performance through a combination of the following:' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.1.1. F' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' },
+                { id: 'SAMPLE LINK',
+                    name: '' }
+            ],
+
+            // ─── BEED (sample) ───
+            'BEED-1-A-SIP': [
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.1. The institution has a clear statement of its Vision, Mission, Goals, and Objectives.' },
+                { id: 'SAMPLE_BEED_1A_S2',
+                    name: 'S.2. The VMGO are aligned with the national educational policies and standards.' }
+            ],
+            'BEED-1-A-IMP': [
+                { id: 'SAMPLE_BEED_1A_I1',
+                    name: 'I.1. The VMGO are regularly reviewed and updated by the College.' },
+                { id: 'SAMPLE_BEED_1A_I2',
+                    name: 'I.2. Faculty and staff are oriented on the VMGO during the start of each academic year.' }
+            ],
+            'BEED-1-A-OUT': [
+                { id: 'SAMPLE_BEED_1A_O1',
+                    name: 'O.1. The VMGO are prominently displayed and accessible to all stakeholders.' }
+            ],
+            'BEED-1-B-SIP': [
+                { id: 'SAMPLE_BEED_1B_S1',
+                    name: 'S.1. The VMGO are disseminated through various media and platforms.' }
+            ],
+            'BEED-1-B-IMP': [
+                { id: 'SAMPLE_BEED_1B_I1',
+                    name: 'I.1. A communication plan is in place to ensure widespread awareness of the VMGO.' },
+                { id: 'SAMPLE_BEED_1B_I2',
+                    name: 'I.2. Stakeholders are engaged in the dissemination and feedback process.' }
+            ],
+            'BEED-1-B-OUT': [
+                { id: 'SAMPLE_BEED_1B_O1',
+                    name: 'O.1. There is high level of awareness and acceptance of the VMGO among stakeholders.' }
+            ],
+
+            'BEED-2-A-SIP': [
+                { id: 'SAMPLE_BEED_2A_S1',
+                    name: 'S.1. The faculty members possess the required academic qualifications for the program.' },
+                { id: 'SAMPLE_BEED_2A_S2',
+                    name: 'S.2. Faculty have relevant professional experience in education.' }
+            ],
+            'BEED-2-A-IMP': [
+                { id: 'SAMPLE_BEED_2A_I1',
+                    name: 'I.1. The faculty demonstrate competence in teaching and research.' }
+            ],
+            'BEED-2-A-OUT': [
+                { id: 'SAMPLE_BEED_2A_O1',
+                    name: 'O.1. The faculty are recognized for their expertise and contributions to the field.' }
+            ],
+            'BEED-2-B-SIP': [
+                { id: 'SAMPLE_BEED_2B_S1',
+                    name: 'S.1. A systematic recruitment and selection process for faculty is in place.' }
+            ],
+            'BEED-2-B-IMP': [
+                { id: 'SAMPLE_BEED_2B_I1',
+                    name: 'I.1. New faculty undergo a comprehensive orientation program.' }
+            ],
+            'BEED-2-B-OUT': [
+                { id: 'SAMPLE_BEED_2B_O1',
+                    name: 'O.1. The institution has a pool of qualified and well-oriented faculty.' }
+            ],
+            'BEED-2-C-SIP': [
+                { id: 'SAMPLE_BEED_2C_S1',
+                    name: 'S.1. The faculty-student ratio is adequate for effective instruction.' }
+            ],
+            'BEED-2-C-IMP': [
+                { id: 'SAMPLE_BEED_2C_I1',
+                    name: 'I.1. Teaching loads are distributed equitably among faculty.' }
+            ],
+            'BEED-2-C-OUT': [
+                { id: 'SAMPLE_BEED_2C_O1',
+                    name: 'O.1. Faculty are able to provide quality instruction and support to students.' }
+            ],
+            'BEED-2-D-SIP': [
+                { id: 'SAMPLE_BEED_2D_S1',
+                    name: 'S.1. A clear tenure and promotion system is in place.' }
+            ],
+            'BEED-2-D-IMP': [
+                { id: 'SAMPLE_BEED_2D_I1',
+                    name: 'I.1. Faculty are evaluated regularly for promotion and tenure.' }
+            ],
+            'BEED-2-D-OUT': [
+                { id: 'SAMPLE_BEED_2D_O1',
+                    name: 'O.1. Faculty are promoted based on merit and performance.' }
+            ],
+
+            // ─── BSBA (sample) ───
+            'BSBA-1-A-SIP': [
+                { id: 'SAMPLE_BSBA_1A_S1',
+                    name: 'S.1. The institution has a clearly articulated Vision, Mission, Goals, and Objectives.' },
+                { id: 'SAMPLE_BSBA_1A_S2',
+                    name: 'S.2. The VMGO are aligned with the standards for business education.' }
+            ],
+            'BSBA-1-A-IMP': [
+                { id: 'SAMPLE_BSBA_1A_I1',
+                    name: 'I.1. The VMGO are implemented across all programs and activities.' }
+            ],
+            'BSBA-1-A-OUT': [
+                { id: 'SAMPLE_BSBA_1A_O1',
+                    name: 'O.1. The VMGO are consistently reflected in the institutions strategic plans.' }
+            ],
+            'BSBA-1-B-SIP': [
+                { id: 'SAMPLE_BSBA_1B_S1',
+                    name: 'S.1. The VMGO are communicated to all stakeholders through various channels.' }
+            ],
+            'BSBA-1-B-IMP': [
+                { id: 'SAMPLE_BSBA_1B_I1',
+                    name: 'I.1. Regular information campaigns are conducted to promote the VMGO.' }
+            ],
+            'BSBA-1-B-OUT': [
+                { id: 'SAMPLE_BSBA_1B_O1',
+                    name: 'O.1. Stakeholders demonstrate understanding and commitment to the VMGO.' }
+            ],
+
+            'BSBA-2-A-SIP': [
+                { id: 'SAMPLE_BSBA_2A_S1',
+                    name: 'S.1. Faculty possess the necessary academic and professional qualifications for business education.' },
+                { id: 'SAMPLE_BSBA_2A_S2',
+                    name: 'S.2. Faculty have relevant industry experience in business and management.' }
+            ],
+            'BSBA-2-A-IMP': [
+                { id: 'SAMPLE_BSBA_2A_I1',
+                    name: 'I.1. Faculty actively engage in teaching, research, and community service.' }
+            ],
+            'BSBA-2-A-OUT': [
+                { id: 'SAMPLE_BSBA_2A_O1',
+                    name: 'O.1. Faculty are recognized for their contributions to business education.' }
+            ],
+            'BSBA-2-B-SIP': [
+                { id: 'SAMPLE_BSBA_2B_S1',
+                    name: 'S.1. A merit-based recruitment and selection system for faculty is in place.' }
+            ],
+            'BSBA-2-B-IMP': [
+                { id: 'SAMPLE_BSBA_2B_I1',
+                    name: 'I.1. Faculty recruitment follows a transparent and competitive process.' }
+            ],
+            'BSBA-2-B-OUT': [
+                { id: 'SAMPLE_BSBA_2B_O1',
+                    name: 'O.1. The institution attracts and retains qualified faculty members.' }
+            ],
+            'BSBA-2-C-SIP': [
+                { id: 'SAMPLE_BSBA_2C_S1',
+                    name: 'S.1. The faculty complement is sufficient to support the programs offerings.' }
+            ],
+            'BSBA-2-C-IMP': [
+                { id: 'SAMPLE_BSBA_2C_I1',
+                    name: 'I.1. Faculty assignments are based on expertise and program needs.' }
+            ],
+            'BSBA-2-C-OUT': [
+                { id: 'SAMPLE_BSBA_2C_O1',
+                    name: 'O.1. Students receive quality instruction from adequately staffed faculty.' }
+            ],
+            'BSBA-2-D-SIP': [
+                { id: 'SAMPLE_BSBA_2D_S1',
+                    name: 'S.1. A structured tenure and promotion framework exists for faculty.' }
+            ],
+            'BSBA-2-D-IMP': [
+                { id: 'SAMPLE_BSBA_2D_I1',
+                    name: 'I.1. Faculty performance is assessed regularly for career advancement.' }
+            ],
+            'BSBA-2-D-OUT': [
+                { id: 'SAMPLE_BSBA_2D_O1',
+                    name: 'O.1. Faculty are promoted and tenured based on established criteria.' }
             ]
         };
 
+        // ── Get documents for a given program, area, param, category ──
         function getDocumentFiles(program, area, param, catKey) {
-            const key = program + '-' + area + '-' + param + '-' + catKey;
-            return DOCUMENT_FILES[key] || [];
+            var key = program + '-' + area + '-' + param + '-' + catKey;
+            if (DOCUMENT_FILES[key]) {
+                return DOCUMENT_FILES[key];
+            }
+            return [];
         }
 
         function getDriveLink(fileId) {
-            if (!fileId || fileId === 'FILE_ID_HERE' || fileId === 'FILE_ID_HERE_2' || fileId === 'FILE_ID_HERE_3') return null;
+            if (!fileId || fileId === 'FILE_ID_HERE' || fileId === 'FILE_ID_HERE_2' || fileId === 'FILE_ID_HERE_3' ||
+                fileId.indexOf('SAMPLE_') === 0) return null;
             return 'https://drive.google.com/file/d/' + fileId + '/preview';
         }
 
         function getDriveOpenLink(fileId) {
-            if (!fileId || fileId === 'FILE_ID_HERE' || fileId === 'FILE_ID_HERE_2' || fileId === 'FILE_ID_HERE_3') return null;
+            if (!fileId || fileId === 'FILE_ID_HERE' || fileId === 'FILE_ID_HERE_2' || fileId === 'FILE_ID_HERE_3' ||
+                fileId.indexOf('SAMPLE_') === 0) return null;
             return 'https://drive.google.com/file/d/' + fileId + '/view?usp=sharing';
         }
 
         // =========================================================
-        // HIERARCHY PARSING & TREE BUILDING
+        // HIERARCHY BUILDER
         // =========================================================
         function parseHierarchyCode(name) {
             var cleaned = name.replace(/\.\s+/g, '.').replace(/\s+\./g, '.');
@@ -889,41 +1534,24 @@
         function buildHierarchy(files) {
             var root = { children: [] };
             var nodeMap = {};
-
             files.forEach(function(file) {
                 var code = parseHierarchyCode(file.name);
                 if (!code) return;
                 if (!nodeMap[code]) {
-                    nodeMap[code] = {
-                        code: code,
-                        name: file.name,
-                        id: null,
-                        index: null,
-                        children: []
-                    };
+                    nodeMap[code] = { code: code, name: file.name, id: null, index: null, children: [] };
                 }
             });
-
             files.forEach(function(file, index) {
                 var code = parseHierarchyCode(file.name);
                 if (!code) {
-                    root.children.push({
-                        code: null,
-                        name: file.name,
-                        id: file.id,
-                        index: index,
-                        children: []
-                    });
+                    root.children.push({ code: null, name: file.name, id: file.id, index: index, children: [] });
                     return;
                 }
                 var node = nodeMap[code];
-                if (node) {
-                    node.id = file.id;
+                if (node) { node.id = file.id;
                     node.index = index;
-                    node.name = file.name;
-                }
+                    node.name = file.name; }
             });
-
             var allCodes = Object.keys(nodeMap);
             allCodes.forEach(function(code) {
                 var parts = code.split('.');
@@ -931,11 +1559,8 @@
                     root.children.push(nodeMap[code]);
                 } else {
                     var parentCode = parts.slice(0, -1).join('.');
-                    if (nodeMap[parentCode]) {
-                        nodeMap[parentCode].children.push(nodeMap[code]);
-                    } else {
-                        root.children.push(nodeMap[code]);
-                    }
+                    if (nodeMap[parentCode]) nodeMap[parentCode].children.push(nodeMap[code]);
+                    else root.children.push(nodeMap[code]);
                 }
             });
 
@@ -962,176 +1587,58 @@
         }
 
         // =========================================================
-        // ROUTER — History API (clean URLs, no .html)
+        // STATE & ROUTER
         // =========================================================
+        var state = { page: 'landing', program: null, area: null, param: null, category: null, fileIndex: null,
+            currentPath: [] };
 
-        // Detect the base path automatically.
-        // If the file is served from a subdirectory (e.g. /aaccup/), we need to strip that.
-        // We use the <base> tag if present, or fallback to the pathname minus the filename.
-        function getBasePath() {
-            var base = document.querySelector('base');
-            if (base) {
-                var href = base.getAttribute('href') || '';
-                return href.replace(/\/+$/, '');
+        function parseHash() {
+            var parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+            if (parts.length === 0) return { page: 'landing' };
+            if (parts.length === 1) return { page: 'program', program: parts[0] };
+            if (parts.length === 2) return { page: 'area', program: parts[0], area: parts[1] };
+            if (parts.length === 3) return { page: 'parameter', program: parts[0], area: parts[1], param: parts[2] };
+            if (parts.length === 4) return { page: 'category', program: parts[0], area: parts[1], param: parts[2],
+                category: parts[3] };
+            if (parts.length === 5) {
+                var fileIndex = parseInt(parts[4]);
+                if (!isNaN(fileIndex)) return { page: 'document', program: parts[0], area: parts[1], param: parts[2],
+                    category: parts[3], fileIndex: fileIndex };
             }
-            // Fallback: strip the filename from the pathname
-            var path = window.location.pathname;
-            // If the path ends with .html, strip it
-            var basePath = path.replace(/\/[^/]*\.html$/, '').replace(/\/+$/, '');
-            return basePath || '';
-        }
-
-        var BASE_PATH = getBasePath();
-
-        function getRouteFromPath() {
-            var path = window.location.pathname;
-            // Remove base path
-            var route = path;
-            if (BASE_PATH && path.indexOf(BASE_PATH) === 0) {
-                route = path.substring(BASE_PATH.length);
-            }
-            // Remove leading/trailing slashes
-            route = route.replace(/^\/+/, '').replace(/\/+$/, '');
-            // If route is empty, it's the landing page
-            if (!route) return { page: 'landing' };
-
-            var parts = route.split('/').filter(Boolean);
-
-            // Special case: if the first part looks like a program code
-            if (parts.length === 1 && PROGRAMS[parts[0]]) {
-                return { page: 'program', program: parts[0] };
-            }
-            if (parts.length === 2 && PROGRAMS[parts[0]] && AREAS[parts[1]]) {
-                return { page: 'area', program: parts[0], area: parts[1] };
-            }
-            if (parts.length === 3 && PROGRAMS[parts[0]] && AREAS[parts[1]] && AREAS[parts[1]].params[parts[2]]) {
-                return { page: 'parameter', program: parts[0], area: parts[1], param: parts[2] };
-            }
-            if (parts.length === 4 && PROGRAMS[parts[0]] && AREAS[parts[1]] && AREAS[parts[1]].params[parts[2]] &&
-                CATEGORIES.some(function(c) { return c.key === parts[3]; })) {
-                return { page: 'category', program: parts[0], area: parts[1], param: parts[2], category: parts[3] };
-            }
-            if (parts.length === 5 && PROGRAMS[parts[0]] && AREAS[parts[1]] && AREAS[parts[1]].params[parts[2]] &&
-                CATEGORIES.some(function(c) { return c.key === parts[3]; })) {
-                var idx = parseInt(parts[4]);
-                if (!isNaN(idx)) {
-                    return { page: 'document', program: parts[0], area: parts[1], param: parts[2], category: parts[3],
-                        fileIndex: idx };
-                }
-            }
-
-            // If we have extra parts (hierarchy path), we need to parse them
-            // The format is: /program/area/param/category/hierarchy.../fileIndex
-            // But we'll handle hierarchy in the category page via state.currentPath
-            // For deep links with hierarchy, we store the extra parts in currentPath
-            if (parts.length >= 4) {
-                var prog = parts[0];
-                var ar = parts[1];
-                var par = parts[2];
-                var cat = parts[3];
-                if (PROGRAMS[prog] && AREAS[ar] && AREAS[ar].params[par] && CATEGORIES.some(function(c) { return c.key ===
-                        cat; })) {
-                    var rest = parts.slice(4);
-                    var fileIdx = null;
-                    var pathParts = [];
-                    // The last part might be a file index (number) or a hierarchy code
-                    for (var i = 0; i < rest.length; i++) {
-                        var p = rest[i];
-                        if (i === rest.length - 1 && !isNaN(parseInt(p)) && p !== '') {
-                            fileIdx = parseInt(p);
-                        } else {
-                            pathParts.push(p);
-                        }
-                    }
-                    if (fileIdx !== null) {
-                        return { page: 'document', program: prog, area: ar, param: par, category: cat, fileIndex: fileIdx,
-                            currentPath: pathParts };
-                    } else {
-                        return { page: 'category', program: prog, area: ar, param: par, category: cat,
-                            currentPath: pathParts };
-                    }
-                }
-            }
-
             return { page: 'landing' };
         }
 
-        // State
-        var state = {
-            page: 'landing',
-            program: null,
-            area: null,
-            param: null,
-            category: null,
-            fileIndex: null,
-            currentPath: []
-        };
-
-        function buildPath(routeData) {
-            var parts = [];
-            if (routeData.program) parts.push(routeData.program);
-            if (routeData.area) parts.push(routeData.area);
-            if (routeData.param) parts.push(routeData.param);
-            if (routeData.category) parts.push(routeData.category);
-            if (routeData.currentPath && routeData.currentPath.length) {
-                parts = parts.concat(routeData.currentPath);
-            }
-            if (routeData.fileIndex !== null && routeData.fileIndex !== undefined) {
-                parts.push(String(routeData.fileIndex));
-            }
-            return '/' + parts.join('/');
-        }
-
         function navigateTo(page, data) {
-            // Merge data into a route object
-            var routeData = {
-                page: page,
-                program: data.program || null,
-                area: data.area || null,
-                param: data.param || null,
-                category: data.category || null,
-                fileIndex: data.fileIndex !== undefined ? data.fileIndex : null,
-                currentPath: data.currentPath || []
-            };
-
-            // Update state
-            state = { page: page, program: routeData.program, area: routeData.area, param: routeData.param,
-                category: routeData.category, fileIndex: routeData.fileIndex, currentPath: routeData.currentPath || [] };
-
-            var path = buildPath(routeData);
-            var fullUrl = (BASE_PATH || '') + path;
-            history.pushState({ route: routeData }, '', fullUrl);
+            data = data || {};
+            state = Object.assign({}, state, { page: page }, data);
+            var path = [data.program, data.area, data.param, data.category, data.fileIndex].filter(function(v) { return v !=
+                    null; }).join('/');
+            location.hash = path ? '/' + path : '';
             render();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Handle popstate (back/forward)
-        window.addEventListener('popstate', function(e) {
-            var routeData = e.state ? e.state.route : null;
-            if (routeData) {
-                state = { page: routeData.page, program: routeData.program, area: routeData.area, param: routeData.param,
-                    category: routeData.category, fileIndex: routeData.fileIndex, currentPath: routeData.currentPath ||
-                        [] };
-            } else {
-                var parsed = getRouteFromPath();
-                state = { page: parsed.page, program: parsed.program || null, area: parsed.area || null,
-                    param: parsed.param || null, category: parsed.category || null, fileIndex: parsed.fileIndex !==
-                        undefined ? parsed.fileIndex : null, currentPath: parsed.currentPath || [] };
-            }
+        window.addEventListener('hashchange', function() {
+            var parsed = parseHash();
+            state = Object.assign({}, state, parsed, { currentPath: [] });
             render();
         });
 
         // =========================================================
-        // RENDER FUNCTIONS
+        // RENDER
         // =========================================================
         function crumb(items) {
             var clickable = items.slice(0, -1);
-            if (clickable.length === 0) return '';
             var html = '<nav class="breadcrumb">';
             clickable.forEach(function(it, i) {
                 html += '<a href="#" data-crumb="' + i + '">' + it.label + '</a>';
                 if (i < clickable.length - 1) html += '<span class="sep">/</span>';
             });
+            if (items.length > 0) {
+                var last = items[items.length - 1];
+                if (clickable.length > 0) html += '<span class="sep">/</span>';
+                html += '<span class="current">' + last.label + '</span>';
+            }
             html += '</nav>';
             return html;
         }
@@ -1141,10 +1648,8 @@
             container.querySelectorAll('[data-crumb]').forEach(function(a) {
                 var idx = Number(a.dataset.crumb);
                 if (idx < clickable.length) {
-                    a.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        clickable[idx].go();
-                    });
+                    a.addEventListener('click', function(e) { e.preventDefault();
+                        clickable[idx].go(); });
                 }
             });
         }
@@ -1152,16 +1657,18 @@
         function render() {
             var app = document.getElementById('app');
             app.innerHTML = '';
-
-            // Validate state
+            app.classList.remove('is-visible');
             if (state.page === 'program' && !PROGRAMS[state.program]) state = { page: 'landing', currentPath: [] };
-            if (state.page === 'area' && !AREAS[state.area]) state = { page: 'program', program: state.program,
-                currentPath: [] };
-            if (state.page === 'parameter' && (!AREAS[state.area] || !AREAS[state.area].params[state.param])) state = {
-                page: 'area', program: state.program, area: state.area, currentPath: [] };
-            if (state.page === 'category' && !CATEGORIES.some(function(c) { return c.key === state.category; })) state = {
-                page: 'parameter', program: state.program, area: state.area, param: state.param, currentPath: [] };
-
+            // For area, check existence in AREAS_FULL (since area names are common)
+            if (state.page === 'area' && !AREAS_FULL[state.area]) {
+                state = { page: 'program', program: state.program, currentPath: [] };
+            }
+            if (state.page === 'parameter') {
+                var params = getParamsForProgram(state.program, state.area);
+                if (!params[state.param]) {
+                    state = { page: 'area', program: state.program, area: state.area, currentPath: [] };
+                }
+            }
             var node;
             switch (state.page) {
                 case 'landing':
@@ -1186,34 +1693,53 @@
                     node = renderLanding();
             }
             app.appendChild(node);
-            // Trigger re-animation
             void app.offsetWidth;
             app.style.animation = 'none';
             void app.offsetHeight;
             app.style.animation = '';
+            app.classList.add('is-visible');
         }
 
+        // ── LANDING ──
         function renderLanding() {
             var wrap = document.createElement('div');
-            wrap.innerHTML =
-                `
-            <section class="hero">
-              <span class="eyebrow">AACCUP Level III · Area-Based Survey</span>
-              <h2>Accreditation Document System</h2>
-              <p>Select a program to browse its accreditation evidence, organized by Area, Parameter, and document category.</p>
-            </section>
-            <section class="program-grid">
-              ${Object.entries(PROGRAMS).map(function(pair){ var code=pair[0], full=pair[1]; return '<button class="btn-program" data-program="'+code+'"><span class="code">'+code+'</span><span class="full">'+full+'</span></button>'; }).join('')}
-            </section>
-          `;
+            var crumbItems = [
+                { label: 'Home', go: function() { navigateTo('landing', { currentPath: [] }); } }
+            ];
+            var breadcrumbHTML = crumb(crumbItems);
+
+            var html = breadcrumbHTML +
+                '<section class="hero">' +
+                '<span class="eyebrow">AACCUP Level III · Area-Based Survey</span>' +
+                '<h2>Accreditation Document System</h2>' +
+                '<p>Select a program to browse its accreditation evidence, organized by Area, Parameter, and document category.</p>' +
+                '</section>' +
+                '<section class="program-grid">';
+
+            var programs = Object.keys(PROGRAMS);
+            for (var p = 0; p < programs.length; p++) {
+                var code = programs[p];
+                var full = PROGRAMS[code];
+                html += '<button class="btn-program" data-program="' + code + '">' +
+                    '<span class="code">' + code + '</span>' +
+                    '<span class="full">' + full + '</span>' +
+                    '</button>';
+            }
+            html += '</section>';
+
+            wrap.innerHTML = html;
+            bindCrumbs(wrap, crumbItems);
+
             wrap.querySelectorAll('.btn-program').forEach(function(b) {
                 b.addEventListener('click', function() {
                     navigateTo('program', { program: b.dataset.program, currentPath: [] });
                 });
             });
+
             return wrap;
         }
 
+        // ── PROGRAM ──
         function renderProgram() {
             var program = state.program;
             var wrap = document.createElement('div');
@@ -1221,18 +1747,26 @@
                 { label: 'Home', go: function() { navigateTo('landing', { currentPath: [] }); } },
                 { label: program, go: function() { navigateTo('program', { program: program, currentPath: [] }); } }
             ];
-            wrap.innerHTML =
-                `
-            ${crumb(crumbItems)}
-            <div class="page-header-row">
-              <button class="btn-back" data-back-home>← Back to Home</button>
-              <h2>${program} — ${PROGRAMS[program]}</h2>
-            </div>
-            <p class="page-subtitle">Select an accreditation area to continue.</p>
-            <div class="area-grid">
-              ${Object.entries(AREAS).map(function(pair){ var key=pair[0], a=pair[1]; return '<button class="btn-area" data-area="'+key+'"><span class="num">'+key+'</span><span class="label">'+a.name+'</span><span class="arrow">›</span></button>'; }).join('')}
-            </div>
-          `;
+            var breadcrumbHTML = crumb(crumbItems);
+            var html = breadcrumbHTML +
+                '<div class="page-header-row">' +
+                '<button class="btn-back" data-back-home>← Back to Home</button>' +
+                '<h2>' + program + ' — ' + PROGRAMS[program] + '</h2>' +
+                '<span class="spacer"></span>' +
+                '</div>' +
+                '<div class="area-grid">';
+            var areaKeys = Object.keys(AREAS_FULL);
+            for (var a = 0; a < areaKeys.length; a++) {
+                var key = areaKeys[a];
+                var areaName = getAreaNameForProgram(program, key);
+                html += '<button class="btn-area" data-area="' + key + '">' +
+                    '<span class="num">' + key + '</span>' +
+                    '<span class="label">' + areaName + '</span>' +
+                    '<span class="arrow">›</span>' +
+                    '</button>';
+            }
+            html += '</div>';
+            wrap.innerHTML = html;
             bindCrumbs(wrap, crumbItems);
             wrap.querySelector('[data-back-home]').addEventListener('click', function() {
                 navigateTo('landing', { currentPath: [] });
@@ -1245,29 +1779,39 @@
             return wrap;
         }
 
+        // ── AREA ──
         function renderArea() {
-            var program = state.program,
-                area = state.area;
-            var areaData = AREAS[area];
+            var program = state.program;
+            var area = state.area;
+            var areaName = getAreaNameForProgram(program, area);
+            var params = getParamsForProgram(program, area);
             var wrap = document.createElement('div');
             var crumbItems = [
                 { label: 'Home', go: function() { navigateTo('landing', { currentPath: [] }); } },
                 { label: program, go: function() { navigateTo('program', { program: program, currentPath: [] }); } },
                 { label: 'Area ' + area, go: function() { navigateTo('area', { program: program, area: area,
-                            currentPath: [] }); } }
+                        currentPath: [] }); } }
             ];
-            wrap.innerHTML =
-                `
-            ${crumb(crumbItems)}
-            <div class="page-header-row">
-              <button class="btn-back" data-back-program>← Back to ${program}</button>
-              <h2>${areaData.name}</h2>
-            </div>
-            <p class="page-subtitle">Select a parameter to view its supporting documents.</p>
-            <div class="param-grid">
-              ${Object.entries(areaData.params).map(function(pair){ var code=pair[0], name=pair[1]; return '<button class="btn-param" data-param="'+code+'"><span class="letter">'+code+'</span><span class="label">'+name+'</span><span class="arrow">›</span></button>'; }).join('')}
-            </div>
-          `;
+            var breadcrumbHTML = crumb(crumbItems);
+            var html = breadcrumbHTML +
+                '<div class="page-header-row">' +
+                '<button class="btn-back" data-back-program>← Back to ' + program + '</button>' +
+                '<h2>' + areaName + '</h2>' +
+                '<span class="spacer"></span>' +
+                '</div>' +
+                '<div class="param-grid">';
+            var paramKeys = Object.keys(params);
+            for (var p = 0; p < paramKeys.length; p++) {
+                var code = paramKeys[p];
+                var name = params[code];
+                html += '<button class="btn-param" data-param="' + code + '">' +
+                    '<span class="letter">' + code + '</span>' +
+                    '<span class="label">' + name + '</span>' +
+                    '<span class="arrow">›</span>' +
+                    '</button>';
+            }
+            html += '</div>';
+            wrap.innerHTML = html;
             bindCrumbs(wrap, crumbItems);
             wrap.querySelector('[data-back-program]').addEventListener('click', function() {
                 navigateTo('program', { program: program, currentPath: [] });
@@ -1281,33 +1825,40 @@
             return wrap;
         }
 
+        // ── PARAMETER ──
         function renderParameter() {
-            var program = state.program,
-                area = state.area,
-                param = state.param;
-            var areaData = AREAS[area];
-            var paramName = areaData.params[param];
+            var program = state.program;
+            var area = state.area;
+            var param = state.param;
+            var params = getParamsForProgram(program, area);
+            var paramName = params[param] || 'Parameter ' + param;
             var wrap = document.createElement('div');
             var crumbItems = [
                 { label: 'Home', go: function() { navigateTo('landing', { currentPath: [] }); } },
                 { label: program, go: function() { navigateTo('program', { program: program, currentPath: [] }); } },
                 { label: 'Area ' + area, go: function() { navigateTo('area', { program: program, area: area,
-                            currentPath: [] }); } },
-                { label: 'Parameter ' + param, go: function() { navigateTo('parameter', { program: program, area: area,
-                            param: param, currentPath: [] }); } }
+                        currentPath: [] }); } },
+                { label: 'Parameter ' + param, go: function() { navigateTo('parameter', { program: program,
+                        area: area, param: param, currentPath: [] }); } }
             ];
-            wrap.innerHTML =
-                `
-            ${crumb(crumbItems)}
-            <div class="page-header-row">
-              <button class="btn-back" data-back-area>← Back to Area ${area}</button>
-              <h2>${paramName}</h2>
-            </div>
-            <p class="page-subtitle">Choose a document category.</p>
-            <div class="doc-grid">
-              ${CATEGORIES.map(function(cat){ return '<button class="btn-doc" data-cat="'+cat.key+'"><span class="icon">'+cat.icon+'</span><span class="label">'+cat.label+'</span></button>'; }).join('')}
-            </div>
-          `;
+            var breadcrumbHTML = crumb(crumbItems);
+            var html = breadcrumbHTML +
+                '<div class="page-header-row">' +
+                '<button class="btn-back" data-back-area>← Back to Area ' + area + '</button>' +
+                '<h2>' + paramName + '</h2>' +
+                '<span class="spacer"></span>' +
+                '</div>' +
+                '<div class="doc-grid">';
+            for (var c = 0; c < CATEGORIES.length; c++) {
+                var cat = CATEGORIES[c];
+                html += '<button class="btn-doc" data-cat="' + cat.key + '">' +
+                    '<span class="icon">' + cat.icon + '</span>' +
+                    '<span class="label">' + cat.label + '</span>' +
+                    '<span class="desc"></span>' +
+                    '</button>';
+            }
+            html += '</div>';
+            wrap.innerHTML = html;
             bindCrumbs(wrap, crumbItems);
             wrap.querySelector('[data-back-area]').addEventListener('click', function() {
                 navigateTo('area', { program: program, area: area, currentPath: [] });
@@ -1321,42 +1872,47 @@
             return wrap;
         }
 
+        // ── CATEGORY ──
         function renderCategory() {
-            var program = state.program,
-                area = state.area,
-                param = state.param,
-                category = state.category;
-            var areaData = AREAS[area];
-            var paramName = areaData.params[param];
-            var catInfo = CATEGORIES.find(function(c) { return c.key === category; });
+            var program = state.program;
+            var area = state.area;
+            var param = state.param;
+            var category = state.category;
+            var params = getParamsForProgram(program, area);
+            var paramName = params[param] || 'Parameter ' + param;
+            var areaName = getAreaNameForProgram(program, area);
+            var catInfo = null;
+            for (var ci = 0; ci < CATEGORIES.length; ci++) {
+                if (CATEGORIES[ci].key === category) { catInfo = CATEGORIES[ci]; break; }
+            }
             var files = getDocumentFiles(program, area, param, category);
             var tree = buildHierarchy(files);
 
-            if (!state.currentPath || !Array.isArray(state.currentPath)) {
-                state.currentPath = [];
-            }
-
+            if (!state.currentPath || !Array.isArray(state.currentPath)) state.currentPath = [];
             var currentNode = { children: tree };
-            for (var ci = 0; ci < state.currentPath.length; ci++) {
-                var code = state.currentPath[ci];
-                var child = currentNode.children.find(function(c) { return c.code === code; });
-                if (!child) {
-                    state.currentPath = [];
-                    currentNode = { children: tree };
-                    break;
+            for (var cp = 0; cp < state.currentPath.length; cp++) {
+                var code = state.currentPath[cp];
+                var child = null;
+                for (var cc = 0; cc < currentNode.children.length; cc++) {
+                    if (currentNode.children[cc].code === code) { child = currentNode.children[cc]; break; }
                 }
+                if (!child) { state.currentPath = [];
+                    currentNode = { children: tree }; break; }
                 currentNode = child;
             }
             var displayNodes = currentNode.children || [];
 
             var pathLabels = [];
             var temp = { children: tree };
-            for (var pi = 0; pi < state.currentPath.length; pi++) {
-                var pc = state.currentPath[pi];
-                var ch = temp.children.find(function(c) { return c.code === pc; });
-                if (!ch) break;
-                pathLabels.push({ code: ch.code, name: ch.name });
-                temp = ch;
+            for (var lp = 0; lp < state.currentPath.length; lp++) {
+                var cCode = state.currentPath[lp];
+                var found = null;
+                for (var fc = 0; fc < temp.children.length; fc++) {
+                    if (temp.children[fc].code === cCode) { found = temp.children[fc]; break; }
+                }
+                if (!found) break;
+                pathLabels.push({ code: found.code, name: found.name });
+                temp = found;
             }
 
             var wrap = document.createElement('div');
@@ -1364,68 +1920,60 @@
                 { label: 'Home', go: function() { navigateTo('landing', { currentPath: [] }); } },
                 { label: program, go: function() { navigateTo('program', { program: program, currentPath: [] }); } },
                 { label: 'Area ' + area, go: function() { navigateTo('area', { program: program, area: area,
-                            currentPath: [] }); } },
-                { label: 'Parameter ' + param, go: function() { navigateTo('parameter', { program: program, area: area,
-                            param: param, currentPath: [] }); } },
-                { label: catInfo.label, go: function() { navigateTo('category', { program: program, area: area,
-                            param: param, category: category, currentPath: [] }); } }
+                        currentPath: [] }); } },
+                { label: 'Parameter ' + param, go: function() { navigateTo('parameter', { program: program,
+                        area: area, param: param, currentPath: [] }); } },
+                { label: catInfo ? catInfo.label : category, go: function() { navigateTo('category', { program: program,
+                        area: area, param: param, category: category, currentPath: [] }); } }
             ];
-            pathLabels.forEach(function(p, idx) {
-                var pathUpTo = state.currentPath.slice(0, idx + 1);
-                crumbItems.push({
-                    label: p.code,
-                    go: function() {
-                        navigateTo('category', { program: program, area: area, param: param,
-                            category: category, currentPath: pathUpTo });
-                    }
-                });
-            });
+            for (var pl = 0; pl < pathLabels.length; pl++) {
+                (function(idx) {
+                    var p = pathLabels[idx];
+                    var pathUpTo = state.currentPath.slice(0, idx + 1);
+                    crumbItems.push({
+                        label: p.code,
+                        go: function() { navigateTo('category', { program: program, area: area, param: param,
+                                category: category, currentPath: pathUpTo }); }
+                    });
+                })(pl);
+            }
+            var breadcrumbHTML = crumb(crumbItems);
 
             var backTarget, backLabel;
             if (state.currentPath && state.currentPath.length > 0) {
                 var parentPath = state.currentPath.slice(0, -1);
-                backTarget = function() {
-                    navigateTo('category', { program: program, area: area, param: param, category: category,
-                        currentPath: parentPath });
-                };
+                backTarget = function() { navigateTo('category', { program: program, area: area, param: param,
+                        category: category, currentPath: parentPath }); };
                 backLabel = '← Back';
             } else {
-                backTarget = function() {
-                    navigateTo('parameter', { program: program, area: area, param: param, currentPath: [] });
-                };
+                backTarget = function() { navigateTo('parameter', { program: program, area: area, param: param,
+                        currentPath: [] }); };
                 backLabel = '← Back to Parameter';
             }
 
-            var htmlContent = `
-            ${crumb(crumbItems)}
-            <div class="page-header-row">
-              <button class="btn-back" data-back-category>${backLabel}</button>
-              <h2>${catInfo.label}</h2>
-            </div>
-            <p class="page-subtitle">${paramName}</p>
-          `;
+            var htmlContent = breadcrumbHTML +
+                '<div class="page-header-row">' +
+                '<button class="btn-back" data-back-category>' + backLabel + '</button>' +
+                '<h2>' + (catInfo ? catInfo.label : category) + '</h2>' +
+                '<span class="spacer"></span>' +
+                '</div>';
 
             if (displayNodes.length === 0) {
                 htmlContent +=
-                    `
-              <div class="empty-state">
-                <div class="icon">📁</div>
-                <h3>No items in this level</h3>
-                <p>This folder is empty.</p>
-              </div>
-            `;
+                    '<div class="empty-state"><div class="icon">📁</div><h3>No items in this level</h3><p>This folder is empty.</p></div>';
             } else {
                 htmlContent += '<div class="hierarchy-grid">';
-                displayNodes.forEach(function(node) {
+                for (var dn = 0; dn < displayNodes.length; dn++) {
+                    var node = displayNodes[dn];
                     var isLeaf = node.children.length === 0;
                     var icon = isLeaf ? '📄' : '📂';
-                    var arrow = '›';
                     var dataAttr = isLeaf ? 'data-index="' + node.index + '"' : 'data-code="' + node.code + '"';
-                    htmlContent +=
-                        '<button class="btn-file" ' + dataAttr + '><span class="file-icon">' + icon +
-                        '</span><span class="file-name">' + node.name + '</span><span class="arrow">' + arrow +
-                        '</span></button>';
-                });
+                    htmlContent += '<button class="btn-file" ' + dataAttr + '>' +
+                        '<span class="file-icon">' + icon + '</span>' +
+                        '<span class="file-name">' + node.name + '</span>' +
+                        '<span class="arrow">›</span>' +
+                        '</button>';
+                }
                 htmlContent += '</div>';
             }
 
@@ -1438,31 +1986,33 @@
                     var index = this.dataset.index;
                     if (index !== undefined) {
                         navigateTo('document', { program: program, area: area, param: param,
-                            category: category, fileIndex: parseInt(index), currentPath: state
-                                .currentPath || [] });
+                            category: category, fileIndex: parseInt(index) });
                     } else {
-                        var code = this.dataset.code;
-                        if (code) {
-                            var newPath = (state.currentPath || []).concat([code]);
+                        var code2 = this.dataset.code;
+                        if (code2) {
+                            var newPath = state.currentPath.concat([code2]);
                             navigateTo('category', { program: program, area: area, param: param,
                                 category: category, currentPath: newPath });
                         }
                     }
                 });
             });
-
             return wrap;
         }
 
+        // ── DOCUMENT ──
         function renderDocument() {
-            var program = state.program,
-                area = state.area,
-                param = state.param,
-                category = state.category,
-                fileIndex = state.fileIndex;
-            var areaData = AREAS[area];
-            var paramName = areaData.params[param];
-            var catInfo = CATEGORIES.find(function(c) { return c.key === category; });
+            var program = state.program;
+            var area = state.area;
+            var param = state.param;
+            var category = state.category;
+            var fileIndex = state.fileIndex;
+            var params = getParamsForProgram(program, area);
+            var paramName = params[param] || 'Parameter ' + param;
+            var catInfo = null;
+            for (var ci2 = 0; ci2 < CATEGORIES.length; ci2++) {
+                if (CATEGORIES[ci2].key === category) { catInfo = CATEGORIES[ci2]; break; }
+            }
             var files = getDocumentFiles(program, area, param, category);
             var file = files[fileIndex];
 
@@ -1471,48 +2021,49 @@
                 { label: 'Home', go: function() { navigateTo('landing', { currentPath: [] }); } },
                 { label: program, go: function() { navigateTo('program', { program: program, currentPath: [] }); } },
                 { label: 'Area ' + area, go: function() { navigateTo('area', { program: program, area: area,
-                            currentPath: [] }); } },
-                { label: 'Parameter ' + param, go: function() { navigateTo('parameter', { program: program, area: area,
-                            param: param, currentPath: [] }); } },
-                { label: catInfo.label, go: function() { navigateTo('category', { program: program, area: area,
-                            param: param, category: category, currentPath: state.currentPath || [] }); } }
+                        currentPath: [] }); } },
+                { label: 'Parameter ' + param, go: function() { navigateTo('parameter', { program: program,
+                        area: area, param: param, currentPath: [] }); } },
+                { label: catInfo ? catInfo.label : category, go: function() { navigateTo('category', { program: program,
+                        area: area, param: param, category: category, currentPath: state.currentPath || [] }); } }
             ];
-            // Add hierarchy breadcrumbs
+
             var filesForCategory = getDocumentFiles(program, area, param, category);
-            var tree = buildHierarchy(filesForCategory);
-            var pathLabels = [];
-            var temp = { children: tree };
-            for (var pi = 0; pi < (state.currentPath || []).length; pi++) {
-                var pc = (state.currentPath || [])[pi];
-                var ch = temp.children.find(function(c) { return c.code === pc; });
-                if (!ch) break;
-                pathLabels.push({ code: ch.code, name: ch.name });
-                temp = ch;
+            var tree2 = buildHierarchy(filesForCategory);
+            var pathLabels2 = [];
+            var temp2 = { children: tree2 };
+            for (var lp2 = 0; lp2 < (state.currentPath || []).length; lp2++) {
+                var cCode2 = state.currentPath[lp2];
+                var found2 = null;
+                for (var fc2 = 0; fc2 < temp2.children.length; fc2++) {
+                    if (temp2.children[fc2].code === cCode2) { found2 = temp2.children[fc2]; break; }
+                }
+                if (!found2) break;
+                pathLabels2.push({ code: found2.code, name: found2.name });
+                temp2 = found2;
             }
-            pathLabels.forEach(function(p, idx) {
-                var pathUpTo = (state.currentPath || []).slice(0, idx + 1);
-                crumbItems.push({
-                    label: p.code,
-                    go: function() {
-                        navigateTo('category', { program: program, area: area, param: param,
-                            category: category, currentPath: pathUpTo });
-                    }
-                });
-            });
+            for (var pl2 = 0; pl2 < pathLabels2.length; pl2++) {
+                (function(idx) {
+                    var p2 = pathLabels2[idx];
+                    var pathUpTo2 = (state.currentPath || []).slice(0, idx + 1);
+                    crumbItems.push({
+                        label: p2.code,
+                        go: function() { navigateTo('category', { program: program, area: area, param: param,
+                                category: category, currentPath: pathUpTo2 }); }
+                    });
+                })(pl2);
+            }
+
+            var breadcrumbHTML = crumb(crumbItems);
 
             if (!file) {
-                wrap.innerHTML =
-                    `
-              ${crumb(crumbItems)}
-              <div class="page-header-row">
-                <button class="btn-back" data-back-files>← Back to files</button>
-                <h2>File not found</h2>
-              </div>
-              <div class="empty-state">
-                <div class="icon">❌</div>
-                <p>The requested document could not be found.</p>
-              </div>
-            `;
+                wrap.innerHTML = breadcrumbHTML +
+                    '<div class="page-header-row">' +
+                    '<button class="btn-back" data-back-files>← Back to files</button>' +
+                    '<h2>File not found</h2>' +
+                    '<span class="spacer"></span>' +
+                    '</div>' +
+                    '<div class="empty-state"><div class="icon">❌</div><p>The requested document could not be found.</p></div>';
                 bindCrumbs(wrap, crumbItems);
                 wrap.querySelector('[data-back-files]').addEventListener('click', function() {
                     navigateTo('category', { program: program, area: area, param: param, category: category,
@@ -1523,99 +2074,54 @@
 
             var previewLink = getDriveLink(file.id);
             var openLink = getDriveOpenLink(file.id);
+            var html2 = breadcrumbHTML +
+                '<div class="page-header-row">' +
+                '<button class="btn-back" data-back-files>← Back to files</button>' +
+                '<h2>' + file.name + '</h2>' +
+                '<span class="spacer"></span>' +
+                '</div>';
 
-            wrap.innerHTML =
-                `
-            ${crumb(crumbItems)}
-            <div class="page-header-row">
-              <button class="btn-back" data-back-files>← Back to files</button>
-              <h2>${file.name}</h2>
-            </div>
-            <p class="page-subtitle">${catInfo.label} — ${paramName}</p>
-            ${previewLink ? '<div class="pdf-container"><iframe src="'+previewLink+'" allow="autoplay" title="'+file.name+'"></iframe></div><div class="doc-actions"><a class="btn-open" href="'+openLink+'" target="_blank" rel="noopener">Open in new tab</a><button class="btn-back" data-back-files-alt>← Back to files</button></div>' : '<div class="empty-state"><div class="icon">📄</div><h3>Document not yet linked</h3><p>No Google Drive file has been assigned to this document yet.</p><p style="font-size:.8rem;color:var(--ink-soft);margin-top:8px;">File ID: '+file.id+'</p><button class="btn-back" data-back-files-alt>← Back to files</button></div>'}
-          `;
+            if (previewLink) {
+                html2 += '<div class="pdf-container">' +
+                    '<iframe src="' + previewLink + '" allow="autoplay" title="' + file.name + '"></iframe>' +
+                    '</div>' +
+                    '<div class="doc-actions">' +
+                    '<a class="btn-open" href="' + openLink + '" target="_blank" rel="noopener">Open in new tab</a>' +
+                    '</div>';
+            } else {
+                var isSample = file.id && file.id.indexOf('SAMPLE_') === 0;
+                var msg = isSample ?
+                    'This is a sample document placeholder. Please replace the file ID with an actual Google Drive file ID.' :
+                    'No Google Drive file has been assigned to this document yet.';
+                html2 += '<div class="empty-state">' +
+                    '<div class="icon">📄</div>' +
+                    '<h3>' + (isSample ? 'Sample Document' : 'Document not yet linked') + '</h3>' +
+                    '<p>' + msg + '</p>' +
+                    '<p style="font-size:.8rem;color:var(--ink-soft);margin-top:8px;">File ID: ' + file.id + '</p>' +
+                    '</div>';
+            }
+
+            wrap.innerHTML = html2;
             bindCrumbs(wrap, crumbItems);
-            wrap.querySelectorAll('[data-back-files], [data-back-files-alt]').forEach(function(b) {
-                b.addEventListener('click', function() {
-                    navigateTo('category', { program: program, area: area, param: param, category: category,
-                        currentPath: state.currentPath || [] });
-                });
+            wrap.querySelector('[data-back-files]').addEventListener('click', function() {
+                navigateTo('category', { program: program, area: area, param: param, category: category,
+                    currentPath: state.currentPath || [] });
             });
             return wrap;
         }
 
         // =========================================================
-        // INITIALIZATION
+        // INIT
         // =========================================================
-        function initApp(programCode) {
-            var parsed = getRouteFromPath();
-            if (programCode && PROGRAMS[programCode]) {
-                if (parsed.page === 'landing' || !parsed.program) {
-                    state = { page: 'program', program: programCode, currentPath: [] };
-                    var path = buildPath({ page: 'program', program: programCode, currentPath: [] });
-                    var fullUrl = (BASE_PATH || '') + path;
-                    history.replaceState({ route: { page: 'program', program: programCode, currentPath: [] } }, '',
-                        fullUrl);
-                } else {
-                    state = { page: parsed.page, program: parsed.program || null, area: parsed.area || null,
-                        param: parsed.param || null, category: parsed.category || null, fileIndex: parsed
-                            .fileIndex !== undefined ? parsed.fileIndex : null, currentPath: parsed.currentPath ||
-                            [] };
-                }
-            } else {
-                if (parsed.page === 'landing') {
-                    state = { page: 'landing', currentPath: [] };
-                    var homePath = '/';
-                    history.replaceState({ route: { page: 'landing', currentPath: [] } }, '', homePath);
-                } else {
-                    state = { page: parsed.page, program: parsed.program || null, area: parsed.area || null,
-                        param: parsed.param || null, category: parsed.category || null, fileIndex: parsed
-                            .fileIndex !== undefined ? parsed.fileIndex : null, currentPath: parsed.currentPath ||
-                            [] };
-                }
-            }
+        function initApp() {
+            var parsed = parseHash();
+            state = Object.assign({}, state, parsed, { currentPath: [] });
             render();
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Default to BSIT if no route is present
-            var parsed = getRouteFromPath();
-            if (parsed.page === 'landing') {
-                initApp('BSIT');
-            } else {
-                initApp(null);
-            }
+            initApp();
         });
-
-        // Handle direct navigation (e.g., typing URL) - the server should serve this HTML for all routes.
-        // If the server isn't configured, we rely on the hash fallback, but we're using History API.
-        // For servers that don't support SPA routing, we add a fallback: if the page loads and the path
-        // doesn't match any route, we redirect to the base path with the route in the hash.
-        // But since we want clean URLs, we assume the server is configured correctly.
-        // If the user opens the file directly (file://), we use the hash as a fallback.
-        if (window.location.protocol === 'file:') {
-            // Fallback to hash-based routing for file:// protocol
-            // We'll use the hash to store the route
-            var hash = window.location.hash;
-            if (hash) {
-                var routeFromHash = hash.replace(/^#/, '');
-                if (routeFromHash) {
-                    var fakePath = '/' + routeFromHash;
-                    history.replaceState(null, '', fakePath);
-                }
-            }
-            // Re-run the route parser
-            var parsed2 = getRouteFromPath();
-            if (parsed2.page === 'landing') {
-                initApp('BSIT');
-            } else {
-                initApp(null);
-            }
-        }
-
-        console.log('🔗 Clean URLs enabled — .html is hidden.');
-        console.log('📁 Base path:', BASE_PATH || '/');
-        console.log('📍 Current route:', window.location.pathname);
     </script>
 
 </body>
