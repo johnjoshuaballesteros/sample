@@ -1575,26 +1575,85 @@
             currentPath: []
         };
 
+        // ===== PINAHUSAY NA parsePath NA MAY VALIDATION AT 404 =====
         function parsePath() {
-            var path = location.pathname.replace(/\/$/, '');
+            var path = location.pathname.replace(/\/$/, ''); // tanggalin ang trailing slash
             var parts = path.split('/').filter(Boolean);
 
             if (parts.length === 0) return { page: 'landing' };
-            if (parts.length === 1) return { page: 'program', program: parts[0] };
-            if (parts.length === 2) return { page: 'area', program: parts[0], area: parts[1] };
-            if (parts.length === 3) return { page: 'parameter', program: parts[0], area: parts[1], param: parts[2] };
-            if (parts.length === 4) return { page: 'category', program: parts[0], area: parts[1], param: parts[2],
-                category: parts[3] };
-            if (parts.length === 5) {
-                var fileIndex = parseInt(parts[4]);
-                if (!isNaN(fileIndex)) return { page: 'document', program: parts[0], area: parts[1], param: parts[2],
-                    category: parts[3], fileIndex: fileIndex };
+
+            // --- 1 segment: Program ---
+            if (parts.length === 1) {
+                var prog = parts[0];
+                if (PROGRAMS[prog]) {
+                    return { page: 'program', program: prog };
+                } else {
+                    return { page: 'notfound' };
+                }
             }
-            return { page: 'landing' };
+
+            // --- 2 segments: Area ---
+            if (parts.length === 2) {
+                var prog = parts[0];
+                var area = parts[1];
+                if (PROGRAMS[prog] && AREAS_FULL[area]) {
+                    return { page: 'area', program: prog, area: area };
+                } else {
+                    return { page: 'notfound' };
+                }
+            }
+
+            // --- 3 segments: Parameter ---
+            if (parts.length === 3) {
+                var prog = parts[0];
+                var area = parts[1];
+                var param = parts[2];
+                var params = getParamsForProgram(prog, area);
+                if (PROGRAMS[prog] && AREAS_FULL[area] && params[param]) {
+                    return { page: 'parameter', program: prog, area: area, param: param };
+                } else {
+                    return { page: 'notfound' };
+                }
+            }
+
+            // --- 4 segments: Category ---
+            if (parts.length === 4) {
+                var prog = parts[0];
+                var area = parts[1];
+                var param = parts[2];
+                var cat = parts[3];
+                var isValidCategory = CATEGORIES.some(function(c) { return c.key === cat; });
+                var params2 = getParamsForProgram(prog, area);
+                if (PROGRAMS[prog] && AREAS_FULL[area] && params2[param] && isValidCategory) {
+                    return { page: 'category', program: prog, area: area, param: param, category: cat };
+                } else {
+                    return { page: 'notfound' };
+                }
+            }
+
+            // --- 5 segments: Document (file) ---
+            if (parts.length === 5) {
+                var prog = parts[0];
+                var area = parts[1];
+                var param = parts[2];
+                var cat = parts[3];
+                var idx = parseInt(parts[4]);
+                var isValidCategory2 = CATEGORIES.some(function(c) { return c.key === cat; });
+                var params3 = getParamsForProgram(prog, area);
+                if (PROGRAMS[prog] && AREAS_FULL[area] && params3[param] && isValidCategory2 && !isNaN(idx)) {
+                    return { page: 'document', program: prog, area: area, param: param, category: cat, fileIndex: idx };
+                } else {
+                    return { page: 'notfound' };
+                }
+            }
+
+            // --- wala sa pattern ---
+            return { page: 'notfound' };
         }
 
         function navigateTo(page, data) {
             data = data || {};
+            var currentScroll = window.scrollY;
             state = Object.assign({}, state, { page: page }, data);
 
             var pathParts = [];
@@ -1607,7 +1666,8 @@
             var newPath = '/' + pathParts.join('/');
             if (newPath === '/') newPath = '/';
 
-            history.pushState({ state: state }, '', newPath);
+            // I-save ang scroll position para sa pagbalik
+            history.pushState({ state: state, scrollY: currentScroll }, '', newPath);
             render();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -1615,6 +1675,12 @@
         window.addEventListener('popstate', function(event) {
             if (event.state && event.state.state) {
                 state = Object.assign({}, state, event.state.state);
+                // I-restore ang scroll position kung mayroon
+                if (event.state.scrollY !== undefined) {
+                    setTimeout(function() {
+                        window.scrollTo(0, event.state.scrollY);
+                    }, 50);
+                }
             } else {
                 var parsed = parsePath();
                 state = Object.assign({}, state, parsed);
@@ -1623,8 +1689,59 @@
         });
 
         // =========================================================
-        // RENDER FUNCTIONS (binago lang ang navigateTo calls)
+        // RENDER FUNCTIONS (may pagbabago para sa 404 at SEO)
         // =========================================================
+
+        // ===== 404 PAGE =====
+        function renderNotFound() {
+            var wrap = document.createElement('div');
+            wrap.innerHTML = `
+                <div class="empty-state" style="margin-top:60px;">
+                    <div class="icon">🔍</div>
+                    <h3>Page Not Found</h3>
+                    <p>The URL you requested does not exist in this accreditation system.</p>
+                    <button class="btn-back" onclick="navigateTo('landing',{})">← Go to Home</button>
+                </div>
+            `;
+            return wrap;
+        }
+
+        // ===== SEO: UPDATE TITLE AT CANONICAL =====
+        function updatePageTitle() {
+            var base = 'AACCUP Accreditation System | OMSC';
+            var title = base;
+            if (state.page === 'program' && state.program) {
+                title = state.program + ' — ' + PROGRAMS[state.program] + ' | OMSC';
+            } else if (state.page === 'area') {
+                title = 'Area ' + state.area + ' — ' + getAreaNameForProgram(state.program, state.area) + ' | OMSC';
+            } else if (state.page === 'parameter') {
+                var params = getParamsForProgram(state.program, state.area);
+                var paramName = params[state.param] || 'Parameter ' + state.param;
+                title = paramName + ' | OMSC';
+            } else if (state.page === 'category') {
+                var cat = CATEGORIES.find(function(c) { return c.key === state.category; });
+                title = (cat ? cat.label : state.category) + ' | OMSC';
+            } else if (state.page === 'document') {
+                var files = getDocumentFiles(state.program, state.area, state.param, state.category);
+                var file = files[state.fileIndex];
+                title = (file ? file.name : 'Document') + ' | OMSC';
+            } else if (state.page === 'notfound') {
+                title = 'Page Not Found | OMSC';
+            }
+            document.title = title;
+        }
+
+        function updateCanonical() {
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (!canonical) {
+                canonical = document.createElement('link');
+                canonical.rel = 'canonical';
+                document.head.appendChild(canonical);
+            }
+            canonical.href = window.location.origin + window.location.pathname;
+        }
+
+        // ===== BREADCRUMB (same) =====
         function crumb(items) {
             var clickable = items.slice(0, -1);
             var html = '<nav class="breadcrumb">';
@@ -1652,21 +1769,12 @@
             });
         }
 
+        // ===== RENDER =====
         function render() {
             var app = document.getElementById('app');
             app.innerHTML = '';
             app.classList.remove('is-visible');
-            // validation
-            if (state.page === 'program' && !PROGRAMS[state.program]) state = { page: 'landing', currentPath: [] };
-            if (state.page === 'area' && !AREAS_FULL[state.area]) {
-                state = { page: 'program', program: state.program, currentPath: [] };
-            }
-            if (state.page === 'parameter') {
-                var params = getParamsForProgram(state.program, state.area);
-                if (!params[state.param]) {
-                    state = { page: 'area', program: state.program, area: state.area, currentPath: [] };
-                }
-            }
+
             var node;
             switch (state.page) {
                 case 'landing':
@@ -1687,18 +1795,26 @@
                 case 'document':
                     node = renderDocument();
                     break;
+                case 'notfound':
+                    node = renderNotFound();
+                    break;
                 default:
-                    node = renderLanding();
+                    node = renderNotFound();
             }
+
             app.appendChild(node);
             void app.offsetWidth;
             app.style.animation = 'none';
             void app.offsetHeight;
             app.style.animation = '';
             app.classList.add('is-visible');
+
+            // SEO updates
+            updatePageTitle();
+            updateCanonical();
         }
 
-        // ── LANDING ──
+        // ===== RENDER LANDING =====
         function renderLanding() {
             var wrap = document.createElement('div');
             var crumbItems = [
@@ -1737,7 +1853,7 @@
             return wrap;
         }
 
-        // ── PROGRAM ──
+        // ===== RENDER PROGRAM =====
         function renderProgram() {
             var program = state.program;
             var wrap = document.createElement('div');
@@ -1777,7 +1893,7 @@
             return wrap;
         }
 
-        // ── AREA ──
+        // ===== RENDER AREA =====
         function renderArea() {
             var program = state.program;
             var area = state.area;
@@ -1823,7 +1939,7 @@
             return wrap;
         }
 
-        // ── PARAMETER ──
+        // ===== RENDER PARAMETER =====
         function renderParameter() {
             var program = state.program;
             var area = state.area;
@@ -1870,7 +1986,7 @@
             return wrap;
         }
 
-        // ── CATEGORY ──
+        // ===== RENDER CATEGORY =====
         function renderCategory() {
             var program = state.program;
             var area = state.area;
@@ -1998,7 +2114,7 @@
             return wrap;
         }
 
-        // ── DOCUMENT ──
+        // ===== RENDER DOCUMENT =====
         function renderDocument() {
             var program = state.program;
             var area = state.area;
