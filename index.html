@@ -637,6 +637,11 @@
         #app {
             animation: fadeUp .4s var(--ease);
         }
+
+        /* ===== SERVER CONFIG NOTE (hidden in UI) ===== */
+        .server-note {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -777,7 +782,7 @@
         ];
 
         // =========================================================
-        // DOCUMENT FILES (shortened for brevity, full data from your code)
+        // DOCUMENT FILES
         // =========================================================
         const DOCUMENT_FILES = {
             'BSIT-1-A-SIP': [
@@ -957,23 +962,42 @@
         }
 
         // =========================================================
-        // HASH-BASED ROUTER (no 404 on refresh)
+        // ROUTER — History API (clean URLs, no .html)
         // =========================================================
-        var state = {
-            page: 'landing',
-            program: null,
-            area: null,
-            param: null,
-            category: null,
-            fileIndex: null,
-            currentPath: []
-        };
 
-        function parseHash() {
-            var hash = location.hash.replace(/^#\/?/, '').replace(/\/+$/, '');
-            if (!hash) return { page: 'landing' };
-            var parts = hash.split('/').filter(Boolean);
+        // Detect the base path automatically.
+        // If the file is served from a subdirectory (e.g. /aaccup/), we need to strip that.
+        // We use the <base> tag if present, or fallback to the pathname minus the filename.
+        function getBasePath() {
+            var base = document.querySelector('base');
+            if (base) {
+                var href = base.getAttribute('href') || '';
+                return href.replace(/\/+$/, '');
+            }
+            // Fallback: strip the filename from the pathname
+            var path = window.location.pathname;
+            // If the path ends with .html, strip it
+            var basePath = path.replace(/\/[^/]*\.html$/, '').replace(/\/+$/, '');
+            return basePath || '';
+        }
 
+        var BASE_PATH = getBasePath();
+
+        function getRouteFromPath() {
+            var path = window.location.pathname;
+            // Remove base path
+            var route = path;
+            if (BASE_PATH && path.indexOf(BASE_PATH) === 0) {
+                route = path.substring(BASE_PATH.length);
+            }
+            // Remove leading/trailing slashes
+            route = route.replace(/^\/+/, '').replace(/\/+$/, '');
+            // If route is empty, it's the landing page
+            if (!route) return { page: 'landing' };
+
+            var parts = route.split('/').filter(Boolean);
+
+            // Special case: if the first part looks like a program code
             if (parts.length === 1 && PROGRAMS[parts[0]]) {
                 return { page: 'program', program: parts[0] };
             }
@@ -987,71 +1011,114 @@
                 CATEGORIES.some(function(c) { return c.key === parts[3]; })) {
                 return { page: 'category', program: parts[0], area: parts[1], param: parts[2], category: parts[3] };
             }
-            if (parts.length >= 5 && PROGRAMS[parts[0]] && AREAS[parts[1]] && AREAS[parts[1]].params[parts[2]] &&
+            if (parts.length === 5 && PROGRAMS[parts[0]] && AREAS[parts[1]] && AREAS[parts[1]].params[parts[2]] &&
                 CATEGORIES.some(function(c) { return c.key === parts[3]; })) {
-                var rest = parts.slice(4);
-                var fileIdx = null;
-                var pathParts = [];
-                for (var i = 0; i < rest.length; i++) {
-                    var p = rest[i];
-                    if (i === rest.length - 1 && !isNaN(parseInt(p)) && p !== '') {
-                        fileIdx = parseInt(p);
-                    } else {
-                        pathParts.push(p);
-                    }
-                }
-                if (fileIdx !== null) {
-                    return { page: 'document', program: parts[0], area: parts[1], param: parts[2],
-                        category: parts[3], fileIndex: fileIdx, currentPath: pathParts };
-                } else {
-                    return { page: 'category', program: parts[0], area: parts[1], param: parts[2],
-                        category: parts[3], currentPath: pathParts };
+                var idx = parseInt(parts[4]);
+                if (!isNaN(idx)) {
+                    return { page: 'document', program: parts[0], area: parts[1], param: parts[2], category: parts[3],
+                        fileIndex: idx };
                 }
             }
+
+            // If we have extra parts (hierarchy path), we need to parse them
+            // The format is: /program/area/param/category/hierarchy.../fileIndex
+            // But we'll handle hierarchy in the category page via state.currentPath
+            // For deep links with hierarchy, we store the extra parts in currentPath
+            if (parts.length >= 4) {
+                var prog = parts[0];
+                var ar = parts[1];
+                var par = parts[2];
+                var cat = parts[3];
+                if (PROGRAMS[prog] && AREAS[ar] && AREAS[ar].params[par] && CATEGORIES.some(function(c) { return c.key ===
+                        cat; })) {
+                    var rest = parts.slice(4);
+                    var fileIdx = null;
+                    var pathParts = [];
+                    // The last part might be a file index (number) or a hierarchy code
+                    for (var i = 0; i < rest.length; i++) {
+                        var p = rest[i];
+                        if (i === rest.length - 1 && !isNaN(parseInt(p)) && p !== '') {
+                            fileIdx = parseInt(p);
+                        } else {
+                            pathParts.push(p);
+                        }
+                    }
+                    if (fileIdx !== null) {
+                        return { page: 'document', program: prog, area: ar, param: par, category: cat, fileIndex: fileIdx,
+                            currentPath: pathParts };
+                    } else {
+                        return { page: 'category', program: prog, area: ar, param: par, category: cat,
+                            currentPath: pathParts };
+                    }
+                }
+            }
+
             return { page: 'landing' };
         }
 
-        function navigateTo(page, data) {
-            data = data || {};
+        // State
+        var state = {
+            page: 'landing',
+            program: null,
+            area: null,
+            param: null,
+            category: null,
+            fileIndex: null,
+            currentPath: []
+        };
+
+        function buildPath(routeData) {
             var parts = [];
-            if (data.program) parts.push(data.program);
-            if (data.area) parts.push(data.area);
-            if (data.param) parts.push(data.param);
-            if (data.category) parts.push(data.category);
-            if (data.currentPath && data.currentPath.length) {
-                parts = parts.concat(data.currentPath);
+            if (routeData.program) parts.push(routeData.program);
+            if (routeData.area) parts.push(routeData.area);
+            if (routeData.param) parts.push(routeData.param);
+            if (routeData.category) parts.push(routeData.category);
+            if (routeData.currentPath && routeData.currentPath.length) {
+                parts = parts.concat(routeData.currentPath);
             }
-            if (data.fileIndex !== undefined && data.fileIndex !== null) {
-                parts.push(String(data.fileIndex));
+            if (routeData.fileIndex !== null && routeData.fileIndex !== undefined) {
+                parts.push(String(routeData.fileIndex));
             }
-            var hash = parts.length ? '#/' + parts.join('/') : '#/';
-            location.hash = hash;
-            // The hashchange event will update the state and re-render
+            return '/' + parts.join('/');
         }
 
-        function updateStateFromHash() {
-            var parsed = parseHash();
-            state = {
-                page: parsed.page,
-                program: parsed.program || null,
-                area: parsed.area || null,
-                param: parsed.param || null,
-                category: parsed.category || null,
-                fileIndex: parsed.fileIndex !== undefined ? parsed.fileIndex : null,
-                currentPath: parsed.currentPath || []
+        function navigateTo(page, data) {
+            // Merge data into a route object
+            var routeData = {
+                page: page,
+                program: data.program || null,
+                area: data.area || null,
+                param: data.param || null,
+                category: data.category || null,
+                fileIndex: data.fileIndex !== undefined ? data.fileIndex : null,
+                currentPath: data.currentPath || []
             };
-            // If landing, default to BSIT program
-            if (state.page === 'landing') {
-                state = { page: 'program', program: 'BSIT', currentPath: [] };
-                if (location.hash !== '#/BSIT') {
-                    location.hash = '#/BSIT';
-                }
+
+            // Update state
+            state = { page: page, program: routeData.program, area: routeData.area, param: routeData.param,
+                category: routeData.category, fileIndex: routeData.fileIndex, currentPath: routeData.currentPath || [] };
+
+            var path = buildPath(routeData);
+            var fullUrl = (BASE_PATH || '') + path;
+            history.pushState({ route: routeData }, '', fullUrl);
+            render();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Handle popstate (back/forward)
+        window.addEventListener('popstate', function(e) {
+            var routeData = e.state ? e.state.route : null;
+            if (routeData) {
+                state = { page: routeData.page, program: routeData.program, area: routeData.area, param: routeData.param,
+                    category: routeData.category, fileIndex: routeData.fileIndex, currentPath: routeData.currentPath ||
+                        [] };
+            } else {
+                var parsed = getRouteFromPath();
+                state = { page: parsed.page, program: parsed.program || null, area: parsed.area || null,
+                    param: parsed.param || null, category: parsed.category || null, fileIndex: parsed.fileIndex !==
+                        undefined ? parsed.fileIndex : null, currentPath: parsed.currentPath || [] };
             }
             render();
-        }
-
-        window.addEventListener('hashchange', function() {
-            updateStateFromHash();
         });
 
         // =========================================================
@@ -1119,6 +1186,7 @@
                     node = renderLanding();
             }
             app.appendChild(node);
+            // Trigger re-animation
             void app.offsetWidth;
             app.style.animation = 'none';
             void app.offsetHeight;
@@ -1479,21 +1547,75 @@
         // =========================================================
         // INITIALIZATION
         // =========================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            // If hash is empty, default to BSIT
-            if (!location.hash || location.hash === '#') {
-                location.hash = '#/BSIT';
+        function initApp(programCode) {
+            var parsed = getRouteFromPath();
+            if (programCode && PROGRAMS[programCode]) {
+                if (parsed.page === 'landing' || !parsed.program) {
+                    state = { page: 'program', program: programCode, currentPath: [] };
+                    var path = buildPath({ page: 'program', program: programCode, currentPath: [] });
+                    var fullUrl = (BASE_PATH || '') + path;
+                    history.replaceState({ route: { page: 'program', program: programCode, currentPath: [] } }, '',
+                        fullUrl);
+                } else {
+                    state = { page: parsed.page, program: parsed.program || null, area: parsed.area || null,
+                        param: parsed.param || null, category: parsed.category || null, fileIndex: parsed
+                            .fileIndex !== undefined ? parsed.fileIndex : null, currentPath: parsed.currentPath ||
+                            [] };
+                }
             } else {
-                updateStateFromHash();
+                if (parsed.page === 'landing') {
+                    state = { page: 'landing', currentPath: [] };
+                    var homePath = '/';
+                    history.replaceState({ route: { page: 'landing', currentPath: [] } }, '', homePath);
+                } else {
+                    state = { page: parsed.page, program: parsed.program || null, area: parsed.area || null,
+                        param: parsed.param || null, category: parsed.category || null, fileIndex: parsed
+                            .fileIndex !== undefined ? parsed.fileIndex : null, currentPath: parsed.currentPath ||
+                            [] };
+                }
             }
-            // Ensure the first hashchange triggers render
-            if (location.hash) {
-                updateStateFromHash();
+            render();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Default to BSIT if no route is present
+            var parsed = getRouteFromPath();
+            if (parsed.page === 'landing') {
+                initApp('BSIT');
+            } else {
+                initApp(null);
             }
         });
 
-        console.log('🔗 Hash-based routing — no 404 on refresh.');
-        console.log('📍 Current hash:', location.hash || '(none)');
+        // Handle direct navigation (e.g., typing URL) - the server should serve this HTML for all routes.
+        // If the server isn't configured, we rely on the hash fallback, but we're using History API.
+        // For servers that don't support SPA routing, we add a fallback: if the page loads and the path
+        // doesn't match any route, we redirect to the base path with the route in the hash.
+        // But since we want clean URLs, we assume the server is configured correctly.
+        // If the user opens the file directly (file://), we use the hash as a fallback.
+        if (window.location.protocol === 'file:') {
+            // Fallback to hash-based routing for file:// protocol
+            // We'll use the hash to store the route
+            var hash = window.location.hash;
+            if (hash) {
+                var routeFromHash = hash.replace(/^#/, '');
+                if (routeFromHash) {
+                    var fakePath = '/' + routeFromHash;
+                    history.replaceState(null, '', fakePath);
+                }
+            }
+            // Re-run the route parser
+            var parsed2 = getRouteFromPath();
+            if (parsed2.page === 'landing') {
+                initApp('BSIT');
+            } else {
+                initApp(null);
+            }
+        }
+
+        console.log('🔗 Clean URLs enabled — .html is hidden.');
+        console.log('📁 Base path:', BASE_PATH || '/');
+        console.log('📍 Current route:', window.location.pathname);
     </script>
 
 </body>
