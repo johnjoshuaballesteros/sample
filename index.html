@@ -768,7 +768,7 @@
             BSBA: 'Bachelor of Science in Business Administration'
         };
 
-        // ── Full parameter definitions for BSIT ──
+        // ── Full parameter definitions for BSIT (unchanged) ──
         var AREAS_FULL = {
             1: {
                 name: 'Vision, Mission, Goals, and Objectives',
@@ -882,6 +882,7 @@
         };
 
         // ── Custom parameter sets for BEED and BSBA (sample – only "Parameter A" for now) ──
+        // You can add more letters (B, C, ...) as needed.
         var PROGRAM_PARAMS_CUSTOM = {
             BEED: {
                 1: { A: 'Parameter A (sample)' },
@@ -915,6 +916,7 @@
                 var areaData = AREAS_FULL[areaNum];
                 return areaData ? areaData.params : {};
             } else {
+                // BEED or BSBA
                 var custom = PROGRAM_PARAMS_CUSTOM[program];
                 if (!custom) return {};
                 return custom[areaNum] || {};
@@ -927,6 +929,7 @@
                 var areaData = AREAS_FULL[areaNum];
                 return areaData ? areaData.name : 'Area ' + areaNum;
             } else {
+                // Use common area names from AREAS_FULL (same for all)
                 var common = AREAS_FULL[areaNum];
                 return common ? common.name : 'Area ' + areaNum;
             }
@@ -939,9 +942,10 @@
         ];
 
         // =========================================================
-        // DOCUMENT FILES (shortened for brevity, but full data is present)
+        // DOCUMENT FILES — BSIT has full data; BEED & BSBA have sample data
         // =========================================================
         var DOCUMENT_FILES = {
+
             // ─── BSIT (full) ───
             'BSIT-1-A-SIP': [
                 { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
@@ -1073,8 +1077,224 @@
                 { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
                     name: 'O.1. The institution has qualified and competent faculty.' }
             ],
-            // Additional BSIT parameters (shortened for space, but full in original)
-            // ... (full data from previous version is implied)
+            'BSIT-3-A-SIP': [
+                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
+                    name: 'S.1. The curriculum provides for the development of the following 	professional competencies:' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.1.1. acquisition of knowledge of theories in the discipline;' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.1.2. application to real problems in the field; and' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.1.3. demonstration of skills in applying different strategies in actual work setting.' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.2. There is a system of validation of subjects taken from other schools.' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.3. The curiculum reflects the local, regional and national development goals as well as the institutions vision and mission.' }
+            ],
+
+            'BSIT-3-A-IMP': [
+                { id: 'SAMPLE LINK',
+                    name: 'I.1. The curiculum/ program is implemented utilizing and/ or even judiciouly exceeding CHED requirements and standards as follows:' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.1.1. General Education (54 units)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.1.2. Basic ITE Core Courses (18 units)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.1.3. Professional Courses (33 units)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.1.4. ITE Elective (12 units)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.1.5. Free Elective (9 units)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.1.6. P.E. (8 units)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.1.7. NSTP (6 units)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.2. THe subjects are logically sequenced and prerequisite couses are identified.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.3. The Currucular content is responsive to the needs of the country and recent developments in the profession.]' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.4. The curricular content covers the exelent of the professional and technical preparation required of its graduates.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.5. The curriculum integrates values, reflective of national customs, culture and tradition (incase where applicable).' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.6. Opportunity for participation in hands-on activities, such as immersion/ practical training and field study are maintaied in the curriculum.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7. The following activities are undertaken to ensure quality in the process of curriculum development:' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1. participative planning and designing by the following stakeholders;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1.1. administration;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1.2. faculty;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1.3. students;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1.4. alumni;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1.5. representatives from the industry/ sector; and' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1.6. others (please spacify)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.2. periodic review, assessment, updating of the curriculum by the Academic Council;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.3. Confirmation of the curiculum by the Board of Regents (BOR)/ Trustees (BOT); and' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.4. others (please spacify) CHED approval' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8. The program of study allows the accommodation of students with special needs and assist them to finish the degree.' }
+            ],
+
+            'BSIT-3-A-OUT': [
+                { id: 'SAMPLE LINK',
+                    name: 'O.1. The curriculum is resposive and relevant to the demands the times.' }
+            ],
+
+            'BSIT-3-B-SIP': [
+                { id: 'SAMPLE LINK',
+                    name: 'S.1. There is an instructional outcomes-based standard format in the preparation of course syllabi.' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.2. The syllabi includes a list of suggested readings and referenvces of print and electronics resources within the last ten (10) years.' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.3. Copies of all syllabi during the term are the Deans office or any other appropriate repository.' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.4. Copies of all course syllabi in the previous terms ore field for reference puposes.' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.5. There is provision for remidial measures to strengthen the basic skills in mathematics and English, and othe "tool" subjects.' },
+                { id: 'SAMPLE LINK',
+                    name: 'S.6. There is a mechanism to facilitate the teaching learning process.' }
+            ],
+
+            'BSIT-3-B-IMP': [
+                { id: 'SAMPLE LINK',
+                    name: 'I.1. The Dean or official concerned approves the updated syllabus for each subject.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.2. The faculty prepares syllab eith comprehensive contents.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.3. The Faculty revise and enhances their syllabi preferably every two (2) years.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.4. The faculty provide a copy of the syllabus to each student.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.5. Teaching strategies stimulate the development of the students Higher-Order Thinking Skills (HOTS) such as critical thinking and problem solving.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.6. Classroom instruction is enriched through the use of the following strategies;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.6.1. Symposia, seminars, workshops, professional lectures;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.6.2. Educational tours/ learning/ other co-curricular activities;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.6.3. Peer teaching/ cooperative learning' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.6.4. Computer-assisted instruction (CAI) and computer-assisted learning (CAL).' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7. At least three (3) of the folloeing course requirements are used;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.1. Group/ individual projects;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.2. Group/ individual reports;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.3. Group/ individual term papers;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.4. Performance activities;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.5. Learning contacts;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.6. Portfolio;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.7. Learning modules;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.8. Research study;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.9. Others (please specify)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.8. Research study;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.7.9. others (please specify)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8. Instruction is enriched through the use of the least ten (10) of the folloeing techniques/ strategies:' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.1. Film showing;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.2. Projects;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.3. Group dynamics' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.4. Case study;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.5. Workshops;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.6. Simulations' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.7. Dimentional Question approach;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.8. Brainstorming;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.9. buzz sessions;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.10. Informal creative groups;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.11. Interactive training;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.12. Team teaching;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.13. Micro Teaching;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.14. Macro teaching' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.15. Tandem Teaching;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.16. Peer Teaching;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.17. Multi-media/ Courseware/ Teachware;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.18. Experience;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.19. Problem solving;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.20. Type of study method;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.21. Reporting;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.22. Panel discussion;' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.8.23. others (plase specify)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.9. Intructional strategies provide for students individual neeeds and multiplw inteligences.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10. Introduction in enhanced through the following:' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10.1. Submission of approved and updated syllabus per course' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10.2. Regular classroom observation/supervision' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10.3. Regular meeting with the College/ Academic Unit/ Dean/ Department Chair.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10.4. Regular faculty performance evaluation.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10.5. Attendance/ participation of the faculty in in-service training.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10.6. Conduct experimental classes.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.10.7. Adoption of alternative instruction delivery modes such as modular instruction, e-learning and on-line study.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.11. Instructinal Materials (MIs) are reviewed and recommendational Materials Committee (IMC)' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.12. Varied, multi-sensory materials and computer programs are utilized.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.13. The College/ Academic Unit maintains consortia and linkage with other learning institutions for academic axchange of instructional materials.' },
+                { id: 'SAMPLE LINK',
+                    name: 'I.14. The faculty are encouraged to produce their own instructional materials such as modules, software, visual aids, manuals and textbooks.' }
+            ],
+
+            'BSIT-3-B-OUT': [
+                { id: 'SAMPLE LINK',
+                    name: 'O.1. Course syllabi are updated and approved by concerned authorities.' },
+                { id: 'SAMPLE LINK',
+                    name: 'O.2. Varied teaching strategies are efficiently and effectively used.' },
+                { id: 'SAMPLE LINK',
+                    name: 'O.3. Instructional materials procedured by the faculty are copyrighted/patented.' }
+            ],
+
 
             // ─── BEED (sample) ───
             'BEED-1-A-SIP': [
@@ -1093,7 +1313,71 @@
                 { id: 'SAMPLE_BEED_1A_O1',
                     name: 'O.1. The VMGO are prominently displayed and accessible to all stakeholders.' }
             ],
-            // ... more BEED entries
+            'BEED-1-B-SIP': [
+                { id: 'SAMPLE_BEED_1B_S1',
+                    name: 'S.1. The VMGO are disseminated through various media and platforms.' }
+            ],
+            'BEED-1-B-IMP': [
+                { id: 'SAMPLE_BEED_1B_I1',
+                    name: 'I.1. A communication plan is in place to ensure widespread awareness of the VMGO.' },
+                { id: 'SAMPLE_BEED_1B_I2',
+                    name: 'I.2. Stakeholders are engaged in the dissemination and feedback process.' }
+            ],
+            'BEED-1-B-OUT': [
+                { id: 'SAMPLE_BEED_1B_O1',
+                    name: 'O.1. There is high level of awareness and acceptance of the VMGO among stakeholders.' }
+            ],
+
+            'BEED-2-A-SIP': [
+                { id: 'SAMPLE_BEED_2A_S1',
+                    name: 'S.1. The faculty members possess the required academic qualifications for the program.' },
+                { id: 'SAMPLE_BEED_2A_S2',
+                    name: 'S.2. Faculty have relevant professional experience in education.' }
+            ],
+            'BEED-2-A-IMP': [
+                { id: 'SAMPLE_BEED_2A_I1',
+                    name: 'I.1. The faculty demonstrate competence in teaching and research.' }
+            ],
+            'BEED-2-A-OUT': [
+                { id: 'SAMPLE_BEED_2A_O1',
+                    name: 'O.1. The faculty are recognized for their expertise and contributions to the field.' }
+            ],
+            'BEED-2-B-SIP': [
+                { id: 'SAMPLE_BEED_2B_S1',
+                    name: 'S.1. A systematic recruitment and selection process for faculty is in place.' }
+            ],
+            'BEED-2-B-IMP': [
+                { id: 'SAMPLE_BEED_2B_I1',
+                    name: 'I.1. New faculty undergo a comprehensive orientation program.' }
+            ],
+            'BEED-2-B-OUT': [
+                { id: 'SAMPLE_BEED_2B_O1',
+                    name: 'O.1. The institution has a pool of qualified and well-oriented faculty.' }
+            ],
+            'BEED-2-C-SIP': [
+                { id: 'SAMPLE_BEED_2C_S1',
+                    name: 'S.1. The faculty-student ratio is adequate for effective instruction.' }
+            ],
+            'BEED-2-C-IMP': [
+                { id: 'SAMPLE_BEED_2C_I1',
+                    name: 'I.1. Teaching loads are distributed equitably among faculty.' }
+            ],
+            'BEED-2-C-OUT': [
+                { id: 'SAMPLE_BEED_2C_O1',
+                    name: 'O.1. Faculty are able to provide quality instruction and support to students.' }
+            ],
+            'BEED-2-D-SIP': [
+                { id: 'SAMPLE_BEED_2D_S1',
+                    name: 'S.1. A clear tenure and promotion system is in place.' }
+            ],
+            'BEED-2-D-IMP': [
+                { id: 'SAMPLE_BEED_2D_I1',
+                    name: 'I.1. Faculty are evaluated regularly for promotion and tenure.' }
+            ],
+            'BEED-2-D-OUT': [
+                { id: 'SAMPLE_BEED_2D_O1',
+                    name: 'O.1. Faculty are promoted based on merit and performance.' }
+            ],
 
             // ─── BSBA (sample) ───
             'BSBA-1-A-SIP': [
@@ -1109,23 +1393,90 @@
             'BSBA-1-A-OUT': [
                 { id: 'SAMPLE_BSBA_1A_O1',
                     name: 'O.1. The VMGO are consistently reflected in the institutions strategic plans.' }
+            ],
+            'BSBA-1-B-SIP': [
+                { id: 'SAMPLE_BSBA_1B_S1',
+                    name: 'S.1. The VMGO are communicated to all stakeholders through various channels.' }
+            ],
+            'BSBA-1-B-IMP': [
+                { id: 'SAMPLE_BSBA_1B_I1',
+                    name: 'I.1. Regular information campaigns are conducted to promote the VMGO.' }
+            ],
+            'BSBA-1-B-OUT': [
+                { id: 'SAMPLE_BSBA_1B_O1',
+                    name: 'O.1. Stakeholders demonstrate understanding and commitment to the VMGO.' }
+            ],
+
+            'BSBA-2-A-SIP': [
+                { id: 'SAMPLE_BSBA_2A_S1',
+                    name: 'S.1. Faculty possess the necessary academic and professional qualifications for business education.' },
+                { id: 'SAMPLE_BSBA_2A_S2',
+                    name: 'S.2. Faculty have relevant industry experience in business and management.' }
+            ],
+            'BSBA-2-A-IMP': [
+                { id: 'SAMPLE_BSBA_2A_I1',
+                    name: 'I.1. Faculty actively engage in teaching, research, and community service.' }
+            ],
+            'BSBA-2-A-OUT': [
+                { id: 'SAMPLE_BSBA_2A_O1',
+                    name: 'O.1. Faculty are recognized for their contributions to business education.' }
+            ],
+            'BSBA-2-B-SIP': [
+                { id: 'SAMPLE_BSBA_2B_S1',
+                    name: 'S.1. A merit-based recruitment and selection system for faculty is in place.' }
+            ],
+            'BSBA-2-B-IMP': [
+                { id: 'SAMPLE_BSBA_2B_I1',
+                    name: 'I.1. Faculty recruitment follows a transparent and competitive process.' }
+            ],
+            'BSBA-2-B-OUT': [
+                { id: 'SAMPLE_BSBA_2B_O1',
+                    name: 'O.1. The institution attracts and retains qualified faculty members.' }
+            ],
+            'BSBA-2-C-SIP': [
+                { id: 'SAMPLE_BSBA_2C_S1',
+                    name: 'S.1. The faculty complement is sufficient to support the programs offerings.' }
+            ],
+            'BSBA-2-C-IMP': [
+                { id: 'SAMPLE_BSBA_2C_I1',
+                    name: 'I.1. Faculty assignments are based on expertise and program needs.' }
+            ],
+            'BSBA-2-C-OUT': [
+                { id: 'SAMPLE_BSBA_2C_O1',
+                    name: 'O.1. Students receive quality instruction from adequately staffed faculty.' }
+            ],
+            'BSBA-2-D-SIP': [
+                { id: 'SAMPLE_BSBA_2D_S1',
+                    name: 'S.1. A structured tenure and promotion framework exists for faculty.' }
+            ],
+            'BSBA-2-D-IMP': [
+                { id: 'SAMPLE_BSBA_2D_I1',
+                    name: 'I.1. Faculty performance is assessed regularly for career advancement.' }
+            ],
+            'BSBA-2-D-OUT': [
+                { id: 'SAMPLE_BSBA_2D_O1',
+                    name: 'O.1. Faculty are promoted and tenured based on established criteria.' }
             ]
-            // ... more BSBA entries
         };
 
-        // Helper functions
+        // ── Get documents for a given program, area, param, category ──
         function getDocumentFiles(program, area, param, catKey) {
             var key = program + '-' + area + '-' + param + '-' + catKey;
-            return DOCUMENT_FILES[key] || [];
+            if (DOCUMENT_FILES[key]) {
+                return DOCUMENT_FILES[key];
+            }
+            return [];
         }
 
         function getDriveLink(fileId) {
-            if (!fileId || fileId.indexOf('SAMPLE_') === 0 || fileId === 'FILE_ID_HERE') return null;
+            if (!fileId || fileId === 'FILE_ID_HERE' || fileId === 'FILE_ID_HERE_2' || fileId === 'FILE_ID_HERE_3' ||
+                fileId.indexOf('SAMPLE_') === 0) return null;
             return 'https://drive.google.com/file/d/' + fileId + '/preview';
         }
 
         function getDriveOpenLink(fileId) {
-            if (!fileId || fileId.indexOf('SAMPLE_') === 0 || fileId === 'FILE_ID_HERE') return null;
+            if (!fileId || fileId === 'FILE_ID_HERE' || fileId === 'FILE_ID_HERE_2' || fileId === 'FILE_ID_HERE_3' ||
+                fileId.indexOf('SAMPLE_') === 0) return null;
             return 'https://drive.google.com/file/d/' + fileId + '/view?usp=sharing';
         }
 
@@ -1194,116 +1545,45 @@
         }
 
         // =========================================================
-        // HASH-BASED ROUTER (no 404 on refresh)
+        // STATE & ROUTER
         // =========================================================
         var state = { page: 'landing', program: null, area: null, param: null, category: null, fileIndex: null,
             currentPath: [] };
 
         function parseHash() {
-            var hash = location.hash.replace(/^#\/?/, '').replace(/\/+$/, '');
-            if (!hash) return { page: 'landing' };
-            var parts = hash.split('/').filter(Boolean);
-
-            if (parts.length === 1 && PROGRAMS[parts[0]]) {
-                return { page: 'program', program: parts[0] };
-            }
-            if (parts.length === 2 && PROGRAMS[parts[0]] && AREAS_FULL[parts[1]]) {
-                return { page: 'area', program: parts[0], area: parts[1] };
-            }
-            if (parts.length === 3 && PROGRAMS[parts[0]] && AREAS_FULL[parts[1]]) {
-                var params = getParamsForProgram(parts[0], parts[1]);
-                if (params[parts[2]]) {
-                    return { page: 'parameter', program: parts[0], area: parts[1], param: parts[2] };
-                }
-            }
-            if (parts.length === 4 && PROGRAMS[parts[0]] && AREAS_FULL[parts[1]]) {
-                var params2 = getParamsForProgram(parts[0], parts[1]);
-                if (params2[parts[2]]) {
-                    var cat = parts[3];
-                    var found = false;
-                    for (var ci = 0; ci < CATEGORIES.length; ci++) {
-                        if (CATEGORIES[ci].key === cat) { found = true; break; }
-                    }
-                    if (found) {
-                        return { page: 'category', program: parts[0], area: parts[1], param: parts[2],
-                        category: cat };
-                    }
-                }
-            }
-            // For deeper paths with hierarchy and file index
-            if (parts.length >= 5 && PROGRAMS[parts[0]] && AREAS_FULL[parts[1]]) {
-                var params3 = getParamsForProgram(parts[0], parts[1]);
-                if (params3[parts[2]]) {
-                    var cat2 = parts[3];
-                    var found2 = false;
-                    for (var ci2 = 0; ci2 < CATEGORIES.length; ci2++) {
-                        if (CATEGORIES[ci2].key === cat2) { found2 = true; break; }
-                    }
-                    if (found2) {
-                        var rest = parts.slice(4);
-                        var fileIdx = null;
-                        var pathParts = [];
-                        for (var i = 0; i < rest.length; i++) {
-                            var p = rest[i];
-                            if (i === rest.length - 1 && !isNaN(parseInt(p)) && p !== '') {
-                                fileIdx = parseInt(p);
-                            } else {
-                                pathParts.push(p);
-                            }
-                        }
-                        if (fileIdx !== null) {
-                            return { page: 'document', program: parts[0], area: parts[1], param: parts[2],
-                                category: cat2, fileIndex: fileIdx, currentPath: pathParts };
-                        } else {
-                            return { page: 'category', program: parts[0], area: parts[1], param: parts[2],
-                                category: cat2, currentPath: pathParts };
-                        }
-                    }
-                }
+            var parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+            if (parts.length === 0) return { page: 'landing' };
+            if (parts.length === 1) return { page: 'program', program: parts[0] };
+            if (parts.length === 2) return { page: 'area', program: parts[0], area: parts[1] };
+            if (parts.length === 3) return { page: 'parameter', program: parts[0], area: parts[1], param: parts[2] };
+            if (parts.length === 4) return { page: 'category', program: parts[0], area: parts[1], param: parts[2],
+                category: parts[3] };
+            if (parts.length === 5) {
+                var fileIndex = parseInt(parts[4]);
+                if (!isNaN(fileIndex)) return { page: 'document', program: parts[0], area: parts[1], param: parts[2],
+                    category: parts[3], fileIndex: fileIndex };
             }
             return { page: 'landing' };
         }
 
         function navigateTo(page, data) {
             data = data || {};
-            var parts = [];
-            if (data.program) parts.push(data.program);
-            if (data.area) parts.push(data.area);
-            if (data.param) parts.push(data.param);
-            if (data.category) parts.push(data.category);
-            if (data.currentPath && data.currentPath.length) {
-                parts = parts.concat(data.currentPath);
-            }
-            if (data.fileIndex !== undefined && data.fileIndex !== null) {
-                parts.push(String(data.fileIndex));
-            }
-            var hash = parts.length ? '#/' + parts.join('/') : '#/';
-            location.hash = hash;
-            // State will be updated via hashchange
-        }
-
-        function updateStateFromHash() {
-            var parsed = parseHash();
-            state = { page: parsed.page, program: parsed.program || null, area: parsed.area || null,
-                param: parsed.param || null, category: parsed.category || null, fileIndex: parsed.fileIndex !==
-                    undefined ? parsed.fileIndex : null, currentPath: parsed.currentPath || [] };
-            // If landing, default to BSIT program
-            if (state.page === 'landing') {
-                state = { page: 'program', program: 'BSIT', currentPath: [] };
-                var hash = '#/BSIT';
-                if (location.hash !== hash) {
-                    location.hash = hash;
-                }
-            }
+            state = Object.assign({}, state, { page: page }, data);
+            var path = [data.program, data.area, data.param, data.category, data.fileIndex].filter(function(v) { return v !=
+                    null; }).join('/');
+            location.hash = path ? '/' + path : '';
             render();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         window.addEventListener('hashchange', function() {
-            updateStateFromHash();
+            var parsed = parseHash();
+            state = Object.assign({}, state, parsed, { currentPath: [] });
+            render();
         });
 
         // =========================================================
-        // RENDER FUNCTIONS
+        // RENDER
         // =========================================================
         function crumb(items) {
             var clickable = items.slice(0, -1);
@@ -1336,8 +1616,8 @@
             var app = document.getElementById('app');
             app.innerHTML = '';
             app.classList.remove('is-visible');
-            // Validate state
             if (state.page === 'program' && !PROGRAMS[state.program]) state = { page: 'landing', currentPath: [] };
+            // For area, check existence in AREAS_FULL (since area names are common)
             if (state.page === 'area' && !AREAS_FULL[state.area]) {
                 state = { page: 'program', program: state.program, currentPath: [] };
             }
@@ -1791,23 +2071,15 @@
         // =========================================================
         // INIT
         // =========================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            // Ensure default hash if empty
-            if (!location.hash || location.hash === '#') {
-                location.hash = '#/BSIT';
-            } else {
-                updateStateFromHash();
-            }
-            // The first hashchange will trigger updateStateFromHash, but we need to call it manually
-            // if the hash already exists on load.
-            if (location.hash) {
-                updateStateFromHash();
-            }
-        });
+        function initApp() {
+            var parsed = parseHash();
+            state = Object.assign({}, state, parsed, { currentPath: [] });
+            render();
+        }
 
-        // Also handle if hash is set manually after load
-        console.log('🔗 Hash-based routing — no 404 on refresh.');
-        console.log('📍 Current hash:', location.hash || '(none)');
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+        });
     </script>
 
 </body>
