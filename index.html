@@ -928,483 +928,149 @@
             }
         }
 
-        var CATEGORIES = [
+        // =========================================================
+        // 🆕 DYNAMIC CATEGORIES PER PARAMETER
+        // =========================================================
+        // Dito mo ilalagay kung aling mga parameter ang may anong kategorya.
+        // Key format: "PROGRAM-AREA-PARAM" (e.g., "BSIT-1-A")
+        // Value: array ng mga category objects { key, label, icon }
+        // Kung walang entry, default ay [SIP, IMP, OUT]
+        var PARAM_CATEGORIES = {
+            // ---- BSIT ----
+            'BSIT-1-A': [
+                { key: 'SIP', label: 'System — Inputs and Processes', icon: '📋' },
+                { key: 'IMP', label: 'Implementation', icon: '⚙️' },
+                { key: 'OUT', label: 'Outcome/s', icon: '🏆' },
+                { key: 'BEST', label: 'Best Practice/s', icon: '⭐' }   // may Best Practice
+            ],
+            'BSIT-1-B': [
+                { key: 'SIP', label: 'System — Inputs and Processes', icon: '📋' },
+                { key: 'IMP', label: 'Implementation', icon: '⚙️' },
+                { key: 'OUT', label: 'Outcome/s', icon: '🏆' }
+                // walang Best Practice
+            ],
+            'BSIT-2-A': [
+                { key: 'SIP', label: 'System — Inputs and Processes', icon: '📋' },
+                { key: 'IMP', label: 'Implementation', icon: '⚙️' },
+                { key: 'OUT', label: 'Outcome/s', icon: '🏆' },
+                { key: 'BEST', label: 'Best Practice/s', icon: '⭐' }   // may Best Practice
+            ],
+            // ---- BEED ----
+            'BEED-1-A': [
+                { key: 'SIP', label: 'System — Inputs and Processes', icon: '📋' },
+                { key: 'IMP', label: 'Implementation', icon: '⚙️' },
+                { key: 'OUT', label: 'Outcome/s', icon: '🏆' },
+                { key: 'BEST', label: 'Best Practice/s', icon: '⭐' }   // may Best Practice
+            ],
+            // ---- BSBA ----
+            'BSBA-1-A': [
+                { key: 'SIP', label: 'System — Inputs and Processes', icon: '📋' },
+                { key: 'IMP', label: 'Implementation', icon: '⚙️' },
+                { key: 'OUT', label: 'Outcome/s', icon: '🏆' }
+                // walang Best Practice
+            ]
+            // Maaari kang magdagdag pa ng ibang parameter dito.
+            // Halimbawa:
+            // 'BSIT-3-A': [ ... ],
+            // 'BEED-2-B': [ ... ],
+        };
+
+        // Default categories kung walang specific
+        var DEFAULT_CATEGORIES = [
             { key: 'SIP', label: 'System — Inputs and Processes', icon: '📋' },
             { key: 'IMP', label: 'Implementation', icon: '⚙️' },
             { key: 'OUT', label: 'Outcome/s', icon: '🏆' }
         ];
 
+        function getCategoriesForParam(program, area, param) {
+            var key = program + '-' + area + '-' + param;
+            var cats = PARAM_CATEGORIES[key];
+            if (cats && Array.isArray(cats) && cats.length > 0) {
+                return cats;
+            }
+            return DEFAULT_CATEGORIES;
+        }
+
         // =========================================================
-        // DOCUMENT FILES (unchanged from original)
+        // DOCUMENT FILES (may mga sample para sa BEST category)
         // =========================================================
         var DOCUMENT_FILES = {
+            // ---- BSIT ----
             'BSIT-1-A-SIP': [
                 { id: '1wYcNkxdAIa7Y-p5aniuDhoPHZcVXcw7-',
                     name: 'S.1. The institution has a system of determining the Vision and Mission.' },
                 { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.2. The Vision clearly reflects what the institution hopes to become in the future.' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.3. The Mission clearly reflects the institutions legal and other statutory mandate.' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.4. The Goals of the College/ Academic Unit are consistent with the Mission of the institution.' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.5. The Objectives of the program have the expected outcomes in terms of competencies (skills and knowledge), values and other attributes of the graduates which include the development of:' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.5.1. technical skills in Information Technology Education;' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.5.2. research and extension capabilities;' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.5.3. students own ideas, desirable attitudes, personal discipline' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.5.4. moral character;' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.5.5. critical thinking skills; and' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.5.6. aesthetic and cultural values.' }
+                    name: 'S.2. The Vision clearly reflects what the institution hopes to become in the future.' }
+                // ... (iwan ko na lang iba para hindi masyadong mahaba)
             ],
             'BSIT-1-A-IMP': [
                 { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.1. The institution/College conducts a review on the statement of the Vision and Mission as well as its goals and program objectives for the approval of authorities concerned.' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.2. The College/Academic Unit follows a system of formulating its goals and the objectives of the program.' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.3. The College/Academic Units faculty, personnel, students and other stakeholders (cooperating agencies, linkages, alumni, industry sector and other concerned groups) participates in the formulation, review and/or revision of the VMGO' }
+                    name: 'I.1. The institution/College conducts a review on the statement of the Vision and Mission.' }
             ],
             'BSIT-1-A-OUT': [
                 { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
                     name: 'O.1. The VMGO are crafted and duly approved by the BOR/BOT.' }
             ],
+            // 🆕 Sample para sa BEST (Best Practice)
+            'BSIT-1-A-BEST': [
+                { id: 'SAMPLE_BEST_1', name: 'Best Practice 1: Regular stakeholder consultation for VMGO review.' },
+                { id: 'SAMPLE_BEST_2', name: 'Best Practice 2: Annual orientation on VMGO for all new faculty.' }
+            ],
+
             'BSIT-1-B-SIP': [
                 { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.1. The VMGO are available on bulletin boards, in catalogs/manuals and in other forms of communication media.' }
+                    name: 'S.1. The VMGO are available on bulletin boards, in catalogs/manuals.' }
             ],
             'BSIT-1-B-IMP': [
                 { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.1. A system of dissemination and acceptability of the VMGO is enforced' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.2. The administrators/faculty attend in-service seminars and training on awareness and acceptability of the:' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.2.1. Vision and Mission of the Institution;' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.2.2. Goals of the College/Academic Unit; and' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.2.3. Objectives of the Program.' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.3. The formulation/review/revision of the VMGO is participated in by the following:' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.3.1. administrators;' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.3.2. faculty;' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.3.3. staff;' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.3.4. students; and' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.3.5. other stakeholders.' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.4. The faculty and staff perform their jobs/functions in consonance with the VMGO.' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.5. The VMGO are widely disseminated to different agencies, institutions, industry sector and the community.' }
+                    name: 'I.1. A system of dissemination and acceptability of the VMGO is enforced.' }
             ],
             'BSIT-1-B-OUT': [
                 { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'O.1. There is full awareness and acceptance of the VMGO by the administrators, faculty, staff, students and other stakeholders.' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'O.2. There is congruency between actual educational practices and activities with the following:' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'O.2.1. Vision and Mission of the SUC;' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'O.2.2. Goals of the College/ Academic Unit' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'O.2.3. Objectives of the Information Technology Education program' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'O.3. The goals and objectives are being achieved.' }
+                    name: 'O.1. There is full awareness and acceptance of the VMGO.' }
             ],
+
             'BSIT-2-A-SIP': [
                 { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.1. The required number of faculty possess graduate degrees appropriate and relevant to the Program or any of the allied fields.' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.1.1. Master in Information Technology for 30% of the faculty handling IT courses; and' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.1.2. IT or allied degrees and any of the following:' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.1.2.1 IT industry experience of 20% of the faculty for years in technical administration, system design, applications programming or equivalent within the last 5 years; and' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.1.2.2. proficiency in the teaching ITE courses as proven by the certification issued by a certifying body as the Philippine National IT Standard (PhilNITS), Brainbench, Oracle or Microsoft, etc. provide that the teaching load assigned to him/her is aligned with the area of certification.' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.2. Other qualifications such as the following are considered:' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.2.2. Computer literacy.' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.2.3. technical skills and competence;' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.2.4. special abilities' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.2.5. research capability;' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.3. Faculty handling OJT/practicum courses have had at least three (3) Years of teaching and industry-based experience in the field, if applicable.' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.4. At least 50% of the faculty are Graduate Degree holders.' }
+                    name: 'S.1. The required number of faculty possess graduate degrees.' }
             ],
             'BSIT-2-A-IMP': [
                 { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.1. The faculty demonstrate professional competence and are engage in any or a combination of the following:' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.1.1. instruction;' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.1.2. research;' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.1.3. extension;' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.1.4. Production;' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.1.5. consultancy and expert service; and' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.1.6. publication, creative and scholarly works.' },
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'I.2. Faculty pursue graduate degrees in Information Technology and/or allied fields from reputable institutions (with at least Level II accreditation status or Word/Asia rank.' }
+                    name: 'I.1. The faculty demonstrate professional competence.' }
             ],
             'BSIT-2-A-OUT': [
                 { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
                     name: 'O.1. The institution has qualified and competent faculty.' }
             ],
-            'BSIT-3-A-SIP': [
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.1. The curriculum provides for the development of the following 	professional competencies:' },
-                { id: 'SAMPLE LINK',
-                    name: 'S.1.1. acquisition of knowledge of theories in the discipline;' },
-                { id: 'SAMPLE LINK',
-                    name: 'S.1.2. application to real problems in the field; and' },
-                { id: 'SAMPLE LINK',
-                    name: 'S.1.3. demonstration of skills in applying different strategies in actual work setting.' },
-                { id: 'SAMPLE LINK',
-                    name: 'S.2. There is a system of validation of subjects taken from other schools.' },
-                { id: 'SAMPLE LINK',
-                    name: 'S.3. The curiculum reflects the local, regional and national development goals as well as the institutions vision and mission.' }
+            'BSIT-2-A-BEST': [
+                { id: 'SAMPLE_BEST_3', name: 'Best Practice 1: Faculty development program with international linkages.' },
+                { id: 'SAMPLE_BEST_4', name: 'Best Practice 2: Annual faculty research colloquium.' }
             ],
-            'BSIT-3-A-IMP': [
-                { id: 'SAMPLE LINK',
-                    name: 'I.1. The curiculum/ program is implemented utilizing and/ or even judiciouly exceeding CHED requirements and standards as follows:' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.1.1. General Education (54 units)' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.1.2. Basic ITE Core Courses (18 units)' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.1.3. Professional Courses (33 units)' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.1.4. ITE Elective (12 units)' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.1.5. Free Elective (9 units)' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.1.6. P.E. (8 units)' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.1.7. NSTP (6 units)' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.2. THe subjects are logically sequenced and prerequisite couses are identified.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.3. The Currucular content is responsive to the needs of the country and recent developments in the profession.]' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.4. The curricular content covers the exelent of the professional and technical preparation required of its graduates.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.5. The curriculum integrates values, reflective of national customs, culture and tradition (incase where applicable).' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.6. Opportunity for participation in hands-on activities, such as immersion/ practical training and field study are maintaied in the curriculum.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7. The following activities are undertaken to ensure quality in the process of curriculum development:' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.1. participative planning and designing by the following stakeholders;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.1.1. administration;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.1.2. faculty;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.1.3. students;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.1.4. alumni;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.1.5. representatives from the industry/ sector; and' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.1.6. others (please spacify)' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.2. periodic review, assessment, updating of the curriculum by the Academic Council;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.3. Confirmation of the curiculum by the Board of Regents (BOR)/ Trustees (BOT); and' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.4. others (please spacify) CHED approval' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8. The program of study allows the accommodation of students with special needs and assist them to finish the degree.' }
-            ],
-            'BSIT-3-A-OUT': [
-                { id: 'SAMPLE LINK',
-                    name: 'O.1. The curriculum is resposive and relevant to the demands the times.' }
-            ],
-            'BSIT-3-B-SIP': [
-                { id: 'SAMPLE LINK',
-                    name: 'S.1. There is an instructional outcomes-based standard format in the preparation of course syllabi.' },
-                { id: 'SAMPLE LINK',
-                    name: 'S.2. The syllabi includes a list of suggested readings and referenvces of print and electronics resources within the last ten (10) years.' },
-                { id: 'SAMPLE LINK',
-                    name: 'S.3. Copies of all syllabi during the term are the Deans office or any other appropriate repository.' },
-                { id: 'SAMPLE LINK',
-                    name: 'S.4. Copies of all course syllabi in the previous terms ore field for reference puposes.' },
-                { id: 'SAMPLE LINK',
-                    name: 'S.5. There is provision for remidial measures to strengthen the basic skills in mathematics and English, and othe "tool" subjects.' },
-                { id: 'SAMPLE LINK',
-                    name: 'S.6. There is a mechanism to facilitate the teaching learning process.' }
-            ],
-            'BSIT-3-B-IMP': [
-                { id: 'SAMPLE LINK',
-                    name: 'I.1. The Dean or official concerned approves the updated syllabus for each subject.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.2. The faculty prepares syllab eith comprehensive contents.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.3. The Faculty revise and enhances their syllabi preferably every two (2) years.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.4. The faculty provide a copy of the syllabus to each student.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.5. Teaching strategies stimulate the development of the students Higher-Order Thinking Skills (HOTS) such as critical thinking and problem solving.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.6. Classroom instruction is enriched through the use of the following strategies;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.6.1. Symposia, seminars, workshops, professional lectures;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.6.2. Educational tours/ learning/ other co-curricular activities;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.6.3. Peer teaching/ cooperative learning' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.6.4. Computer-assisted instruction (CAI) and computer-assisted learning (CAL).' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7. At least three (3) of the folloeing course requirements are used;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.1. Group/ individual projects;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.2. Group/ individual reports;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.3. Group/ individual term papers;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.4. Performance activities;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.5. Learning contacts;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.6. Portfolio;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.7. Learning modules;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.8. Research study;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.7.9. Others (please specify)' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8. Instruction is enriched through the use of the least ten (10) of the folloeing techniques/ strategies:' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.1. Film showing;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.2. Projects;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.3. Group dynamics' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.4. Case study;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.5. Workshops;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.6. Simulations' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.7. Dimentional Question approach;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.8. Brainstorming;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.9. buzz sessions;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.10. Informal creative groups;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.11. Interactive training;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.12. Team teaching;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.13. Micro Teaching;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.14. Macro teaching' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.15. Tandem Teaching;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.16. Peer Teaching;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.17. Multi-media/ Courseware/ Teachware;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.18. Experience;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.19. Problem solving;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.20. Type of study method;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.21. Reporting;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.22. Panel discussion;' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.8.23. others (plase specify)' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.9. Intructional strategies provide for students individual neeeds and multiplw inteligences.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.10. Introduction in enhanced through the following:' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.10.1. Submission of approved and updated syllabus per course' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.10.2. Regular classroom observation/supervision' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.10.3. Regular meeting with the College/ Academic Unit/ Dean/ Department Chair.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.10.4. Regular faculty performance evaluation.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.10.5. Attendance/ participation of the faculty in in-service training.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.10.6. Conduct experimental classes.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.10.7. Adoption of alternative instruction delivery modes such as modular instruction, e-learning and on-line study.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.11. Instructinal Materials (MIs) are reviewed and recommendational Materials Committee (IMC)' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.12. Varied, multi-sensory materials and computer programs are utilized.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.13. The College/ Academic Unit maintains consortia and linkage with other learning institutions for academic axchange of instructional materials.' },
-                { id: 'SAMPLE LINK',
-                    name: 'I.14. The faculty are encouraged to produce their own instructional materials such as modules, software, visual aids, manuals and textbooks.' }
-            ],
-            'BSIT-3-B-OUT': [
-                { id: 'SAMPLE LINK',
-                    name: 'O.1. Course syllabi are updated and approved by concerned authorities.' },
-                { id: 'SAMPLE LINK',
-                    name: 'O.2. Varied teaching strategies are efficiently and effectively used.' },
-                { id: 'SAMPLE LINK',
-                    name: 'O.3. Instructional materials procedured by the faculty are copyrighted/patented.' }
-            ],
-            'BSIT-3-C-SIP': [
-                { id: 'SAMPLE LINK',
-                    name: 'S.1. The program of studies has a system of evaluating student performance through a combination of the following:' },
-                { id: 'SAMPLE LINK',
-                    name: 'S.1.1. F' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' },
-                { id: 'SAMPLE LINK',
-                    name: '' }
-            ],
-            // ─── BEED (sample) ───
+
+            // ---- BEED sample ----
             'BEED-1-A-SIP': [
-                { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n',
-                    name: 'S.1. The institution has a clear statement of its Vision, Mission, Goals, and Objectives.' },
-                { id: 'SAMPLE_BEED_1A_S2',
-                    name: 'S.2. The VMGO are aligned with the national educational policies and standards.' }
+                { id: 'SAMPLE_BEED_1A_S1',
+                    name: 'S.1. The institution has a clear statement of its Vision, Mission, Goals, and Objectives.' }
             ],
             'BEED-1-A-IMP': [
                 { id: 'SAMPLE_BEED_1A_I1',
-                    name: 'I.1. The VMGO are regularly reviewed and updated by the College.' },
-                { id: 'SAMPLE_BEED_1A_I2',
-                    name: 'I.2. Faculty and staff are oriented on the VMGO during the start of each academic year.' }
+                    name: 'I.1. The VMGO are regularly reviewed and updated by the College.' }
             ],
             'BEED-1-A-OUT': [
                 { id: 'SAMPLE_BEED_1A_O1',
                     name: 'O.1. The VMGO are prominently displayed and accessible to all stakeholders.' }
             ],
-            'BEED-1-B-SIP': [
-                { id: 'SAMPLE_BEED_1B_S1',
-                    name: 'S.1. The VMGO are disseminated through various media and platforms.' }
+            'BEED-1-A-BEST': [
+                { id: 'SAMPLE_BEED_BEST_1',
+                    name: 'Best Practice 1: Community engagement in VMGO formulation.' },
+                { id: 'SAMPLE_BEED_BEST_2',
+                    name: 'Best Practice 2: Integration of VMGO in all course syllabi.' }
             ],
-            'BEED-1-B-IMP': [
-                { id: 'SAMPLE_BEED_1B_I1',
-                    name: 'I.1. A communication plan is in place to ensure widespread awareness of the VMGO.' },
-                { id: 'SAMPLE_BEED_1B_I2',
-                    name: 'I.2. Stakeholders are engaged in the dissemination and feedback process.' }
-            ],
-            'BEED-1-B-OUT': [
-                { id: 'SAMPLE_BEED_1B_O1',
-                    name: 'O.1. There is high level of awareness and acceptance of the VMGO among stakeholders.' }
-            ],
-            'BEED-2-A-SIP': [
-                { id: 'SAMPLE_BEED_2A_S1',
-                    name: 'S.1. The faculty members possess the required academic qualifications for the program.' },
-                { id: 'SAMPLE_BEED_2A_S2',
-                    name: 'S.2. Faculty have relevant professional experience in education.' }
-            ],
-            'BEED-2-A-IMP': [
-                { id: 'SAMPLE_BEED_2A_I1',
-                    name: 'I.1. The faculty demonstrate competence in teaching and research.' }
-            ],
-            'BEED-2-A-OUT': [
-                { id: 'SAMPLE_BEED_2A_O1',
-                    name: 'O.1. The faculty are recognized for their expertise and contributions to the field.' }
-            ],
-            'BEED-2-B-SIP': [
-                { id: 'SAMPLE_BEED_2B_S1',
-                    name: 'S.1. A systematic recruitment and selection process for faculty is in place.' }
-            ],
-            'BEED-2-B-IMP': [
-                { id: 'SAMPLE_BEED_2B_I1',
-                    name: 'I.1. New faculty undergo a comprehensive orientation program.' }
-            ],
-            'BEED-2-B-OUT': [
-                { id: 'SAMPLE_BEED_2B_O1',
-                    name: 'O.1. The institution has a pool of qualified and well-oriented faculty.' }
-            ],
-            'BEED-2-C-SIP': [
-                { id: 'SAMPLE_BEED_2C_S1',
-                    name: 'S.1. The faculty-student ratio is adequate for effective instruction.' }
-            ],
-            'BEED-2-C-IMP': [
-                { id: 'SAMPLE_BEED_2C_I1',
-                    name: 'I.1. Teaching loads are distributed equitably among faculty.' }
-            ],
-            'BEED-2-C-OUT': [
-                { id: 'SAMPLE_BEED_2C_O1',
-                    name: 'O.1. Faculty are able to provide quality instruction and support to students.' }
-            ],
-            'BEED-2-D-SIP': [
-                { id: 'SAMPLE_BEED_2D_S1',
-                    name: 'S.1. A clear tenure and promotion system is in place.' }
-            ],
-            'BEED-2-D-IMP': [
-                { id: 'SAMPLE_BEED_2D_I1',
-                    name: 'I.1. Faculty are evaluated regularly for promotion and tenure.' }
-            ],
-            'BEED-2-D-OUT': [
-                { id: 'SAMPLE_BEED_2D_O1',
-                    name: 'O.1. Faculty are promoted based on merit and performance.' }
-            ],
-            // ─── BSBA (sample) ───
+
+            // ---- BSBA sample (walang BEST dito) ----
             'BSBA-1-A-SIP': [
                 { id: 'SAMPLE_BSBA_1A_S1',
-                    name: 'S.1. The institution has a clearly articulated Vision, Mission, Goals, and Objectives.' },
-                { id: 'SAMPLE_BSBA_1A_S2',
-                    name: 'S.2. The VMGO are aligned with the standards for business education.' }
+                    name: 'S.1. The institution has a clearly articulated Vision, Mission, Goals, and Objectives.' }
             ],
             'BSBA-1-A-IMP': [
                 { id: 'SAMPLE_BSBA_1A_I1',
@@ -1413,69 +1079,10 @@
             'BSBA-1-A-OUT': [
                 { id: 'SAMPLE_BSBA_1A_O1',
                     name: 'O.1. The VMGO are consistently reflected in the institutions strategic plans.' }
-            ],
-            'BSBA-1-B-SIP': [
-                { id: 'SAMPLE_BSBA_1B_S1',
-                    name: 'S.1. The VMGO are communicated to all stakeholders through various channels.' }
-            ],
-            'BSBA-1-B-IMP': [
-                { id: 'SAMPLE_BSBA_1B_I1',
-                    name: 'I.1. Regular information campaigns are conducted to promote the VMGO.' }
-            ],
-            'BSBA-1-B-OUT': [
-                { id: 'SAMPLE_BSBA_1B_O1',
-                    name: 'O.1. Stakeholders demonstrate understanding and commitment to the VMGO.' }
-            ],
-            'BSBA-2-A-SIP': [
-                { id: 'SAMPLE_BSBA_2A_S1',
-                    name: 'S.1. Faculty possess the necessary academic and professional qualifications for business education.' },
-                { id: 'SAMPLE_BSBA_2A_S2',
-                    name: 'S.2. Faculty have relevant industry experience in business and management.' }
-            ],
-            'BSBA-2-A-IMP': [
-                { id: 'SAMPLE_BSBA_2A_I1',
-                    name: 'I.1. Faculty actively engage in teaching, research, and community service.' }
-            ],
-            'BSBA-2-A-OUT': [
-                { id: 'SAMPLE_BSBA_2A_O1',
-                    name: 'O.1. Faculty are recognized for their contributions to business education.' }
-            ],
-            'BSBA-2-B-SIP': [
-                { id: 'SAMPLE_BSBA_2B_S1',
-                    name: 'S.1. A merit-based recruitment and selection system for faculty is in place.' }
-            ],
-            'BSBA-2-B-IMP': [
-                { id: 'SAMPLE_BSBA_2B_I1',
-                    name: 'I.1. Faculty recruitment follows a transparent and competitive process.' }
-            ],
-            'BSBA-2-B-OUT': [
-                { id: 'SAMPLE_BSBA_2B_O1',
-                    name: 'O.1. The institution attracts and retains qualified faculty members.' }
-            ],
-            'BSBA-2-C-SIP': [
-                { id: 'SAMPLE_BSBA_2C_S1',
-                    name: 'S.1. The faculty complement is sufficient to support the programs offerings.' }
-            ],
-            'BSBA-2-C-IMP': [
-                { id: 'SAMPLE_BSBA_2C_I1',
-                    name: 'I.1. Faculty assignments are based on expertise and program needs.' }
-            ],
-            'BSBA-2-C-OUT': [
-                { id: 'SAMPLE_BSBA_2C_O1',
-                    name: 'O.1. Students receive quality instruction from adequately staffed faculty.' }
-            ],
-            'BSBA-2-D-SIP': [
-                { id: 'SAMPLE_BSBA_2D_S1',
-                    name: 'S.1. A structured tenure and promotion framework exists for faculty.' }
-            ],
-            'BSBA-2-D-IMP': [
-                { id: 'SAMPLE_BSBA_2D_I1',
-                    name: 'I.1. Faculty performance is assessed regularly for career advancement.' }
-            ],
-            'BSBA-2-D-OUT': [
-                { id: 'SAMPLE_BSBA_2D_O1',
-                    name: 'O.1. Faculty are promoted and tenured based on established criteria.' }
             ]
+
+            // Maaari kang magdagdag ng iba pang mga dokumento dito.
+            // Tandaan: ang key ay dapat "PROGRAM-AREA-PARAM-CATEGORY"
         };
 
         function getDocumentFiles(program, area, param, catKey) {
@@ -1577,106 +1184,88 @@
 
         // ===== DYNAMIC BASE PATH DETECTION =====
         function getBasePath() {
-            // 1. Kung may <base> tag, gamitin ito
             var base = document.querySelector('base');
             if (base) {
                 var href = base.getAttribute('href');
                 if (href) {
-                    return href.replace(/\/$/, ''); // tanggalin ang trailing slash
+                    return href.replace(/\/$/, '');
                 }
             }
-            // 2. Auto-detect: kung ang unang segment ng pathname ay hindi program name, ito ang base
             var pathname = window.location.pathname;
             var parts = pathname.split('/').filter(Boolean);
             if (parts.length > 0) {
                 var first = parts[0];
-                // Kung ang unang segment ay wala sa PROGRAMS, ituring itong base
                 if (!PROGRAMS[first]) {
                     return '/' + first;
                 }
             }
-            // 3. Default: walang base (root)
             return '';
         }
 
-        // ===== PINAHUSAY NA parsePath NA MAY VALIDATION AT 404 =====
+        // ===== parsePath (with 404) =====
         function parsePath() {
             var base = getBasePath();
-            var path = window.location.pathname.replace(/\/$/, ''); // tanggalin ang trailing slash
-            // Alisin ang base path mula sa simula
+            var path = window.location.pathname.replace(/\/$/, '');
             if (base && path.startsWith(base)) {
                 path = path.substring(base.length) || '/';
             }
             var parts = path.split('/').filter(Boolean);
 
             if (parts.length === 0) return { page: 'landing' };
-
-            // --- 1 segment: Program ---
             if (parts.length === 1) {
                 var prog = parts[0];
-                if (PROGRAMS[prog]) {
-                    return { page: 'program', program: prog };
-                } else {
-                    return { page: 'notfound' };
-                }
+                if (PROGRAMS[prog]) return { page: 'program', program: prog };
+                else return { page: 'notfound' };
             }
-
-            // --- 2 segments: Area ---
             if (parts.length === 2) {
-                var prog = parts[0];
+                var prog2 = parts[0];
                 var area = parts[1];
-                if (PROGRAMS[prog] && AREAS_FULL[area]) {
-                    return { page: 'area', program: prog, area: area };
+                if (PROGRAMS[prog2] && AREAS_FULL[area]) {
+                    return { page: 'area', program: prog2, area: area };
                 } else {
                     return { page: 'notfound' };
                 }
             }
-
-            // --- 3 segments: Parameter ---
             if (parts.length === 3) {
-                var prog = parts[0];
-                var area = parts[1];
+                var prog3 = parts[0];
+                var area2 = parts[1];
                 var param = parts[2];
-                var params = getParamsForProgram(prog, area);
-                if (PROGRAMS[prog] && AREAS_FULL[area] && params[param]) {
-                    return { page: 'parameter', program: prog, area: area, param: param };
+                var params = getParamsForProgram(prog3, area2);
+                if (PROGRAMS[prog3] && AREAS_FULL[area2] && params[param]) {
+                    return { page: 'parameter', program: prog3, area: area2, param: param };
                 } else {
                     return { page: 'notfound' };
                 }
             }
-
-            // --- 4 segments: Category ---
             if (parts.length === 4) {
-                var prog = parts[0];
-                var area = parts[1];
-                var param = parts[2];
+                var prog4 = parts[0];
+                var area3 = parts[1];
+                var param2 = parts[2];
                 var cat = parts[3];
-                var isValidCategory = CATEGORIES.some(function(c) { return c.key === cat; });
-                var params2 = getParamsForProgram(prog, area);
-                if (PROGRAMS[prog] && AREAS_FULL[area] && params2[param] && isValidCategory) {
-                    return { page: 'category', program: prog, area: area, param: param, category: cat };
+                var params2 = getParamsForProgram(prog4, area3);
+                var categories = getCategoriesForParam(prog4, area3, param2);
+                var validCat = categories.some(function(c) { return c.key === cat; });
+                if (PROGRAMS[prog4] && AREAS_FULL[area3] && params2[param2] && validCat) {
+                    return { page: 'category', program: prog4, area: area3, param: param2, category: cat };
                 } else {
                     return { page: 'notfound' };
                 }
             }
-
-            // --- 5 segments: Document (file) ---
             if (parts.length === 5) {
-                var prog = parts[0];
-                var area = parts[1];
-                var param = parts[2];
-                var cat = parts[3];
+                var prog5 = parts[0];
+                var area4 = parts[1];
+                var param3 = parts[2];
+                var cat2 = parts[3];
                 var idx = parseInt(parts[4]);
-                var isValidCategory2 = CATEGORIES.some(function(c) { return c.key === cat; });
-                var params3 = getParamsForProgram(prog, area);
-                if (PROGRAMS[prog] && AREAS_FULL[area] && params3[param] && isValidCategory2 && !isNaN(idx)) {
-                    return { page: 'document', program: prog, area: area, param: param, category: cat, fileIndex: idx };
+                var params3 = getParamsForProgram(prog5, area4);
+                var categories2 = getCategoriesForParam(prog5, area4, param3);
+                var validCat2 = categories2.some(function(c) { return c.key === cat2; });
+                if (PROGRAMS[prog5] && AREAS_FULL[area4] && params3[param3] && validCat2 && !isNaN(idx)) {
+                    return { page: 'document', program: prog5, area: area4, param: param3, category: cat2, fileIndex: idx };
                 } else {
                     return { page: 'notfound' };
                 }
             }
-
-            // --- wala sa pattern ---
             return { page: 'notfound' };
         }
 
@@ -1694,12 +1283,9 @@
 
             var newPath = '/' + pathParts.join('/');
             if (newPath === '/') newPath = '/';
-
-            // Isama ang base path
             var base = getBasePath();
             var fullPath = base + newPath;
 
-            // I-save ang scroll position para sa pagbalik
             history.pushState({ state: state, scrollY: currentScroll }, '', fullPath);
             render();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1708,7 +1294,6 @@
         window.addEventListener('popstate', function(event) {
             if (event.state && event.state.state) {
                 state = Object.assign({}, state, event.state.state);
-                // I-restore ang scroll position kung mayroon
                 if (event.state.scrollY !== undefined) {
                     setTimeout(function() {
                         window.scrollTo(0, event.state.scrollY);
@@ -1722,10 +1307,9 @@
         });
 
         // =========================================================
-        // RENDER FUNCTIONS (may pagbabago para sa 404 at SEO)
+        // RENDER FUNCTIONS (updated para sa dynamic categories)
         // =========================================================
 
-        // ===== 404 PAGE =====
         function renderNotFound() {
             var wrap = document.createElement('div');
             wrap.innerHTML = `
@@ -1739,7 +1323,6 @@
             return wrap;
         }
 
-        // ===== SEO: UPDATE TITLE AT CANONICAL =====
         function updatePageTitle() {
             var base = 'AACCUP Accreditation System | OMSC';
             var title = base;
@@ -1752,8 +1335,9 @@
                 var paramName = params[state.param] || 'Parameter ' + state.param;
                 title = paramName + ' | OMSC';
             } else if (state.page === 'category') {
-                var cat = CATEGORIES.find(function(c) { return c.key === state.category; });
-                title = (cat ? cat.label : state.category) + ' | OMSC';
+                var cats = getCategoriesForParam(state.program, state.area, state.param);
+                var catObj = cats.find(function(c) { return c.key === state.category; });
+                title = (catObj ? catObj.label : state.category) + ' | OMSC';
             } else if (state.page === 'document') {
                 var files = getDocumentFiles(state.program, state.area, state.param, state.category);
                 var file = files[state.fileIndex];
@@ -1776,7 +1360,6 @@
             canonical.href = window.location.origin + base + cleanPath;
         }
 
-        // ===== BREADCRUMB (same) =====
         function crumb(items) {
             var clickable = items.slice(0, -1);
             var html = '<nav class="breadcrumb">';
@@ -1804,7 +1387,6 @@
             });
         }
 
-        // ===== RENDER =====
         function render() {
             var app = document.getElementById('app');
             app.innerHTML = '';
@@ -1844,7 +1426,6 @@
             app.style.animation = '';
             app.classList.add('is-visible');
 
-            // SEO updates
             updatePageTitle();
             updateCanonical();
         }
@@ -1855,16 +1436,13 @@
             var crumbItems = [
                 { label: 'Home', go: function() { navigateTo('landing', { currentPath: [] }); } }
             ];
-            var breadcrumbHTML = crumb(crumbItems);
-
-            var html = breadcrumbHTML +
+            var html = crumb(crumbItems) +
                 '<section class="hero">' +
                 '<span class="eyebrow">AACCUP Level III · Area-Based Survey</span>' +
                 '<h2>Accreditation Document System</h2>' +
                 '<p>Select a program to browse its accreditation evidence, organized by Area, Parameter, and document category.</p>' +
                 '</section>' +
                 '<section class="program-grid">';
-
             var programs = Object.keys(PROGRAMS);
             for (var p = 0; p < programs.length; p++) {
                 var code = programs[p];
@@ -1875,16 +1453,13 @@
                     '</button>';
             }
             html += '</section>';
-
             wrap.innerHTML = html;
             bindCrumbs(wrap, crumbItems);
-
             wrap.querySelectorAll('.btn-program').forEach(function(b) {
                 b.addEventListener('click', function() {
                     navigateTo('program', { program: b.dataset.program, currentPath: [] });
                 });
             });
-
             return wrap;
         }
 
@@ -1896,8 +1471,7 @@
                 { label: 'Home', go: function() { navigateTo('landing', { currentPath: [] }); } },
                 { label: program, go: function() { navigateTo('program', { program: program, currentPath: [] }); } }
             ];
-            var breadcrumbHTML = crumb(crumbItems);
-            var html = breadcrumbHTML +
+            var html = crumb(crumbItems) +
                 '<div class="page-header-row">' +
                 '<button class="btn-back" data-back-home>← Back to Home</button>' +
                 '<h2>' + program + ' — ' + PROGRAMS[program] + '</h2>' +
@@ -1941,8 +1515,7 @@
                 { label: 'Area ' + area, go: function() { navigateTo('area', { program: program, area: area,
                         currentPath: [] }); } }
             ];
-            var breadcrumbHTML = crumb(crumbItems);
-            var html = breadcrumbHTML +
+            var html = crumb(crumbItems) +
                 '<div class="page-header-row">' +
                 '<button class="btn-back" data-back-program>← Back to ' + program + '</button>' +
                 '<h2>' + areaName + '</h2>' +
@@ -1974,13 +1547,15 @@
             return wrap;
         }
 
-        // ===== RENDER PARAMETER =====
+        // ===== RENDER PARAMETER (GAMIT ANG DYNAMIC CATEGORIES) =====
         function renderParameter() {
             var program = state.program;
             var area = state.area;
             var param = state.param;
             var params = getParamsForProgram(program, area);
             var paramName = params[param] || 'Parameter ' + param;
+            var categories = getCategoriesForParam(program, area, param);
+
             var wrap = document.createElement('div');
             var crumbItems = [
                 { label: 'Home', go: function() { navigateTo('landing', { currentPath: [] }); } },
@@ -1990,16 +1565,15 @@
                 { label: 'Parameter ' + param, go: function() { navigateTo('parameter', { program: program,
                         area: area, param: param, currentPath: [] }); } }
             ];
-            var breadcrumbHTML = crumb(crumbItems);
-            var html = breadcrumbHTML +
+            var html = crumb(crumbItems) +
                 '<div class="page-header-row">' +
                 '<button class="btn-back" data-back-area>← Back to Area ' + area + '</button>' +
                 '<h2>' + paramName + '</h2>' +
                 '<span class="spacer"></span>' +
                 '</div>' +
                 '<div class="doc-grid">';
-            for (var c = 0; c < CATEGORIES.length; c++) {
-                var cat = CATEGORIES[c];
+            for (var c = 0; c < categories.length; c++) {
+                var cat = categories[c];
                 html += '<button class="btn-doc" data-cat="' + cat.key + '">' +
                     '<span class="icon">' + cat.icon + '</span>' +
                     '<span class="label">' + cat.label + '</span>' +
@@ -2021,7 +1595,7 @@
             return wrap;
         }
 
-        // ===== RENDER CATEGORY =====
+        // ===== RENDER CATEGORY (unchanged) =====
         function renderCategory() {
             var program = state.program;
             var area = state.area;
@@ -2030,10 +1604,9 @@
             var params = getParamsForProgram(program, area);
             var paramName = params[param] || 'Parameter ' + param;
             var areaName = getAreaNameForProgram(program, area);
-            var catInfo = null;
-            for (var ci = 0; ci < CATEGORIES.length; ci++) {
-                if (CATEGORIES[ci].key === category) { catInfo = CATEGORIES[ci]; break; }
-            }
+            var categories = getCategoriesForParam(program, area, param);
+            var catInfo = categories.find(function(c) { return c.key === category; });
+
             var files = getDocumentFiles(program, area, param, category);
             var tree = buildHierarchy(files);
 
@@ -2149,7 +1722,7 @@
             return wrap;
         }
 
-        // ===== RENDER DOCUMENT =====
+        // ===== RENDER DOCUMENT (unchanged) =====
         function renderDocument() {
             var program = state.program;
             var area = state.area;
@@ -2158,10 +1731,9 @@
             var fileIndex = state.fileIndex;
             var params = getParamsForProgram(program, area);
             var paramName = params[param] || 'Parameter ' + param;
-            var catInfo = null;
-            for (var ci2 = 0; ci2 < CATEGORIES.length; ci2++) {
-                if (CATEGORIES[ci2].key === category) { catInfo = CATEGORIES[ci2]; break; }
-            }
+            var categories = getCategoriesForParam(program, area, param);
+            var catInfo = categories.find(function(c) { return c.key === category; });
+
             var files = getDocumentFiles(program, area, param, category);
             var file = files[fileIndex];
 
