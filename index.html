@@ -207,7 +207,7 @@
         .hero p {
             font-size: 1.1rem;
             color: var(--ink-soft);
-            max-width: 600px;
+            max-width: 900px;
             margin: 0 auto;
             line-height: 1.6;
         }
@@ -751,30 +751,762 @@
         </div>
     </header>
 
-    <main id="app">
-        <section class="hero">
-            <span class="eyebrow">AACCUP Level III · Area-Based Survey</span>
-            <h2>Accreditation Document System</h2>
-            <p>Select a program to browse its accreditation evidence, organized by Area, Parameter, and document category.</p>
-        </section>
-        <section class="program-grid">
-            <a href="/bsit" class="btn-program" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;border-radius:12px;background:radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%), linear-gradient(165deg, #3F7FE0 0%, #1257bf 42%, #001f4d 100%);border:1px solid rgba(0,20,60,.4);color:#fff;text-shadow:0 1px 3px rgba(0,10,40,.45);box-shadow:0 4px 14px rgba(0,20,60,.28), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -10px 16px rgba(0,10,40,.28);transition:transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1), border-color .25s cubic-bezier(.4,0,.2,1), background .35s cubic-bezier(.4,0,.2,1);cursor:pointer;font-weight:600;position:relative;isolation:isolate;overflow:hidden;">
-                <span class="code" style="display:block;font-size:2rem;font-weight:800;letter-spacing:2px;background:linear-gradient(180deg,#ffffff,#D4AF5A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;filter:drop-shadow(0 1px 2px rgba(0,10,40,.5));margin-bottom:4px;">BSIT</span>
-                <span class="full" style="font-size:.85rem;font-weight:400;color:#fff;opacity:.92;-webkit-text-fill-color:#fff;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;max-height:3.6em;line-height:1.2;">Bachelor of Science in Information Technology</span>
-            </a>
-            <a href="/beed" class="btn-program" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;border-radius:12px;background:radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%), linear-gradient(165deg, #3F7FE0 0%, #1257bf 42%, #001f4d 100%);border:1px solid rgba(0,20,60,.4);color:#fff;text-shadow:0 1px 3px rgba(0,10,40,.45);box-shadow:0 4px 14px rgba(0,20,60,.28), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -10px 16px rgba(0,10,40,.28);transition:transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1), border-color .25s cubic-bezier(.4,0,.2,1), background .35s cubic-bezier(.4,0,.2,1);cursor:pointer;font-weight:600;position:relative;isolation:isolate;overflow:hidden;">
-                <span class="code" style="display:block;font-size:2rem;font-weight:800;letter-spacing:2px;background:linear-gradient(180deg,#ffffff,#D4AF5A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;filter:drop-shadow(0 1px 2px rgba(0,10,40,.5));margin-bottom:4px;">BEED</span>
-                <span class="full" style="font-size:.85rem;font-weight:400;color:#fff;opacity:.92;-webkit-text-fill-color:#fff;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;max-height:3.6em;line-height:1.2;">Bachelor of Elementary Education</span>
-            </a>
-            <a href="/bsba" class="btn-program" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;border-radius:12px;background:radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%), linear-gradient(165deg, #3F7FE0 0%, #1257bf 42%, #001f4d 100%);border:1px solid rgba(0,20,60,.4);color:#fff;text-shadow:0 1px 3px rgba(0,10,40,.45);box-shadow:0 4px 14px rgba(0,20,60,.28), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -10px 16px rgba(0,10,40,.28);transition:transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1), border-color .25s cubic-bezier(.4,0,.2,1), background .35s cubic-bezier(.4,0,.2,1);cursor:pointer;font-weight:600;position:relative;isolation:isolate;overflow:hidden;">
-                <span class="code" style="display:block;font-size:2rem;font-weight:800;letter-spacing:2px;background:linear-gradient(180deg,#ffffff,#D4AF5A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;filter:drop-shadow(0 1px 2px rgba(0,10,40,.5));margin-bottom:4px;">BSBA</span>
-                <span class="full" style="font-size:.85rem;font-weight:400;color:#fff;opacity:.92;-webkit-text-fill-color:#fff;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;max-height:3.6em;line-height:1.2;">Bachelor of Science in Business Administration</span>
-            </a>
-        </section>
-    </main>
+    <main id="app"></main>
 
     <footer>
         <p>&copy; 2026 Occidental Mindoro State University &mdash; <strong>AACCUP Accreditation Document Management System</strong></p>
     </footer>
+
+    <script>
+        // =========================================================
+        // DATA (lahat ng data ay nasa loob na ng index.html para iwas loading issues)
+        // =========================================================
+        var PROGRAMS = {
+            BSIT: 'Bachelor of Science in Information Technology',
+            BEED: 'Bachelor of Elementary Education',
+            BSBA: 'Bachelor of Science in Business Administration'
+        };
+
+        var AREAS_FULL = {
+            1: { name: 'Vision, Mission, Goals, and Objectives', params: { A: 'PARAMETER A: STATEMENT OF VISION, MISSION, GOALS AND OBJECTIVES', B: 'PARAMETER B: DISSEMINATION AND ACCEPTABILITY' } },
+            2: { name: 'Faculty', params: { A: 'PARAMETER A: ACADEMIC QUALIFICATIONS AND PROFESSIONAL EXPERIENCE', B: 'PARAMETER B: RECRUITMENT, SELECTION, AND ORIENTATION', C: 'PARAMETER C: FACULTY ADEQUACY AND LEADING', D: 'PARAMETER D: RANK AND TENURE', E: 'PARAMETER E: FACULTY DEVELOPMENT', F: 'PARAMETER F: PROFESSIONAL PERFORMANCE AND SCHOLARLY WORKS', G: 'PARAMETER G: SALARIES, FRINGE BENEFITS, AND INCENTIVES', H: 'PARAMETER H: PROFESSIONALISM' } },
+            3: { name: 'Curriculum and Instruction', params: { A: 'PARAMETER A: CURRICULUM AND PROGRAM STUDIES', B: 'PARAMETER B: INSTRUCTIONAL PROCESS, METHODOLOGIES AND LEARNING OPPORTUNITIES', C: 'PARAMETER C: ASSESSMENT OF ACADEMIC PERFORMANCE', D: 'PARAMETER D: MANAGEMENT OF LEARNING', E: 'PARAMETER E: GRADUATION REQUIREMENTS', F: 'PARAMETER F: ADMINISTRATIVE SUPPORT FOR EFFECTIVE INSTRUCTION' } },
+            4: { name: 'Student Services', params: { A: 'PARAMETER A: STUDENT SERVICES PROGRAM (SSP)', B: 'PARAMETER B: STUDENT WELFARE', C: 'PARAMETER C: STUDENT DEVELOPMENT', D: 'PARAMETER D: INSTITUTIONAL STUDENT PROGRAM AND SERVICE', E: 'PARAMETER E: RESEARCH, MONITORING AND EVALUATION' } },
+            5: { name: 'Research', params: { A: 'PARAMETER A: PRIORITIES AND RELEVANCE', B: 'PARAMETER B: FUNDING AND OTHER RESOURCES', C: 'PARAMETER C: IMPLEMENTATION, MONITORING, EVALUATION AND UTILIZATION OF RESEARCH RESULTS/OUTPUTS', D: 'PARAMETER D: PUBLICATION AND DISSEMINATION' } },
+            6: { name: 'Extension and Community Involvement', params: { A: 'PARAMETER A: PRIORITIES AND RELEVANCE', B: 'PARAMETER B: PLANNING, IMPLEMENTATION, MONITORING, AND EVALUATION', C: 'PARAMETER C: FUNDING AND OTHER RESOURCES', D: 'PARAMETER D: MANAGEMENT OF LEARNING' } },
+            7: { name: 'Library', params: { A: 'PARAMETER A: ORGANIZATION AND ADMINISTRATION', B: 'PARAMETER B: COLLECTION DEVELOPMENT, ORGANIZATION AND PRESERVATION', C: 'PARAMETER C: LIBRARY SERVICES AND UTILIZATION', D: 'PARAMETER D: PHYSICAL FACILITIES AND EQUIPMENT', E: 'PARAMETER E: LIBRARY PERSONNEL', F: 'PARAMETER F: FINANCIAL SUPPORT', G: 'PARAMETER G: LINKAGES AND NETWORKING', H: 'PARAMETER H: EVALUATION AND MONITORING' } },
+            8: { name: 'Physical Plant and Facilities', params: { A: 'PARAMETER A: CAMPUS', B: 'PARAMETER B: BUILDINGS', C: 'PARAMETER C: CLASSROOMS', D: 'PARAMETER D: OFFICE AND STAFF ROOMS', E: 'PARAMETER E: ASSEMBLY, ATHLETIC AND SPORTS FACILITIES', F: 'PARAMETER F: MEDICAL AND DENTAL CLINIC', G: 'PARAMETER G: STUDENT CENTER', H: 'PARAMETER H: FOOD SERVICES/CANTEEN/CAFETERIA', I: 'PARAMETER I: ACCREDITATION CENTER', J: 'PARAMETER J: HOUSING (optional)' } },
+            9: { name: 'Laboratories', params: { A: 'PARAMETER A: LABORATORIES, SHOPS/FACILITIES', B: 'PARAMETER B: EQUIPMENT AND MATERIALS', C: 'PARAMETER C: MAINTENANCE', D: 'PARAMETER D: SPECIAL PROVISIONS' } },
+            10: { name: 'Administration', params: { A: 'PARAMETER A: ORGANIZATIONAL', B: 'PARAMETER B: ACADEMIC ADMINISTRATION', C: 'PARAMETER C: STUDENT ADMINISTRATION', D: 'PARAMETER D: FINANCIAL MANAGEMENT', E: 'PARAMETER E: SUPPLY MANAGEMENT', F: 'PARAMETER F: RECORDS MANAGEMENT', G: 'PARAMETER G: INSTITUTIONAL PLANNING AND DEVELOPMENT', H: 'PARAMETER H: PERFORMANCE OF ADMINISTRATIVE PERSONNEL' } }
+        };
+
+        var PROGRAM_PARAMS_CUSTOM = {
+            BEED: { 1: { A: 'Parameter A (sample)' }, 2: { A: 'Parameter A (sample)' }, 3: { A: 'Parameter A (sample)' }, 4: { A: 'Parameter A (sample)' }, 5: { A: 'Parameter A (sample)' }, 6: { A: 'Parameter A (sample)' }, 7: { A: 'Parameter A (sample)' }, 8: { A: 'Parameter A (sample)' }, 9: { A: 'Parameter A (sample)' }, 10: { A: 'Parameter A (sample)' } },
+            BSBA: { 1: { A: 'Parameter A (sample)' }, 2: { A: 'Parameter A (sample)' }, 3: { A: 'Parameter A (sample)' }, 4: { A: 'Parameter A (sample)' }, 5: { A: 'Parameter A (sample)' }, 6: { A: 'Parameter A (sample)' }, 7: { A: 'Parameter A (sample)' }, 8: { A: 'Parameter A (sample)' }, 9: { A: 'Parameter A (sample)' }, 10: { A: 'Parameter A (sample)' } }
+        };
+
+        var PARAM_CATEGORIES = {
+            'BSIT-1-A': [{ key: 'SIP', label: 'System — Inputs and Processes', icon: '📋' }, { key: 'IMP', label: 'Implementation', icon: '⚙️' }, { key: 'OUT', label: 'Outcome/s', icon: '🏆' }, { key: 'BEST', label: 'Best Practice/s', icon: '⭐' }],
+            'BSIT-1-B': [{ key: 'SIP', label: 'System — Inputs and Processes', icon: '📋' }, { key: 'IMP', label: 'Implementation', icon: '⚙️' }, { key: 'OUT', label: 'Outcome/s', icon: '🏆' }],
+            'BSIT-2-A': [{ key: 'SIP', label: 'System — Inputs and Processes', icon: '📋' }, { key: 'IMP', label: 'Implementation', icon: '⚙️' }, { key: 'OUT', label: 'Outcome/s', icon: '🏆' }, { key: 'BEST', label: 'Best Practice/s', icon: '⭐' }],
+            'BEED-1-A': [{ key: 'SIP', label: 'System — Inputs and Processes', icon: '📋' }, { key: 'IMP', label: 'Implementation', icon: '⚙️' }, { key: 'OUT', label: 'Outcome/s', icon: '🏆' }, { key: 'BEST', label: 'Best Practice/s', icon: '⭐' }],
+            'BSBA-1-A': [{ key: 'SIP', label: 'System — Inputs and Processes', icon: '📋' }, { key: 'IMP', label: 'Implementation', icon: '⚙️' }, { key: 'OUT', label: 'Outcome/s', icon: '🏆' }]
+        };
+
+        var DEFAULT_CATEGORIES = [{ key: 'SIP', label: 'System — Inputs and Processes', icon: '📋' }, { key: 'IMP', label: 'Implementation', icon: '⚙️' }, { key: 'OUT', label: 'Outcome/s', icon: '🏆' }];
+
+        var DOCUMENT_FILES = {
+            'BSIT-1-A-SIP': [{ id: '1wYcNkxdAIa7Y-p5aniuDhoPHZcVXcw7-', name: 'S.1. The institution has a system of determining the Vision and Mission.' }, { id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n', name: 'S.2. The Vision clearly reflects what the institution hopes to become in the future.' }],
+            'BSIT-1-A-IMP': [{ id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n', name: 'I.1. The institution/College conducts a review on the statement of the Vision and Mission.' }],
+            'BSIT-1-A-OUT': [{ id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n', name: 'O.1. The VMGO are crafted and duly approved by the BOR/BOT.' }],
+            'BSIT-1-A-BEST': [{ id: 'SAMPLE_BEST_1', name: 'B.1. Regular stakeholder consultation for VMGO review.' }, { id: 'SAMPLE_BEST_2', name: 'B.2. Annual orientation on VMGO for all new faculty.' }],
+            'BSIT-1-B-SIP': [{ id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n', name: 'S.1. The VMGO are available on bulletin boards, in catalogs/manuals.' }],
+            'BSIT-1-B-IMP': [{ id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n', name: 'I.1. A system of dissemination and acceptability of the VMGO is enforced.' }],
+            'BSIT-1-B-OUT': [{ id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n', name: 'O.1. There is full awareness and acceptance of the VMGO.' }],
+            'BSIT-2-A-SIP': [{ id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n', name: 'S.1. The required number of faculty possess graduate degrees.' }],
+            'BSIT-2-A-IMP': [{ id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n', name: 'I.1. The faculty demonstrate professional competence.' }],
+            'BSIT-2-A-OUT': [{ id: '1SRF0g3f3zg3kX9ilSMhCPzwAc24Wtc5n', name: 'O.1. The institution has qualified and competent faculty.' }],
+            'BSIT-2-A-BEST': [{ id: 'SAMPLE_BEST_3', name: 'Best Practice 1: Faculty development program with international linkages.' }, { id: 'SAMPLE_BEST_4', name: 'Best Practice 2: Annual faculty research colloquium.' }],
+            'BEED-1-A-SIP': [{ id: 'SAMPLE_BEED_1A_S1', name: 'S.1. The institution has a clear statement of its Vision, Mission, Goals, and Objectives.' }],
+            'BEED-1-A-IMP': [{ id: 'SAMPLE_BEED_1A_I1', name: 'I.1. The VMGO are regularly reviewed and updated by the College.' }],
+            'BEED-1-A-OUT': [{ id: 'SAMPLE_BEED_1A_O1', name: 'O.1. The VMGO are prominently displayed and accessible to all stakeholders.' }],
+            'BEED-1-A-BEST': [{ id: 'SAMPLE_BEED_BEST_1', name: 'Best Practice 1: Community engagement in VMGO formulation.' }, { id: 'SAMPLE_BEED_BEST_2', name: 'Best Practice 2: Integration of VMGO in all course syllabi.' }],
+            'BSBA-1-A-SIP': [{ id: 'SAMPLE_BSBA_1A_S1', name: 'S.1. The institution has a clearly articulated Vision, Mission, Goals, and Objectives.' }],
+            'BSBA-1-A-IMP': [{ id: 'SAMPLE_BSBA_1A_I1', name: 'I.1. The VMGO are implemented across all programs and activities.' }],
+            'BSBA-1-A-OUT': [{ id: 'SAMPLE_BSBA_1A_O1', name: 'O.1. The VMGO are consistently reflected in the institutions strategic plans.' }]
+        };
+
+        // =========================================================
+        // HELPERS (pareho sa dati)
+        // =========================================================
+        function getParamsForProgram(program, areaNum) {
+            if (program === 'BSIT') {
+                var areaData = AREAS_FULL[areaNum];
+                return areaData ? areaData.params : {};
+            } else {
+                var custom = PROGRAM_PARAMS_CUSTOM[program];
+                if (!custom) return {};
+                return custom[areaNum] || {};
+            }
+        }
+
+        function getAreaNameForProgram(program, areaNum) {
+            if (program === 'BSIT') {
+                var areaData = AREAS_FULL[areaNum];
+                return areaData ? areaData.name : 'Area ' + areaNum;
+            } else {
+                var common = AREAS_FULL[areaNum];
+                return common ? common.name : 'Area ' + areaNum;
+            }
+        }
+
+        function getCategoriesForParam(program, area, param) {
+            var key = program + '-' + area + '-' + param;
+            var cats = PARAM_CATEGORIES[key];
+            return (cats && cats.length) ? cats : DEFAULT_CATEGORIES;
+        }
+
+        function getDocumentFiles(program, area, param, catKey) {
+            var key = program + '-' + area + '-' + param + '-' + catKey;
+            return DOCUMENT_FILES[key] || [];
+        }
+
+        function getDriveLink(fileId) {
+            if (!fileId || fileId.indexOf('SAMPLE_') === 0) return null;
+            return 'https://drive.google.com/file/d/' + fileId + '/preview';
+        }
+
+        function getDriveOpenLink(fileId) {
+            if (!fileId || fileId.indexOf('SAMPLE_') === 0) return null;
+            return 'https://drive.google.com/file/d/' + fileId + '/view?usp=sharing';
+        }
+
+        function parseHierarchyCode(name) {
+            var cleaned = name.replace(/\.\s+/g, '.').replace(/\s+\./g, '.');
+            var match = cleaned.match(/^([A-Z]\.\d+(?:\.\d+)*)/);
+            return match ? match[1] : null;
+        }
+
+        function buildHierarchy(files) {
+            var root = { children: [] };
+            var nodeMap = {};
+            files.forEach(function(file) {
+                var code = parseHierarchyCode(file.name);
+                if (!code) return;
+                if (!nodeMap[code]) nodeMap[code] = { code: code, name: file.name, id: null, index: null, children: [] };
+            });
+            files.forEach(function(file, index) {
+                var code = parseHierarchyCode(file.name);
+                if (!code) {
+                    root.children.push({ code: null, name: file.name, id: file.id, index: index, children: [] });
+                    return;
+                }
+                var node = nodeMap[code];
+                if (node) { node.id = file.id;
+                    node.index = index;
+                    node.name = file.name; }
+            });
+            var allCodes = Object.keys(nodeMap);
+            allCodes.forEach(function(code) {
+                var parts = code.split('.');
+                if (parts.length === 1) {
+                    root.children.push(nodeMap[code]);
+                } else {
+                    var parentCode = parts.slice(0, -1).join('.');
+                    if (nodeMap[parentCode]) nodeMap[parentCode].children.push(nodeMap[code]);
+                    else root.children.push(nodeMap[code]);
+                }
+            });
+
+            function sortChildren(node) {
+                if (node.children) {
+                    node.children.sort(function(a, b) {
+                        var aParts = a.code.split('.');
+                        var bParts = b.code.split('.');
+                        for (var i = 0; i < Math.min(aParts.length, bParts.length); i++) {
+                            if (aParts[i] !== bParts[i]) {
+                                var aNum = parseInt(aParts[i]);
+                                var bNum = parseInt(bParts[i]);
+                                if (!isNaN(aNum) && !isNaN(bNum)) return aNum - bNum;
+                                return aParts[i].localeCompare(bParts[i]);
+                            }
+                        }
+                        return aParts.length - bParts.length;
+                    });
+                    node.children.forEach(sortChildren);
+                }
+            }
+            sortChildren(root);
+            return root.children;
+        }
+
+        // =========================================================
+        // ROUTER (hash-based)
+        // =========================================================
+        var state = {
+            page: 'landing',
+            program: null,
+            area: null,
+            param: null,
+            category: null,
+            fileIndex: null,
+            currentPath: []
+        };
+
+        function getHashParams() {
+            var hash = window.location.hash.substring(1);
+            var parts = hash.split('?');
+            var path = parts[0] || '';
+            var params = new URLSearchParams(parts[1] || '');
+            var pathParts = path.split('/').filter(Boolean);
+            var program = pathParts[0] || null;
+            var area = pathParts[1] || params.get('area') || null;
+            var param = pathParts[2] || params.get('param') || null;
+            var category = pathParts[3] || params.get('cat') || null;
+            var fileIndex = pathParts[4] !== undefined ? parseInt(pathParts[4]) : (params.get('file') !== null ? parseInt(params.get('file')) : null);
+            return { program: program, area: area, param: param, category: category, fileIndex: fileIndex };
+        }
+
+        function buildHash(program, area, param, category, fileIndex) {
+            var parts = [];
+            if (program) parts.push(program);
+            if (area) parts.push(area);
+            if (param) parts.push(param);
+            if (category) parts.push(category);
+            if (fileIndex !== null && fileIndex !== undefined) parts.push(fileIndex);
+            var path = parts.join('/');
+            var qs = '';
+            // backup: kung walang path, gamitin ang query params
+            if (!path && (area || param || category || fileIndex !== null)) {
+                var q = [];
+                if (area) q.push('area=' + area);
+                if (param) q.push('param=' + param);
+                if (category) q.push('cat=' + category);
+                if (fileIndex !== null && fileIndex !== undefined) q.push('file=' + fileIndex);
+                if (q.length) qs = '?' + q.join('&');
+            }
+            return '#' + path + qs;
+        }
+
+        function navigateTo(page, data) {
+            data = data || {};
+            var newState = Object.assign({}, state, { page: page }, data);
+            Object.assign(state, newState);
+
+            if (page === 'landing') {
+                window.location.hash = '';
+                render();
+                return;
+            }
+
+            var program = state.program || null;
+            var area = state.area || null;
+            var param = state.param || null;
+            var category = state.category || null;
+            var fileIndex = state.fileIndex !== undefined && state.fileIndex !== null ? state.fileIndex : null;
+
+            var hash = buildHash(program, area, param, category, fileIndex);
+            window.location.hash = hash;
+            render();
+        }
+
+        window.addEventListener('hashchange', function() {
+            var params = getHashParams();
+            state.program = params.program || state.program;
+            state.area = params.area || null;
+            state.param = params.param || null;
+            state.category = params.category || null;
+            state.fileIndex = params.fileIndex !== null ? params.fileIndex : null;
+            state.currentPath = [];
+            render();
+        });
+
+        // =========================================================
+        // RENDER FUNCTIONS (halos pareho, gamit ang state)
+        // =========================================================
+        function renderNotFound() {
+            var wrap = document.createElement('div');
+            wrap.innerHTML = `
+                <div class="empty-state" style="margin-top:60px;">
+                    <div class="icon">🔍</div>
+                    <h3>Page Not Found</h3>
+                    <p>The URL you requested does not exist in this accreditation system.</p>
+                    <button class="btn-back" onclick="navigateTo('landing',{})">← Go to Home</button>
+                </div>
+            `;
+            return wrap;
+        }
+
+        function updatePageTitle() {
+            var base = 'AACCUP Accreditation System | OMSC';
+            var title = base;
+            if (state.program && state.area && state.param && state.category && state.fileIndex !== null) {
+                var files = getDocumentFiles(state.program, state.area, state.param, state.category);
+                var file = files[state.fileIndex];
+                title = (file ? file.name : 'Document') + ' | OMSC';
+            } else if (state.program && state.area && state.param && state.category) {
+                var cats = getCategoriesForParam(state.program, state.area, state.param);
+                var catObj = cats.find(function(c) { return c.key === state.category; });
+                title = (catObj ? catObj.label : state.category) + ' | OMSC';
+            } else if (state.program && state.area && state.param) {
+                var params = getParamsForProgram(state.program, state.area);
+                var paramName = params[state.param] || 'Parameter ' + state.param;
+                title = paramName + ' | OMSC';
+            } else if (state.program && state.area) {
+                title = 'Area ' + state.area + ' — ' + getAreaNameForProgram(state.program, state.area) + ' | OMSC';
+            } else if (state.program) {
+                title = state.program + ' — ' + PROGRAMS[state.program] + ' | OMSC';
+            }
+            document.title = title;
+        }
+
+        function crumb(items) {
+            var clickable = items.slice(0, -1);
+            var html = '<nav class="breadcrumb">';
+            clickable.forEach(function(it, i) {
+                html += '<a href="#" data-crumb="' + i + '">' + it.label + '</a>';
+                if (i < clickable.length - 1) html += '<span class="sep">/</span>';
+            });
+            if (items.length > 0) {
+                var last = items[items.length - 1];
+                if (clickable.length > 0) html += '<span class="sep">/</span>';
+                html += '<span class="current">' + last.label + '</span>';
+            }
+            html += '</nav>';
+            return html;
+        }
+
+        function bindCrumbs(container, items) {
+            var clickable = items.slice(0, -1);
+            container.querySelectorAll('[data-crumb]').forEach(function(a) {
+                var idx = Number(a.dataset.crumb);
+                if (idx < clickable.length) {
+                    a.addEventListener('click', function(e) { e.preventDefault();
+                        clickable[idx].go(); });
+                }
+            });
+        }
+
+        function renderLanding() {
+            var wrap = document.createElement('div');
+            var crumbItems = [{ label: 'Home', go: function() { navigateTo('landing', {}); } }];
+            var html = crumb(crumbItems) +
+                '<section class="hero">' +
+                '<span class="eyebrow">AACCUP Level III · Area-Based Survey</span>' +
+                '<h2>Accreditation Document System</h2>' +
+                '<p>Select a program to browse its accreditation evidence, organized by Area, Parameter, and document category.</p>' +
+                '</section>' +
+                '<section class="program-grid">';
+            var programs = Object.keys(PROGRAMS);
+            for (var p = 0; p < programs.length; p++) {
+                var code = programs[p];
+                var full = PROGRAMS[code];
+                html += '<button class="btn-program" data-program="' + code + '">' +
+                    '<span class="code">' + code + '</span>' +
+                    '<span class="full">' + full + '</span>' +
+                    '</button>';
+            }
+            html += '</section>';
+            wrap.innerHTML = html;
+            bindCrumbs(wrap, crumbItems);
+            wrap.querySelectorAll('.btn-program').forEach(function(b) {
+                b.addEventListener('click', function() {
+                    navigateTo('program', { program: b.dataset.program });
+                });
+            });
+            return wrap;
+        }
+
+        function renderProgram() {
+            var program = state.program;
+            var wrap = document.createElement('div');
+            var crumbItems = [
+                { label: 'Home', go: function() { navigateTo('landing', {}); } },
+                { label: program, go: function() { navigateTo('program', { program: program }); } }
+            ];
+            var html = crumb(crumbItems) +
+                '<div class="page-header-row">' +
+                '<button class="btn-back" data-back-home>← Back to Home</button>' +
+                '<h2>' + program + ' — ' + PROGRAMS[program] + '</h2>' +
+                '<span class="spacer"></span>' +
+                '</div>' +
+                '<div class="area-grid">';
+            var areaKeys = Object.keys(AREAS_FULL);
+            for (var a = 0; a < areaKeys.length; a++) {
+                var key = areaKeys[a];
+                var areaName = getAreaNameForProgram(program, key);
+                html += '<button class="btn-area" data-area="' + key + '">' +
+                    '<span class="num">' + key + '</span>' +
+                    '<span class="label">' + areaName + '</span>' +
+                    '<span class="arrow">›</span>' +
+                    '</button>';
+            }
+            html += '</div>';
+            wrap.innerHTML = html;
+            bindCrumbs(wrap, crumbItems);
+            wrap.querySelector('[data-back-home]').addEventListener('click', function() {
+                navigateTo('landing', {});
+            });
+            wrap.querySelectorAll('.btn-area').forEach(function(b) {
+                b.addEventListener('click', function() {
+                    navigateTo('area', { program: program, area: b.dataset.area });
+                });
+            });
+            return wrap;
+        }
+
+        function renderArea() {
+            var program = state.program;
+            var area = state.area;
+            var areaName = getAreaNameForProgram(program, area);
+            var params = getParamsForProgram(program, area);
+            var wrap = document.createElement('div');
+            var crumbItems = [
+                { label: 'Home', go: function() { navigateTo('landing', {}); } },
+                { label: program, go: function() { navigateTo('program', { program: program }); } },
+                { label: 'Area ' + area, go: function() { navigateTo('area', { program: program, area: area }); } }
+            ];
+            var html = crumb(crumbItems) +
+                '<div class="page-header-row">' +
+                '<button class="btn-back" data-back-program>← Back to ' + program + '</button>' +
+                '<h2>' + areaName + '</h2>' +
+                '<span class="spacer"></span>' +
+                '</div>' +
+                '<div class="param-grid">';
+            var paramKeys = Object.keys(params);
+            for (var p = 0; p < paramKeys.length; p++) {
+                var code = paramKeys[p];
+                var name = params[code];
+                html += '<button class="btn-param" data-param="' + code + '">' +
+                    '<span class="letter">' + code + '</span>' +
+                    '<span class="label">' + name + '</span>' +
+                    '<span class="arrow">›</span>' +
+                    '</button>';
+            }
+            html += '</div>';
+            wrap.innerHTML = html;
+            bindCrumbs(wrap, crumbItems);
+            wrap.querySelector('[data-back-program]').addEventListener('click', function() {
+                navigateTo('program', { program: program });
+            });
+            wrap.querySelectorAll('.btn-param').forEach(function(b) {
+                b.addEventListener('click', function() {
+                    navigateTo('parameter', { program: program, area: area, param: b.dataset.param });
+                });
+            });
+            return wrap;
+        }
+
+        function renderParameter() {
+            var program = state.program;
+            var area = state.area;
+            var param = state.param;
+            var params = getParamsForProgram(program, area);
+            var paramName = params[param] || 'Parameter ' + param;
+            var categories = getCategoriesForParam(program, area, param);
+            var wrap = document.createElement('div');
+            var crumbItems = [
+                { label: 'Home', go: function() { navigateTo('landing', {}); } },
+                { label: program, go: function() { navigateTo('program', { program: program }); } },
+                { label: 'Area ' + area, go: function() { navigateTo('area', { program: program, area: area }); } },
+                { label: 'Parameter ' + param, go: function() { navigateTo('parameter', { program: program, area: area, param: param }); } }
+            ];
+            var html = crumb(crumbItems) +
+                '<div class="page-header-row">' +
+                '<button class="btn-back" data-back-area>← Back to Area ' + area + '</button>' +
+                '<h2>' + paramName + '</h2>' +
+                '<span class="spacer"></span>' +
+                '</div>' +
+                '<div class="doc-grid">';
+            for (var c = 0; c < categories.length; c++) {
+                var cat = categories[c];
+                html += '<button class="btn-doc" data-cat="' + cat.key + '">' +
+                    '<span class="icon">' + cat.icon + '</span>' +
+                    '<span class="label">' + cat.label + '</span>' +
+                    '<span class="desc"></span>' +
+                    '</button>';
+            }
+            html += '</div>';
+            wrap.innerHTML = html;
+            bindCrumbs(wrap, crumbItems);
+            wrap.querySelector('[data-back-area]').addEventListener('click', function() {
+                navigateTo('area', { program: program, area: area });
+            });
+            wrap.querySelectorAll('.btn-doc').forEach(function(b) {
+                b.addEventListener('click', function() {
+                    navigateTo('category', { program: program, area: area, param: param, category: b.dataset.cat });
+                });
+            });
+            return wrap;
+        }
+
+        function renderCategory() {
+            var program = state.program;
+            var area = state.area;
+            var param = state.param;
+            var category = state.category;
+            var params = getParamsForProgram(program, area);
+            var paramName = params[param] || 'Parameter ' + param;
+            var categories = getCategoriesForParam(program, area, param);
+            var catInfo = categories.find(function(c) { return c.key === category; });
+            var files = getDocumentFiles(program, area, param, category);
+            var tree = buildHierarchy(files);
+
+            if (!state.currentPath || !Array.isArray(state.currentPath)) state.currentPath = [];
+            var currentNode = { children: tree };
+            for (var cp = 0; cp < state.currentPath.length; cp++) {
+                var code = state.currentPath[cp];
+                var child = null;
+                for (var cc = 0; cc < currentNode.children.length; cc++) {
+                    if (currentNode.children[cc].code === code) { child = currentNode.children[cc]; break; }
+                }
+                if (!child) { state.currentPath = [];
+                    currentNode = { children: tree }; break; }
+                currentNode = child;
+            }
+            var displayNodes = currentNode.children || [];
+
+            var pathLabels = [];
+            var temp = { children: tree };
+            for (var lp = 0; lp < state.currentPath.length; lp++) {
+                var cCode = state.currentPath[lp];
+                var found = null;
+                for (var fc = 0; fc < temp.children.length; fc++) {
+                    if (temp.children[fc].code === cCode) { found = temp.children[fc]; break; }
+                }
+                if (!found) break;
+                pathLabels.push({ code: found.code, name: found.name });
+                temp = found;
+            }
+
+            var wrap = document.createElement('div');
+            var crumbItems = [
+                { label: 'Home', go: function() { navigateTo('landing', {}); } },
+                { label: program, go: function() { navigateTo('program', { program: program }); } },
+                { label: 'Area ' + area, go: function() { navigateTo('area', { program: program, area: area }); } },
+                { label: 'Parameter ' + param, go: function() { navigateTo('parameter', { program: program, area: area, param: param }); } },
+                { label: catInfo ? catInfo.label : category, go: function() { navigateTo('category', { program: program, area: area, param: param, category: category }); } }
+            ];
+            for (var pl = 0; pl < pathLabels.length; pl++) {
+                (function(idx) {
+                    var p = pathLabels[idx];
+                    var pathUpTo = state.currentPath.slice(0, idx + 1);
+                    crumbItems.push({
+                        label: p.code,
+                        go: function() { navigateTo('category', { program: program, area: area, param: param, category: category, currentPath: pathUpTo }); }
+                    });
+                })(pl);
+            }
+            var breadcrumbHTML = crumb(crumbItems);
+
+            var backTarget, backLabel;
+            if (state.currentPath && state.currentPath.length > 0) {
+                var parentPath = state.currentPath.slice(0, -1);
+                backTarget = function() { navigateTo('category', { program: program, area: area, param: param, category: category, currentPath: parentPath }); };
+                backLabel = '← Back';
+            } else {
+                backTarget = function() { navigateTo('parameter', { program: program, area: area, param: param }); };
+                backLabel = '← Back to Parameter';
+            }
+
+            var htmlContent = breadcrumbHTML +
+                '<div class="page-header-row">' +
+                '<button class="btn-back" data-back-category>' + backLabel + '</button>' +
+                '<h2>' + (catInfo ? catInfo.label : category) + '</h2>' +
+                '<span class="spacer"></span>' +
+                '</div>';
+
+            if (displayNodes.length === 0) {
+                htmlContent += '<div class="empty-state"><div class="icon">📁</div><h3>No items in this level</h3><p>This folder is empty.</p></div>';
+            } else {
+                htmlContent += '<div class="hierarchy-grid">';
+                for (var dn = 0; dn < displayNodes.length; dn++) {
+                    var node = displayNodes[dn];
+                    var isLeaf = node.children.length === 0;
+                    var icon = isLeaf ? '📄' : '📂';
+                    var dataAttr = isLeaf ? 'data-index="' + node.index + '"' : 'data-code="' + node.code + '"';
+                    htmlContent += '<button class="btn-file" ' + dataAttr + '>' +
+                        '<span class="file-icon">' + icon + '</span>' +
+                        '<span class="file-name">' + node.name + '</span>' +
+                        '<span class="arrow">›</span>' +
+                        '</button>';
+                }
+                htmlContent += '</div>';
+            }
+
+            wrap.innerHTML = htmlContent;
+            bindCrumbs(wrap, crumbItems);
+            wrap.querySelector('[data-back-category]').addEventListener('click', backTarget);
+
+            wrap.querySelectorAll('.btn-file').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var index = this.dataset.index;
+                    if (index !== undefined) {
+                        navigateTo('document', { program: program, area: area, param: param, category: category, fileIndex: parseInt(index) });
+                    } else {
+                        var code2 = this.dataset.code;
+                        if (code2) {
+                            var newPath = state.currentPath.concat([code2]);
+                            navigateTo('category', { program: program, area: area, param: param, category: category, currentPath: newPath });
+                        }
+                    }
+                });
+            });
+            return wrap;
+        }
+
+        function renderDocument() {
+            var program = state.program;
+            var area = state.area;
+            var param = state.param;
+            var category = state.category;
+            var fileIndex = state.fileIndex;
+            var params = getParamsForProgram(program, area);
+            var paramName = params[param] || 'Parameter ' + param;
+            var categories = getCategoriesForParam(program, area, param);
+            var catInfo = categories.find(function(c) { return c.key === category; });
+            var files = getDocumentFiles(program, area, param, category);
+            var file = files[fileIndex];
+
+            var wrap = document.createElement('div');
+            var crumbItems = [
+                { label: 'Home', go: function() { navigateTo('landing', {}); } },
+                { label: program, go: function() { navigateTo('program', { program: program }); } },
+                { label: 'Area ' + area, go: function() { navigateTo('area', { program: program, area: area }); } },
+                { label: 'Parameter ' + param, go: function() { navigateTo('parameter', { program: program, area: area, param: param }); } },
+                { label: catInfo ? catInfo.label : category, go: function() { navigateTo('category', { program: program, area: area, param: param, category: category }); } }
+            ];
+
+            var filesForCategory = getDocumentFiles(program, area, param, category);
+            var tree2 = buildHierarchy(filesForCategory);
+            var pathLabels2 = [];
+            var temp2 = { children: tree2 };
+            for (var lp2 = 0; lp2 < (state.currentPath || []).length; lp2++) {
+                var cCode2 = state.currentPath[lp2];
+                var found2 = null;
+                for (var fc2 = 0; fc2 < temp2.children.length; fc2++) {
+                    if (temp2.children[fc2].code === cCode2) { found2 = temp2.children[fc2]; break; }
+                }
+                if (!found2) break;
+                pathLabels2.push({ code: found2.code, name: found2.name });
+                temp2 = found2;
+            }
+            for (var pl2 = 0; pl2 < pathLabels2.length; pl2++) {
+                (function(idx) {
+                    var p2 = pathLabels2[idx];
+                    var pathUpTo2 = (state.currentPath || []).slice(0, idx + 1);
+                    crumbItems.push({
+                        label: p2.code,
+                        go: function() { navigateTo('category', { program: program, area: area, param: param, category: category, currentPath: pathUpTo2 }); }
+                    });
+                })(pl2);
+            }
+
+            var breadcrumbHTML = crumb(crumbItems);
+
+            if (!file) {
+                wrap.innerHTML = breadcrumbHTML +
+                    '<div class="page-header-row">' +
+                    '<button class="btn-back" data-back-files>← Back to files</button>' +
+                    '<h2>File not found</h2>' +
+                    '<span class="spacer"></span>' +
+                    '</div>' +
+                    '<div class="empty-state"><div class="icon">❌</div><p>The requested document could not be found.</p></div>';
+                bindCrumbs(wrap, crumbItems);
+                wrap.querySelector('[data-back-files]').addEventListener('click', function() {
+                    navigateTo('category', { program: program, area: area, param: param, category: category });
+                });
+                return wrap;
+            }
+
+            var previewLink = getDriveLink(file.id);
+            var openLink = getDriveOpenLink(file.id);
+            var html2 = breadcrumbHTML +
+                '<div class="page-header-row">' +
+                '<button class="btn-back" data-back-files>← Back to files</button>' +
+                '<h2>' + file.name + '</h2>' +
+                '<span class="spacer"></span>' +
+                '</div>';
+
+            if (previewLink) {
+                html2 += '<div class="pdf-container">' +
+                    '<iframe src="' + previewLink + '" allow="autoplay" title="' + file.name + '"></iframe>' +
+                    '</div>' +
+                    '<div class="doc-actions">' +
+                    '<a class="btn-open" href="' + openLink + '" target="_blank" rel="noopener">Open in new tab</a>' +
+                    '</div>';
+            } else {
+                var isSample = file.id && file.id.indexOf('SAMPLE_') === 0;
+                var msg = isSample ? 'This is a sample document placeholder. Please replace the file ID with an actual Google Drive file ID.' : 'No Google Drive file has been assigned to this document yet.';
+                html2 += '<div class="empty-state">' +
+                    '<div class="icon">📄</div>' +
+                    '<h3>' + (isSample ? 'Sample Document' : 'Document not yet linked') + '</h3>' +
+                    '<p>' + msg + '</p>' +
+                    '<p style="font-size:.8rem;color:var(--ink-soft);margin-top:8px;">File ID: ' + file.id + '</p>' +
+                    '</div>';
+            }
+
+            wrap.innerHTML = html2;
+            bindCrumbs(wrap, crumbItems);
+            wrap.querySelector('[data-back-files]').addEventListener('click', function() {
+                navigateTo('category', { program: program, area: area, param: param, category: category });
+            });
+            return wrap;
+        }
+
+        // =========================================================
+        // MAIN RENDER
+        // =========================================================
+        function render() {
+            var app = document.getElementById('app');
+            app.innerHTML = '';
+            app.classList.remove('is-visible');
+
+            var node;
+            // Determine page based on state
+            if (state.fileIndex !== null && state.fileIndex !== undefined) {
+                state.page = 'document';
+            } else if (state.category) {
+                state.page = 'category';
+            } else if (state.param) {
+                state.page = 'parameter';
+            } else if (state.area) {
+                state.page = 'area';
+            } else if (state.program) {
+                state.page = 'program';
+            } else {
+                state.page = 'landing';
+            }
+
+            switch (state.page) {
+                case 'landing':
+                    node = renderLanding();
+                    break;
+                case 'program':
+                    node = renderProgram();
+                    break;
+                case 'area':
+                    node = renderArea();
+                    break;
+                case 'parameter':
+                    node = renderParameter();
+                    break;
+                case 'category':
+                    node = renderCategory();
+                    break;
+                case 'document':
+                    node = renderDocument();
+                    break;
+                default:
+                    node = renderNotFound();
+            }
+
+            app.appendChild(node);
+            void app.offsetWidth;
+            app.style.animation = 'none';
+            void app.offsetHeight;
+            app.style.animation = '';
+            app.classList.add('is-visible');
+            updatePageTitle();
+        }
+
+        // =========================================================
+        // INIT
+        // =========================================================
+        function initApp() {
+            var params = getHashParams();
+            state.program = params.program || null;
+            state.area = params.area || null;
+            state.param = params.param || null;
+            state.category = params.category || null;
+            state.fileIndex = params.fileIndex !== null ? params.fileIndex : null;
+            state.currentPath = [];
+            render();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+        });
+    </script>
 </body>
 </html>
