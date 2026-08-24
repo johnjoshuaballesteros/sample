@@ -751,35 +751,32 @@
         </div>
     </header>
 
-    <main id="app">
-        <!-- will be rendered by JavaScript -->
-    </main>
+    <main id="app"></main>
 
     <footer>
         <p>&copy; 2026 Occidental Mindoro State University &mdash; <strong>AACCUP Accreditation Document Management System</strong></p>
     </footer>
 
-    <script src="data.js"></script>
     <script>
-        // Home page specific logic
+        // Home page specific
         (function() {
             var app = document.getElementById('app');
             var html = `
                 <section class="hero">
-                    <span class="eyebrow">AACCUP Level II · Area-Based Survey</span>
+                    <span class="eyebrow">AACCUP Level III · Area-Based Survey</span>
                     <h2>Accreditation Document System</h2>
                     <p>Select a program to browse its accreditation evidence, organized by Area, Parameter, and document category.</p>
                 </section>
                 <section class="program-grid">
-                    <a href="bsit.html" class="btn-program" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;border-radius:12px;background:radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%), linear-gradient(165deg, #3F7FE0 0%, #1257bf 42%, #001f4d 100%);border:1px solid rgba(0,20,60,.4);color:#fff;text-shadow:0 1px 3px rgba(0,10,40,.45);box-shadow:0 4px 14px rgba(0,20,60,.28), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -10px 16px rgba(0,10,40,.28);transition:transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1), border-color .25s cubic-bezier(.4,0,.2,1), background .35s cubic-bezier(.4,0,.2,1);cursor:pointer;font-weight:600;position:relative;isolation:isolate;overflow:hidden;">
+                    <a href="/bsit" class="btn-program" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;border-radius:12px;background:radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%), linear-gradient(165deg, #3F7FE0 0%, #1257bf 42%, #001f4d 100%);border:1px solid rgba(0,20,60,.4);color:#fff;text-shadow:0 1px 3px rgba(0,10,40,.45);box-shadow:0 4px 14px rgba(0,20,60,.28), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -10px 16px rgba(0,10,40,.28);transition:transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1), border-color .25s cubic-bezier(.4,0,.2,1), background .35s cubic-bezier(.4,0,.2,1);cursor:pointer;font-weight:600;position:relative;isolation:isolate;overflow:hidden;">
                         <span class="code" style="display:block;font-size:2rem;font-weight:800;letter-spacing:2px;background:linear-gradient(180deg,#ffffff,#D4AF5A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;filter:drop-shadow(0 1px 2px rgba(0,10,40,.5));margin-bottom:4px;">BSIT</span>
                         <span class="full" style="font-size:.85rem;font-weight:400;color:#fff;opacity:.92;-webkit-text-fill-color:#fff;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;max-height:3.6em;line-height:1.2;">Bachelor of Science in Information Technology</span>
                     </a>
-                    <a href="beed.html" class="btn-program" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;border-radius:12px;background:radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%), linear-gradient(165deg, #3F7FE0 0%, #1257bf 42%, #001f4d 100%);border:1px solid rgba(0,20,60,.4);color:#fff;text-shadow:0 1px 3px rgba(0,10,40,.45);box-shadow:0 4px 14px rgba(0,20,60,.28), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -10px 16px rgba(0,10,40,.28);transition:transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1), border-color .25s cubic-bezier(.4,0,.2,1), background .35s cubic-bezier(.4,0,.2,1);cursor:pointer;font-weight:600;position:relative;isolation:isolate;overflow:hidden;">
+                    <a href="/beed" class="btn-program" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;border-radius:12px;background:radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%), linear-gradient(165deg, #3F7FE0 0%, #1257bf 42%, #001f4d 100%);border:1px solid rgba(0,20,60,.4);color:#fff;text-shadow:0 1px 3px rgba(0,10,40,.45);box-shadow:0 4px 14px rgba(0,20,60,.28), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -10px 16px rgba(0,10,40,.28);transition:transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1), border-color .25s cubic-bezier(.4,0,.2,1), background .35s cubic-bezier(.4,0,.2,1);cursor:pointer;font-weight:600;position:relative;isolation:isolate;overflow:hidden;">
                         <span class="code" style="display:block;font-size:2rem;font-weight:800;letter-spacing:2px;background:linear-gradient(180deg,#ffffff,#D4AF5A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;filter:drop-shadow(0 1px 2px rgba(0,10,40,.5));margin-bottom:4px;">BEED</span>
                         <span class="full" style="font-size:.85rem;font-weight:400;color:#fff;opacity:.92;-webkit-text-fill-color:#fff;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;max-height:3.6em;line-height:1.2;">Bachelor of Elementary Education</span>
                     </a>
-                    <a href="bsba.html" class="btn-program" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;border-radius:12px;background:radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%), linear-gradient(165deg, #3F7FE0 0%, #1257bf 42%, #001f4d 100%);border:1px solid rgba(0,20,60,.4);color:#fff;text-shadow:0 1px 3px rgba(0,10,40,.45);box-shadow:0 4px 14px rgba(0,20,60,.28), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -10px 16px rgba(0,10,40,.28);transition:transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1), border-color .25s cubic-bezier(.4,0,.2,1), background .35s cubic-bezier(.4,0,.2,1);cursor:pointer;font-weight:600;position:relative;isolation:isolate;overflow:hidden;">
+                    <a href="/bsba" class="btn-program" style="text-decoration:none;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;border-radius:12px;background:radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%), linear-gradient(165deg, #3F7FE0 0%, #1257bf 42%, #001f4d 100%);border:1px solid rgba(0,20,60,.4);color:#fff;text-shadow:0 1px 3px rgba(0,10,40,.45);box-shadow:0 4px 14px rgba(0,20,60,.28), inset 0 1px 0 rgba(255,255,255,.55), inset 0 -10px 16px rgba(0,10,40,.28);transition:transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s cubic-bezier(.4,0,.2,1), border-color .25s cubic-bezier(.4,0,.2,1), background .35s cubic-bezier(.4,0,.2,1);cursor:pointer;font-weight:600;position:relative;isolation:isolate;overflow:hidden;">
                         <span class="code" style="display:block;font-size:2rem;font-weight:800;letter-spacing:2px;background:linear-gradient(180deg,#ffffff,#D4AF5A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;filter:drop-shadow(0 1px 2px rgba(0,10,40,.5));margin-bottom:4px;">BSBA</span>
                         <span class="full" style="font-size:.85rem;font-weight:400;color:#fff;opacity:.92;-webkit-text-fill-color:#fff;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;max-height:3.6em;line-height:1.2;">Bachelor of Science in Business Administration</span>
                     </a>
