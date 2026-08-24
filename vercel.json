@@ -1,7 +1,7 @@
 {
   "rewrites": [
-    { "source": "/bsit", "destination": "/bsit.html" },
-    { "source": "/bsba", "destination": "/bsba.html" },
-    { "source": "/beed", "destination": "/beed.html" }
+    { "source": "/bsit", "destination": "bsit.html" },
+    { "source": "/bsba", "destination": "bsba.html" },
+    { "source": "/beed", "destination": "beed.html" }
   ]
 }
