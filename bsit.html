@@ -41,29 +41,6 @@
     .logo img { height:100%; width:100%; object-fit:cover; border-radius:50%; }
     .title-block h1 { font-size:1.08rem; font-weight:700; line-height:1.25; }
     .title-block .tagline { font-size:.7rem; opacity:.85; letter-spacing:1.8px; text-transform:uppercase; color:var(--gold-light); }
-    .course-badge { background:var(--gold); color:var(--primary-dark); padding:4px 16px; border-radius:999px; font-weight:700; font-size:.8rem; margin-left:12px; }
-
-    /* HOME BUTTON (bagong idinagdag) */
-    .home-btn {
-      background: var(--gold);
-      color: var(--primary-dark);
-      padding: 6px 18px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: .85rem;
-      text-decoration: none;
-      margin-left: auto;
-      transition: background .2s var(--ease), transform .2s var(--ease);
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .home-btn:hover {
-      background: var(--gold-light);
-      transform: scale(1.05);
-    }
 
     /* MAIN */
     main { flex:1; max-width:1400px; margin:0 auto; padding:32px 16px 60px; width:100%; }
@@ -79,18 +56,12 @@
     .page-header-row { display:grid; grid-template-columns:auto 1fr 120px; align-items:center; gap:16px; margin-bottom:70px; }
     .page-header-row h2 { text-align:center; margin:0; font-size:clamp(1.35rem,2.6vw,1.9rem); font-weight:800; letter-spacing:-0.3px; }
     .page-header-row .btn-back { justify-self:start; padding:8px 20px; font-size:.9rem; }
-
-    /* HERO (landing inside BSIT) */
-    .hero { text-align:center; padding:20px 20px 44px; }
-    .hero .eyebrow { display:inline-block; font-size:.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--primary); font-weight:700; background:rgba(0,71,171,.08); padding:6px 14px; border-radius:999px; margin-bottom:16px; }
-    .hero h2 { font-size:clamp(1.8rem,4vw,2.8rem); color:var(--ink); margin-bottom:12px; font-weight:800; }
-    .hero p { font-size:1.1rem; color:var(--ink-soft); max-width:600px; margin:0 auto; line-height:1.6; }
+    .page-header-row .spacer { /* empty for grid balance */ }
 
     /* GRIDS */
-    .program-grid, .area-grid, .param-grid, .doc-grid, .hierarchy-grid {
+    .area-grid, .param-grid, .doc-grid, .hierarchy-grid {
       display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-top:24px;
     }
-    .program-grid>*,
     .area-grid>*,
     .param-grid>*,
     .doc-grid>*,
@@ -102,14 +73,12 @@
       transition:transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease), background .35s var(--ease);
       cursor:pointer; font-weight:600; position:relative; isolation:isolate; overflow:hidden;
     }
-    .program-grid>*::before,
     .area-grid>*::before,
     .param-grid>*::before,
     .doc-grid>*::before,
     .hierarchy-grid>*::before {
       content:''; position:absolute; top:0; left:14%; right:14%; height:2px; background:linear-gradient(90deg, transparent, var(--gold-light) 50%, transparent); opacity:.75; z-index:1;
     }
-    .program-grid>*:hover,
     .area-grid>*:hover,
     .param-grid>*:hover,
     .doc-grid>*:hover,
@@ -118,7 +87,6 @@
       border-color:var(--gold); transform:translateY(-3px);
       box-shadow:0 10px 24px rgba(0,20,60,.35), 0 0 0 4px var(--btn-glow), inset 0 1px 0 rgba(255,255,255,.65), inset 0 -10px 16px rgba(0,10,40,.22);
     }
-    .program-grid>*:active,
     .area-grid>*:active,
     .param-grid>*:active,
     .doc-grid>*:active,
@@ -127,11 +95,6 @@
       background:linear-gradient(165deg, var(--blue-5) 0%, #001433 100%);
       box-shadow:inset 0 3px 8px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.2);
     }
-
-    /* PROGRAM BUTTONS (inside BSIT) */
-    .program-grid>* { flex-direction:column; padding:20px 16px; }
-    .program-grid .code { display:block; font-size:2rem; font-weight:800; letter-spacing:2px; background:linear-gradient(180deg,#ffffff,var(--gold-light)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; filter:drop-shadow(0 1px 2px rgba(0,10,40,.5)); margin-bottom:4px; }
-    .program-grid .full { font-size:.85rem; font-weight:400; opacity:.92; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; max-height:3.6em; line-height:1.2; }
 
     /* AREA BUTTONS */
     .area-grid>* { display:flex; align-items:center; gap:14px; padding:16px 20px; text-align:left; font-size:.95rem; }
@@ -158,7 +121,7 @@
     .hierarchy-grid>*:hover .arrow { transform:translateX(4px); }
 
     /* BACK BUTTON */
-    .btn-back { background:linear-gradient(180deg,#ffffff 0%,var(--paper) 100%); border:2px solid var(--line); color:var(--primary); padding:12px 32px; border-radius:var(--radius); font-size:.9rem; box-shadow:0 2px 8px rgba(0,0,0,.08), inset 0 1px 1px rgba(255,255,255,.9); cursor:pointer; font-weight:600; transition:transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease), background .35s var(--ease); display:inline-flex; align-items:center; justify-content:center; gap:6px; }
+    .btn-back { background:linear-gradient(180deg,#ffffff 0%,var(--paper) 100%); border:2px solid var(--line); color:var(--primary); padding:12px 32px; border-radius:var(--radius); font-size:.9rem; box-shadow:0 2px 8px rgba(0,0,0,.08), inset 0 1px 1px rgba(255,255,255,.9); cursor:pointer; font-weight:600; transition:transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease), background .35s var(--ease); display:inline-flex; align-items:center; justify-content:center; gap:6px; text-decoration:none; }
     .btn-back:hover { background:linear-gradient(180deg,#ffffff 0%,#eef4ff 100%); border-color:var(--primary); color:var(--primary-dark); transform:translateY(-2px); }
     .btn-back:active { transform:scale(.97); background:var(--paper); }
 
@@ -184,22 +147,21 @@
     footer .footer-course { display:block; margin-top:4px; font-size:.75rem; opacity:.7; }
 
     /* RESPONSIVE */
-    @media (max-width:1023px) { .program-grid>*,.area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>* { flex:0 0 calc(33.33% - 16px); height:120px; } }
+    @media (max-width:1023px) { .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>* { flex:0 0 calc(33.33% - 16px); height:120px; } }
     @media (max-width:767px) {
-      .program-grid>*,.area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>* { flex:0 0 calc(50% - 12px); height:110px; }
+      .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>* { flex:0 0 calc(50% - 12px); height:110px; }
       .title-block h1 { font-size:.95rem; }
       header { padding:14px 18px; }
       .pdf-container iframe { min-height:420px; }
       main { padding:22px 16px 44px; }
-      .program-grid .code { font-size:1.5rem; }
       .doc-actions { flex-direction:column; }
       .btn-open,.btn-back { width:100%; justify-content:center; }
       .page-header-row { grid-template-columns:1fr; justify-items:center; gap:8px; }
       .page-header-row .btn-back { justify-self:center; order:1; }
       .page-header-row h2 { order:2; }
-      .home-btn { margin-left:0; width:100%; justify-content:center; }
+      .page-header-row .spacer { display:none; }
     }
-    @media (max-width:479px) { .program-grid>*,.area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>* { flex:0 0 100%; height:100px; } }
+    @media (max-width:479px) { .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>* { flex:0 0 100%; height:100px; } }
 
     /* ANIMATION */
     @keyframes fadeUp { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
@@ -212,11 +174,9 @@
     <div class="header-container">
       <div class="logo"><img src="images/OMSU-Logo.png" alt="OMSC Logo" onerror="this.parentElement.innerHTML='OMSC'" /></div>
       <div class="title-block">
-        <h1>Occidental Mindoro State University <span class="course-badge">BSIT</span></h1>
-        <span class="tagline">AACCUP — Information Technology</span>
+        <h1>BSIT - Bachelor of Science in Information Technology</h1>
+        <span class="tagline">AACCUP</span>
       </div>
-      <!-- HOME BUTTON (bagong idinagdag) -->
-      <a href="index.html" class="home-btn">🏠 Home</a>
     </div>
   </header>
 
@@ -229,12 +189,11 @@
 
   <script>
     // ============================================================
-    // BSIT DATA (only BSIT specific)
+    // BSIT DATA
     // ============================================================
     var PROGRAM_CODE = 'BSIT';
     var PROGRAM_NAME = 'Bachelor of Science in Information Technology';
 
-    // AREAS_FULL – same as original for BSIT
     var AREAS_FULL = {
       1: { name: 'Vision, Mission, Goals, and Objectives', params: { A: 'PARAMETER A: STATEMENT OF VISION, MISSION, GOALS AND OBJECTIVES', B: 'PARAMETER B: DISSEMINATION AND ACCEPTABILITY' } },
       2: { name: 'Faculty', params: { A: 'PARAMETER A: ACADEMIC QUALIFICATIONS AND PROFESSIONAL EXPERIENCE', B: 'PARAMETER B: RECRUITMENT, SELECTION, AND ORIENTATION', C: 'PARAMETER C: FACULTY ADEQUACY AND LEADING', D: 'PARAMETER D: RANK AND TENURE', E: 'PARAMETER E: FACULTY DEVELOPMENT', F: 'PARAMETER F: PROFESSIONAL PERFORMANCE AND SCHOLARLY WORKS', G: 'PARAMETER G: SALARIES, FRINGE BENEFITS, AND INCENTIVES', H: 'PARAMETER H: PROFESSIONALISM' } },
@@ -267,7 +226,7 @@
     };
 
     // ============================================================
-    // HELPER FUNCTIONS (same as original)
+    // HELPER FUNCTIONS
     // ============================================================
     function getParamsForProgram(program, areaNum) {
       var areaData = AREAS_FULL[areaNum];
@@ -469,9 +428,20 @@
     // ---- LANDING (BSIT) ----
     function renderLanding() {
       var wrap = document.createElement('div');
+
+      // Breadcrumb: Home
       var items = [{ label: 'BSIT Home', go: function(){ navigateTo('landing',{}); } }];
       var html = crumb(items);
-      html += '<section class="hero"><span class="eyebrow">BSIT · AACCUP Level III</span><h2>Accreditation Documents</h2><p>Select an Area to browse its Parameters and evidence.</p></section><div class="area-grid">';
+
+      // Page header row na may Back to Home button at course title
+      html += '<div class="page-header-row">';
+      html += '<a href="index.html" class="btn-back">← Back to Home</a>';
+      html += '<h2>BSIT - Bachelor of Science in Information Technology</h2>';
+      html += '<span class="spacer"></span>';
+      html += '</div>';
+
+      // Area Grid
+      html += '<div class="area-grid">';
       var areaKeys = Object.keys(AREAS_FULL);
       for (var a=0; a<areaKeys.length; a++) {
         var key = areaKeys[a];
@@ -479,6 +449,7 @@
         html += '<button class="btn-area" data-area="'+key+'"><span class="num">'+key+'</span><span class="label">'+name+'</span><span class="arrow">›</span></button>';
       }
       html += '</div>';
+
       wrap.innerHTML = html;
       bindCrumbs(wrap, items);
       wrap.querySelectorAll('.btn-area').forEach(function(b) {
