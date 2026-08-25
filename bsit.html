@@ -59,13 +59,14 @@
     .page-header-row .spacer { /* empty for grid balance */ }
 
     /* GRIDS */
-    .area-grid, .param-grid, .doc-grid, .hierarchy-grid {
+    .area-grid, .param-grid, .doc-grid, .hierarchy-grid, .extra-grid {
       display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-top:24px;
     }
     .area-grid>*,
     .param-grid>*,
     .doc-grid>*,
-    .hierarchy-grid>* {
+    .hierarchy-grid>*,
+    .extra-grid>* {
       flex:0 0 calc(25% - 16px); height:130px; display:flex; align-items:center; justify-content:center; padding:16px; text-align:center; word-break:break-word; border-radius:12px;
       background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%), linear-gradient(165deg, var(--blue-3) 0%, var(--blue-4) 42%, var(--blue-5) 100%);
       border:1px solid rgba(0,20,60,.4); color:var(--white); text-shadow:0 1px 3px rgba(0,10,40,.45);
@@ -76,13 +77,15 @@
     .area-grid>*::before,
     .param-grid>*::before,
     .doc-grid>*::before,
-    .hierarchy-grid>*::before {
+    .hierarchy-grid>*::before,
+    .extra-grid>*::before {
       content:''; position:absolute; top:0; left:14%; right:14%; height:2px; background:linear-gradient(90deg, transparent, var(--gold-light) 50%, transparent); opacity:.75; z-index:1;
     }
     .area-grid>*:hover,
     .param-grid>*:hover,
     .doc-grid>*:hover,
-    .hierarchy-grid>*:hover {
+    .hierarchy-grid>*:hover,
+    .extra-grid>*:hover {
       background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.65) 0%, rgba(255,255,255,0) 48%), linear-gradient(165deg, #6fa2ea 0%, var(--primary-light) 42%, var(--blue-4) 100%);
       border-color:var(--gold); transform:translateY(-3px);
       box-shadow:0 10px 24px rgba(0,20,60,.35), 0 0 0 4px var(--btn-glow), inset 0 1px 0 rgba(255,255,255,.65), inset 0 -10px 16px rgba(0,10,40,.22);
@@ -90,10 +93,24 @@
     .area-grid>*:active,
     .param-grid>*:active,
     .doc-grid>*:active,
-    .hierarchy-grid>*:active {
+    .hierarchy-grid>*:active,
+    .extra-grid>*:active {
       transform:scale(.97) translateY(0);
       background:linear-gradient(165deg, var(--blue-5) 0%, #001433 100%);
       box-shadow:inset 0 3px 8px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.2);
+    }
+
+    /* Extra buttons – may ibang kulay (gold) */
+    .extra-grid>* {
+      background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%), linear-gradient(165deg, var(--gold) 0%, var(--gold-dark) 42%, #6b4f1f 100%);
+      border-color: var(--gold-dark);
+    }
+    .extra-grid>*:hover {
+      background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.65) 0%, rgba(255,255,255,0) 48%), linear-gradient(165deg, var(--gold-light) 0%, var(--gold) 42%, var(--gold-dark) 100%);
+      border-color: var(--white);
+    }
+    .extra-grid>*:active {
+      background: linear-gradient(165deg, var(--gold-dark) 0%, #3d2a0f 100%);
     }
 
     /* AREA BUTTONS */
@@ -147,9 +164,9 @@
     footer .footer-course { display:block; margin-top:4px; font-size:.75rem; opacity:.7; }
 
     /* RESPONSIVE */
-    @media (max-width:1023px) { .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>* { flex:0 0 calc(33.33% - 16px); height:120px; } }
+    @media (max-width:1023px) { .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>*,.extra-grid>* { flex:0 0 calc(33.33% - 16px); height:120px; } }
     @media (max-width:767px) {
-      .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>* { flex:0 0 calc(50% - 12px); height:110px; }
+      .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>*,.extra-grid>* { flex:0 0 calc(50% - 12px); height:110px; }
       .title-block h1 { font-size:.95rem; }
       header { padding:14px 18px; }
       .pdf-container iframe { min-height:420px; }
@@ -161,7 +178,7 @@
       .page-header-row h2 { order:2; }
       .page-header-row .spacer { display:none; }
     }
-    @media (max-width:479px) { .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>* { flex:0 0 100%; height:100px; } }
+    @media (max-width:479px) { .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>*,.extra-grid>* { flex:0 0 100%; height:100px; } }
 
     /* ANIMATION */
     @keyframes fadeUp { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
@@ -316,9 +333,14 @@
       var hash = window.location.hash.replace(/^#/, '') || '/';
       var parts = hash.split('/').filter(Boolean);
       if (parts.length === 0) return { page: 'landing' };
+
+      // Extra pages: additional, compliance, selfsurvey
       if (parts.length === 1) {
-        var area = parts[0];
-        if (AREAS_FULL[area]) return { page: 'area', area: area };
+        var page = parts[0];
+        if (page === 'additional') return { page: 'additional' };
+        if (page === 'compliance') return { page: 'compliance' };
+        if (page === 'selfsurvey') return { page: 'selfsurvey' };
+        if (AREAS_FULL[page]) return { page: 'area', area: page };
         else return { page: 'notfound' };
       }
       if (parts.length === 2) {
@@ -352,6 +374,10 @@
       if (data.param) parts.push(data.param);
       if (data.category) parts.push(data.category);
       if (data.fileIndex !== undefined && data.fileIndex !== null) parts.push(data.fileIndex);
+      // For extra pages, we use the page name as the only segment
+      if (page === 'additional' || page === 'compliance' || page === 'selfsurvey') {
+        parts = [page];
+      }
       var hash = parts.length ? '#/' + parts.join('/') : '#/';
       window.location.hash = hash;
       render();
@@ -408,6 +434,9 @@
         case 'parameter': node = renderParameter(); break;
         case 'category': node = renderCategory(); break;
         case 'document': node = renderDocument(); break;
+        case 'additional': node = renderExtraPage('Additional Needed Requirements'); break;
+        case 'compliance': node = renderExtraPage('Compliance w/ AACUP Recommendation'); break;
+        case 'selfsurvey': node = renderExtraPage('Self Survey'); break;
         default: node = renderNotFound();
       }
       app.appendChild(node);
@@ -422,6 +451,9 @@
       else if (state.page === 'parameter' && state.param) { var pn = getParamsForProgram(PROGRAM_CODE, state.area)[state.param] || 'Parameter'; title = pn; }
       else if (state.page === 'category') { var cat = CATEGORIES.find(function(c){return c.key===state.category}); title = cat ? cat.label : state.category; }
       else if (state.page === 'document') { var files = getDocumentFiles(PROGRAM_CODE, state.area, state.param, state.category); var f = files[state.fileIndex]; title = f ? f.name : 'Document'; }
+      else if (state.page === 'additional') title = 'Additional Needed Requirements';
+      else if (state.page === 'compliance') title = 'Compliance w/ AACUP Recommendation';
+      else if (state.page === 'selfsurvey') title = 'Self Survey';
       document.title = title + ' | BSIT | OMSC';
     }
 
@@ -450,10 +482,20 @@
       }
       html += '</div>';
 
+      // ---- BAGONG ROW: Extra buttons ----
+      html += '<div class="extra-grid">';
+      html += '<button class="btn-extra" data-page="additional">📋 Additional Needed Requirements</button>';
+      html += '<button class="btn-extra" data-page="compliance">✅ Compliance w/ AACUP Recommendation</button>';
+      html += '<button class="btn-extra" data-page="selfsurvey">📝 Self Survey</button>';
+      html += '</div>';
+
       wrap.innerHTML = html;
       bindCrumbs(wrap, items);
       wrap.querySelectorAll('.btn-area').forEach(function(b) {
         b.addEventListener('click', function() { navigateTo('area', { area: b.dataset.area }); });
+      });
+      wrap.querySelectorAll('.btn-extra').forEach(function(b) {
+        b.addEventListener('click', function() { navigateTo(b.dataset.page, {}); });
       });
       return wrap;
     }
@@ -663,6 +705,22 @@
       wrap.innerHTML = html;
       bindCrumbs(wrap, items);
       wrap.querySelector('[data-back]').addEventListener('click', function() { navigateTo('category',{area:area,param:param,category:category,currentPath:state.currentPath||[]}); });
+      return wrap;
+    }
+
+    // ---- EXTRA PAGES (Additional, Compliance, Self Survey) ----
+    function renderExtraPage(title) {
+      var wrap = document.createElement('div');
+      var items = [
+        { label: 'BSIT Home', go: function(){ navigateTo('landing',{}); } },
+        { label: title, go: function(){ /* same page */ } }
+      ];
+      var html = crumb(items);
+      html += '<div class="page-header-row"><button class="btn-back" data-back>← Back to Home</button><h2>'+title+'</h2><span class="spacer"></span></div>';
+      html += '<div class="empty-state"><div class="icon">📄</div><h3>Page under construction</h3><p>This section will contain the '+title+' details.</p></div>';
+      wrap.innerHTML = html;
+      bindCrumbs(wrap, items);
+      wrap.querySelector('[data-back]').addEventListener('click', function() { navigateTo('landing',{}); });
       return wrap;
     }
 
