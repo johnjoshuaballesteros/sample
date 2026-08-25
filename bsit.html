@@ -59,14 +59,15 @@
     .page-header-row .spacer { /* empty for grid balance */ }
 
     /* GRIDS */
-    .area-grid, .param-grid, .doc-grid, .hierarchy-grid, .extra-grid {
+    .area-grid, .param-grid, .doc-grid, .hierarchy-grid, .extra-grid, .param-extra-grid {
       display:flex; flex-wrap:wrap; justify-content:center; gap:16px; margin-top:24px;
     }
     .area-grid>*,
     .param-grid>*,
     .doc-grid>*,
     .hierarchy-grid>*,
-    .extra-grid>* {
+    .extra-grid>*,
+    .param-extra-grid>* {
       flex:0 0 calc(25% - 16px); height:130px; display:flex; align-items:center; justify-content:center; padding:16px; text-align:center; word-break:break-word; border-radius:12px;
       background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%), linear-gradient(165deg, var(--blue-3) 0%, var(--blue-4) 42%, var(--blue-5) 100%);
       border:1px solid rgba(0,20,60,.4); color:var(--white); text-shadow:0 1px 3px rgba(0,10,40,.45);
@@ -78,14 +79,16 @@
     .param-grid>*::before,
     .doc-grid>*::before,
     .hierarchy-grid>*::before,
-    .extra-grid>*::before {
+    .extra-grid>*::before,
+    .param-extra-grid>*::before {
       content:''; position:absolute; top:0; left:14%; right:14%; height:2px; background:linear-gradient(90deg, transparent, var(--gold-light) 50%, transparent); opacity:.75; z-index:1;
     }
     .area-grid>*:hover,
     .param-grid>*:hover,
     .doc-grid>*:hover,
     .hierarchy-grid>*:hover,
-    .extra-grid>*:hover {
+    .extra-grid>*:hover,
+    .param-extra-grid>*:hover {
       background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.65) 0%, rgba(255,255,255,0) 48%), linear-gradient(165deg, #6fa2ea 0%, var(--primary-light) 42%, var(--blue-4) 100%);
       border-color:var(--gold); transform:translateY(-3px);
       box-shadow:0 10px 24px rgba(0,20,60,.35), 0 0 0 4px var(--btn-glow), inset 0 1px 0 rgba(255,255,255,.65), inset 0 -10px 16px rgba(0,10,40,.22);
@@ -94,22 +97,26 @@
     .param-grid>*:active,
     .doc-grid>*:active,
     .hierarchy-grid>*:active,
-    .extra-grid>*:active {
+    .extra-grid>*:active,
+    .param-extra-grid>*:active {
       transform:scale(.97) translateY(0);
       background:linear-gradient(165deg, var(--blue-5) 0%, #001433 100%);
       box-shadow:inset 0 3px 8px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.2);
     }
 
     /* Extra buttons – may ibang kulay (gold) */
-    .extra-grid>* {
+    .extra-grid>*,
+    .param-extra-grid>* {
       background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%), linear-gradient(165deg, var(--gold) 0%, var(--gold-dark) 42%, #6b4f1f 100%);
       border-color: var(--gold-dark);
     }
-    .extra-grid>*:hover {
+    .extra-grid>*:hover,
+    .param-extra-grid>*:hover {
       background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.65) 0%, rgba(255,255,255,0) 48%), linear-gradient(165deg, var(--gold-light) 0%, var(--gold) 42%, var(--gold-dark) 100%);
       border-color: var(--white);
     }
-    .extra-grid>*:active {
+    .extra-grid>*:active,
+    .param-extra-grid>*:active {
       background: linear-gradient(165deg, var(--gold-dark) 0%, #3d2a0f 100%);
     }
 
@@ -164,9 +171,9 @@
     footer .footer-course { display:block; margin-top:4px; font-size:.75rem; opacity:.7; }
 
     /* RESPONSIVE */
-    @media (max-width:1023px) { .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>*,.extra-grid>* { flex:0 0 calc(33.33% - 16px); height:120px; } }
+    @media (max-width:1023px) { .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>*,.extra-grid>*,.param-extra-grid>* { flex:0 0 calc(33.33% - 16px); height:120px; } }
     @media (max-width:767px) {
-      .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>*,.extra-grid>* { flex:0 0 calc(50% - 12px); height:110px; }
+      .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>*,.extra-grid>*,.param-extra-grid>* { flex:0 0 calc(50% - 12px); height:110px; }
       .title-block h1 { font-size:.95rem; }
       header { padding:14px 18px; }
       .pdf-container iframe { min-height:420px; }
@@ -178,7 +185,7 @@
       .page-header-row h2 { order:2; }
       .page-header-row .spacer { display:none; }
     }
-    @media (max-width:479px) { .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>*,.extra-grid>* { flex:0 0 100%; height:100px; } }
+    @media (max-width:479px) { .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>*,.extra-grid>*,.param-extra-grid>* { flex:0 0 100%; height:100px; } }
 
     /* ANIMATION */
     @keyframes fadeUp { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
@@ -334,12 +341,14 @@
       var parts = hash.split('/').filter(Boolean);
       if (parts.length === 0) return { page: 'landing' };
 
-      // Extra pages: additional, compliance, selfsurvey
+      // Extra pages: additional, compliance, selfsurvey, ppp, bestpractices
       if (parts.length === 1) {
         var page = parts[0];
         if (page === 'additional') return { page: 'additional' };
         if (page === 'compliance') return { page: 'compliance' };
         if (page === 'selfsurvey') return { page: 'selfsurvey' };
+        if (page === 'ppp') return { page: 'ppp' };
+        if (page === 'bestpractices') return { page: 'bestpractices' };
         if (AREAS_FULL[page]) return { page: 'area', area: page };
         else return { page: 'notfound' };
       }
@@ -375,7 +384,8 @@
       if (data.category) parts.push(data.category);
       if (data.fileIndex !== undefined && data.fileIndex !== null) parts.push(data.fileIndex);
       // For extra pages, we use the page name as the only segment
-      if (page === 'additional' || page === 'compliance' || page === 'selfsurvey') {
+      if (page === 'additional' || page === 'compliance' || page === 'selfsurvey' ||
+          page === 'ppp' || page === 'bestpractices') {
         parts = [page];
       }
       var hash = parts.length ? '#/' + parts.join('/') : '#/';
@@ -437,6 +447,8 @@
         case 'additional': node = renderExtraPage('Additional Needed Requirements'); break;
         case 'compliance': node = renderExtraPage('Compliance w/ AACUP Recommendation'); break;
         case 'selfsurvey': node = renderExtraPage('Self Survey'); break;
+        case 'ppp': node = renderExtraPage('PPP (Program Performance Profile)'); break;
+        case 'bestpractices': node = renderExtraPage('Best Practice/s'); break;
         default: node = renderNotFound();
       }
       app.appendChild(node);
@@ -454,6 +466,8 @@
       else if (state.page === 'additional') title = 'Additional Needed Requirements';
       else if (state.page === 'compliance') title = 'Compliance w/ AACUP Recommendation';
       else if (state.page === 'selfsurvey') title = 'Self Survey';
+      else if (state.page === 'ppp') title = 'PPP (Program Performance Profile)';
+      else if (state.page === 'bestpractices') title = 'Best Practice/s';
       document.title = title + ' | BSIT | OMSC';
     }
 
@@ -528,7 +542,7 @@
       return wrap;
     }
 
-    // ---- PARAMETER ----
+    // ---- PARAMETER (may dagdag na PPP at Best Practice/s) ----
     function renderParameter() {
       var area = state.area, param = state.param;
       var params = getParamsForProgram(PROGRAM_CODE, area);
@@ -540,17 +554,38 @@
         { label: 'Parameter '+param, go: function(){ navigateTo('parameter',{area:area,param:param}); } }
       ];
       var html = crumb(items);
-      html += '<div class="page-header-row"><button class="btn-back" data-back>← Back to Area '+area+'</button><h2>'+paramName+'</h2><span class="spacer"></span></div><div class="doc-grid">';
+      html += '<div class="page-header-row"><button class="btn-back" data-back>← Back to Area '+area+'</button><h2>'+paramName+'</h2><span class="spacer"></span></div>';
+
+      // Unang row: SIP, IMP, OUT
+      html += '<div class="doc-grid">';
       for (var c=0; c<CATEGORIES.length; c++) {
         var cat = CATEGORIES[c];
         html += '<button class="btn-doc" data-cat="'+cat.key+'"><span class="icon">'+cat.icon+'</span><span class="label">'+cat.label+'</span></button>';
       }
       html += '</div>';
+
+      // ---- BAGONG ROW: PPP at Best Practice/s ----
+      html += '<div class="param-extra-grid">';
+      html += '<button class="btn-param-extra" data-page="ppp">📊 PPP</button>';
+      html += '<button class="btn-param-extra" data-page="bestpractices">⭐ Best Practice/s</button>';
+      html += '</div>';
+
       wrap.innerHTML = html;
       bindCrumbs(wrap, items);
       wrap.querySelector('[data-back]').addEventListener('click', function() { navigateTo('area',{area:area}); });
+
+      // SIP, IMP, OUT buttons
       wrap.querySelectorAll('.btn-doc').forEach(function(b) {
-        b.addEventListener('click', function() { navigateTo('category', { area: area, param: param, category: b.dataset.cat }); });
+        b.addEventListener('click', function() {
+          navigateTo('category', { area: area, param: param, category: b.dataset.cat });
+        });
+      });
+
+      // PPP at Best Practice/s buttons
+      wrap.querySelectorAll('.btn-param-extra').forEach(function(b) {
+        b.addEventListener('click', function() {
+          navigateTo(b.dataset.page, {});
+        });
       });
       return wrap;
     }
@@ -708,7 +743,7 @@
       return wrap;
     }
 
-    // ---- EXTRA PAGES (Additional, Compliance, Self Survey) ----
+    // ---- EXTRA PAGES (Additional, Compliance, Self Survey, PPP, Best Practice/s) ----
     function renderExtraPage(title) {
       var wrap = document.createElement('div');
       var items = [
@@ -717,7 +752,28 @@
       ];
       var html = crumb(items);
       html += '<div class="page-header-row"><button class="btn-back" data-back>← Back to Home</button><h2>'+title+'</h2><span class="spacer"></span></div>';
-      html += '<div class="empty-state"><div class="icon">📄</div><h3>Page under construction</h3><p>This section will contain the '+title+' details.</p></div>';
+      html += '<div class="empty-state"><div class="icon">📄</div><h3>Page under construction</h3><p>This section will contain the '+title+' details.</p>';
+      // Maglagay ng sample content para sa Best Practice/s
+      if (title === 'Best Practice/s') {
+        html += '<div style="text-align:left;max-width:600px;margin:20px auto;font-size:.9rem;color:var(--ink);">';
+        html += '<ul style="list-style:none;padding:0;">';
+        html += '<li style="padding:8px 0;border-bottom:1px solid var(--line);">📌 <strong>Best Practice 1:</strong> Sample best practice description here.</li>';
+        html += '<li style="padding:8px 0;border-bottom:1px solid var(--line);">📌 <strong>Best Practice 2:</strong> Another sample best practice.</li>';
+        html += '<li style="padding:8px 0;">📌 <strong>Best Practice 3:</strong> Third sample best practice.</li>';
+        html += '</ul>';
+        html += '</div>';
+      }
+      // Para sa PPP, maaari ring maglagay ng sample table o listahan
+      if (title === 'PPP (Program Performance Profile)') {
+        html += '<div style="text-align:left;max-width:600px;margin:20px auto;font-size:.9rem;color:var(--ink);">';
+        html += '<ul style="list-style:none;padding:0;">';
+        html += '<li style="padding:8px 0;border-bottom:1px solid var(--line);">📊 <strong>Indicator 1:</strong> Sample data / value</li>';
+        html += '<li style="padding:8px 0;border-bottom:1px solid var(--line);">📊 <strong>Indicator 2:</strong> Sample data / value</li>';
+        html += '<li style="padding:8px 0;">📊 <strong>Indicator 3:</strong> Sample data / value</li>';
+        html += '</ul>';
+        html += '</div>';
+      }
+      html += '</div>';
       wrap.innerHTML = html;
       bindCrumbs(wrap, items);
       wrap.querySelector('[data-back]').addEventListener('click', function() { navigateTo('landing',{}); });
