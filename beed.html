@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BEED — AACCUP Accreditation System</title>
+    <style>
+        /* ===== BEED CUSTOM THEME (same as BSIT) ===== */
+        :root {
+            --primary: #0047AB;
+            --primary-dark: #002a66;
+            --primary-light: #3F7FE0;
+            --gold: #D4AF5A;
+            --gold-light: #F0D999;
+            --gold-dark: #A87F2E;
+            --white: #FFFFFF;
+            --paper: #F4F6FA;
+            --line: #E1E6EE;
+            --ink: #1B2430;
+            --ink-soft: #5B6472;
+            --radius: 8px;
+            --shadow: 0 2px 8px rgba(0, 0, 0, .06);
+            --shadow-hover: 0 4px 16px rgba(0, 71, 171, .15);
+            --ease: cubic-bezier(.4, 0, .2, 1);
+            --blue-3: var(--primary-light);
+            --blue-4: #1257bf;
+            --blue-5: #001f4d;
+            --btn-glow: rgba(63, 127, 224, .45);
+        }
+        /* RESET & BASE */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-size: 18px;
+            line-height: 1.6;
+            position: relative;
+        }
+        a { color: inherit; }
+        button { font-family: inherit; cursor: pointer; }
+
+        /* ===== FULL PAGE BACKGROUND LOGO (BEED) ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('images/beed-logo.png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.10;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* HEADER (BEED specific) */
+        header {
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 14px 32px;
+            box-shadow: 0 2px 14px rgba(0, 20, 60, .3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid var(--gold);
+        }
+        .header-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex: 1;
+        }
+        .logo {
+            height: 70px;
+            width: 70px;
+            border-radius: 50%;
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: .5px solid var(--gold-light);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .25);
+        }
+        .logo img { height:100%; width:100%; object-fit:cover; border-radius:50%; }
+        .title-block { flex:1; }
+        .title-block h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: 0.5px;
+        }
+        .title-block .sub-header {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+            opacity: .9;
+            letter-spacing: 1px;
+        }
+
+        /* MAIN */
+        main {
+            flex: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 16px 40px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== ANIMATION ===== */
+        @keyframes fadeUp {
+            from { opacity:0; transform:translateY(15px); }
+            to { opacity:1; transform:translateY(0); }
+        }
+        #app { animation: fadeUp .4s var(--ease); }
+        .area-grid>*,
+        .param-grid>*,
+        .doc-grid>*,
+        .hierarchy-grid>*,
+        .extra-grid>*,
+        .param-extra-grid>* {
+            animation: fadeUp .5s var(--ease) both;
+        }
+
+        /* BREADCRUMB */
+        .breadcrumb {
+            font-size: 1rem;
+            padding: 0 0 0;
+            color: var(--ink-soft);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 4px;
+            transition: background .2s var(--ease);
+            font-size: 1rem;
+        }
+        .breadcrumb a:hover {
+            background: rgba(0, 71, 171, .08);
+            text-decoration: underline;
+        }
+        .breadcrumb .sep { color: var(--line); font-size: 1.1rem; }
+        .breadcrumb .current {
+            color: var(--ink-soft);
+            font-weight: 500;
+            padding: 4px 10px;
+            font-size: 1rem;
+        }
+
+        /* PAGE HEADER */
+        .page-header-row {
+            display: grid;
+            grid-template-columns: auto 1fr 120px;
+            align-items: center;
+            gap: 16px;
+            margin: 0 0;
+        }
+        .page-header-row h2 {
+            text-align: center;
+            margin: 0;
+            font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            position: relative;
+            z-index: 1;
+            padding: 0;
+        }
+        .page-header-row .btn-back { justify-self:start; padding:10px 28px; font-size:1.05rem; }
+        .page-header-row .spacer { /* empty */ }
+
+        /* GRIDS */
+        .area-grid,
+        .param-grid,
+        .doc-grid,
+        .hierarchy-grid,
+        .extra-grid,
+        .param-extra-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 24px;
+        }
+        .area-grid>*,
+        .param-grid>*,
+        .doc-grid>*,
+        .hierarchy-grid>*,
+        .extra-grid>*,
+        .param-extra-grid>* {
+            flex: 0 0 calc(25% - 18px);
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            text-align: center;
+            word-break: break-word;
+            border-radius: 12px;
+            background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%),
+                        linear-gradient(165deg, var(--blue-3) 0%, var(--blue-4) 42%, var(--blue-5) 100%);
+            border: 1px solid rgba(0, 20, 60, .4);
+            color: var(--white);
+            text-shadow: 0 1px 3px rgba(0, 10, 40, .45);
+            box-shadow: 0 4px 14px rgba(0, 20, 60, .28),
+                        inset 0 1px 0 rgba(255, 255, 255, .55),
+                        inset 0 -10px 16px rgba(0, 10, 40, .28);
+            transition: transform .25s var(--ease), box-shadow .25s var(--ease),
+                        border-color .25s var(--ease), background .35s var(--ease);
+            cursor: pointer;
+            font-weight: 600;
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            font-size: 1.05rem;
+        }
+        .area-grid>*::before,
+        .param-grid>*::before,
+        .doc-grid>*::before,
+        .hierarchy-grid>*::before,
+        .extra-grid>*::before,
+        .param-extra-grid>*::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 14%;
+            right: 14%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-light) 50%, transparent);
+            opacity: .75;
+            z-index: 1;
+        }
+        .area-grid>*:hover,
+        .param-grid>*:hover,
+        .doc-grid>*:hover,
+        .hierarchy-grid>*:hover,
+        .extra-grid>*:hover,
+        .param-extra-grid>*:hover {
+            background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.65) 0%, rgba(255,255,255,0) 48%),
+                        linear-gradient(165deg, #6fa2ea 0%, var(--primary-light) 42%, var(--blue-4) 100%);
+            border-color: var(--gold);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(0, 20, 60, .35),
+                        0 0 0 4px var(--btn-glow),
+                        inset 0 1px 0 rgba(255, 255, 255, .65),
+                        inset 0 -10px 16px rgba(0, 10, 40, .22);
+        }
+        .area-grid>*:active,
+        .param-grid>*:active,
+        .doc-grid>*:active,
+        .hierarchy-grid>*:active,
+        .extra-grid>*:active,
+        .param-extra-grid>*:active {
+            transform: scale(.97) translateY(0);
+            background: linear-gradient(165deg, var(--blue-5) 0%, #001433 100%);
+            box-shadow: inset 0 3px 8px rgba(0,0,0,.4),
+                        inset 0 1px 0 rgba(255,255,255,.2);
+        }
+
+        /* Extra buttons – gold */
+        .extra-grid>*,
+        .param-extra-grid>* {
+            background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%),
+                        linear-gradient(165deg, var(--gold) 0%, var(--gold-dark) 42%, #6b4f1f 100%);
+            border-color: var(--gold-dark);
+        }
+        .extra-grid>*:hover,
+        .param-extra-grid>*:hover {
+            background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.65) 0%, rgba(255,255,255,0) 48%),
+                        linear-gradient(165deg, var(--gold-light) 0%, var(--gold) 42%, var(--gold-dark) 100%);
+            border-color: var(--white);
+        }
+        .extra-grid>*:active,
+        .param-extra-grid>*:active {
+            background: linear-gradient(165deg, var(--gold-dark) 0%, #3d2a0f 100%);
+        }
+
+        /* AREA BUTTONS */
+        .area-grid>* { display:flex; align-items:center; gap:14px; padding:16px 20px; text-align:left; font-size:1.05rem; }
+        .area-grid .num {
+            flex-shrink:0;
+            width:38px; height:38px;
+            border-radius:8px;
+            background: linear-gradient(160deg, var(--gold-light) 0%, var(--gold) 55%, var(--gold-dark) 100%);
+            color: var(--primary-dark);
+            display:flex; align-items:center; justify-content:center;
+            font-weight:800; font-size:.9rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.6);
+        }
+        .area-grid .label {
+            flex:1;
+            font-weight:600;
+            font-size:1.05rem;
+            display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical;
+            overflow:hidden; text-overflow:ellipsis; max-height:3.8em; line-height:1.3;
+        }
+        .area-grid .arrow { color:var(--white); font-size:.9rem; opacity:.75; flex-shrink:0; }
+
+        /* PARAMETER BUTTONS */
+        .param-grid>* { display:flex; align-items:center; gap:14px; padding:16px 20px; text-align:left; font-size:1.05rem; }
+        .param-grid .letter {
+            flex-shrink:0;
+            width:34px; height:34px;
+            border-radius:50%;
+            background: linear-gradient(160deg, var(--gold-light) 0%, var(--gold) 55%, var(--gold-dark) 100%);
+            color: var(--primary-dark);
+            display:flex; align-items:center; justify-content:center;
+            font-weight:800; font-size:.85rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.6);
+        }
+        .param-grid .label {
+            flex:1;
+            font-weight:600;
+            font-size:1.05rem;
+            display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical;
+            overflow:hidden; text-overflow:ellipsis; max-height:3.8em; line-height:1.3;
+        }
+        .param-grid .arrow { color:var(--white); font-size:.9rem; opacity:.75; flex-shrink:0; }
+
+        /* DOC CATEGORY */
+        .doc-grid>* { flex-direction:column; padding:16px 12px; font-size:1.05rem; }
+        .doc-grid .icon { font-size:2.4rem; display:block; margin-bottom:6px; }
+        .doc-grid .label {
+            font-weight:700;
+            font-size:1.05rem;
+            display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical;
+            overflow:hidden; text-overflow:ellipsis; max-height:3.8em; line-height:1.3;
+        }
+
+        /* HIERARCHY */
+        .hierarchy-grid>* { display:flex; align-items:center; gap:14px; padding:14px 20px; text-align:left; font-weight:600; justify-content:flex-start; font-size:1.05rem; }
+        .hierarchy-grid .file-icon { font-size:1.8rem; flex-shrink:0; }
+        .hierarchy-grid .file-name {
+            flex:1;
+            font-weight:600;
+            word-break:break-word;
+            font-size:1rem;
+            display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical;
+            overflow:hidden; text-overflow:ellipsis; max-height:3.8em; line-height:1.3;
+        }
+        .hierarchy-grid .arrow { font-size:1.3rem; opacity:.7; flex-shrink:0; transition:transform .2s var(--ease); }
+        .hierarchy-grid>*:hover .arrow { transform:translateX(4px); }
+
+        /* BACK BUTTON */
+        .btn-back {
+            background: linear-gradient(180deg,#ffffff 0%,var(--paper) 100%);
+            border:2px solid var(--line);
+            color:var(--primary);
+            padding:12px 32px;
+            border-radius:var(--radius);
+            font-size:1.05rem;
+            box-shadow:0 2px 8px rgba(0,0,0,.08), inset 0 1px 1px rgba(255,255,255,.9);
+            cursor:pointer;
+            font-weight:600;
+            transition:transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease), background .35s var(--ease);
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:6px;
+            text-decoration:none;
+        }
+        .btn-back:hover {
+            background: linear-gradient(180deg,#ffffff 0%,#eef4ff 100%);
+            border-color:var(--primary);
+            color:var(--primary-dark);
+            transform:translateY(-2px);
+        }
+        .btn-back:active { transform:scale(.97); background:var(--paper); }
+
+        /* OPEN BUTTON */
+        .btn-open {
+            padding:12px 32px;
+            border-radius:var(--radius);
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:8px;
+            text-decoration:none;
+            font-size:1.05rem;
+            font-weight:600;
+            background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%),
+                        linear-gradient(165deg, var(--blue-3) 0%, var(--blue-4) 42%, var(--blue-5) 100%);
+            border:1px solid rgba(0,20,60,.4);
+            color:var(--white);
+            text-shadow:0 1px 3px rgba(0,10,40,.45);
+            box-shadow:0 4px 14px rgba(0,20,60,.28),
+                        inset 0 1px 0 rgba(255,255,255,.55),
+                        inset 0 -10px 16px rgba(0,10,40,.28);
+            transition:transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease), background .35s var(--ease);
+            cursor:pointer;
+        }
+        .btn-open:hover {
+            background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.65) 0%, rgba(255,255,255,0) 48%),
+                        linear-gradient(165deg, #6fa2ea 0%, var(--primary-light) 42%, var(--blue-4) 100%);
+            border-color:var(--gold);
+            transform:translateY(-3px);
+            box-shadow:0 10px 24px rgba(0,20,60,.35),
+                        0 0 0 4px var(--btn-glow),
+                        inset 0 1px 0 rgba(255,255,255,.65),
+                        inset 0 -10px 16px rgba(0,10,40,.22);
+        }
+        .btn-open:active {
+            transform:scale(.97) translateY(0);
+            background:linear-gradient(165deg, var(--blue-5) 0%, #001433 100%);
+            box-shadow:inset 0 3px 8px rgba(0,0,0,.4),
+                        inset 0 1px 0 rgba(255,255,255,.2);
+        }
+
+        /* PDF VIEWER */
+        .pdf-container {
+            background:var(--white);
+            border-radius:var(--radius);
+            box-shadow:var(--shadow);
+            overflow:hidden;
+            margin:22px 0 16px;
+            border:1px solid var(--line);
+        }
+        .pdf-container iframe {
+            display:block;
+            border:none;
+            width:100%;
+            min-height:700px;
+            background:var(--paper);
+        }
+        .doc-actions { display:flex; gap:14px; flex-wrap:wrap; margin-top:8px; }
+
+        /* EMPTY STATE */
+        .empty-state {
+            background:rgba(255,255,255,0.92);
+            border:1px dashed var(--line);
+            border-radius:var(--radius);
+            padding:60px 30px;
+            text-align:center;
+            margin-top:10px;
+            box-shadow:var(--shadow);
+        }
+        .empty-state .icon { font-size:3.5rem; margin-bottom:16px; }
+        .empty-state h3 { font-size:1.4rem; margin-bottom:10px; color:var(--ink); }
+        .empty-state p {
+            color:var(--ink-soft);
+            font-size:1.05rem;
+            margin-bottom:24px;
+            max-width:480px;
+            margin-left:auto;
+            margin-right:auto;
+            line-height:1.6;
+        }
+
+        /* FOOTER (BEED specific) */
+        footer {
+            background:var(--primary-dark);
+            color:rgba(255,255,255,.9);
+            text-align:center;
+            padding:28px 32px;
+            font-size:.95rem;
+            margin-top:auto;
+            border-top:2px solid var(--gold);
+            position:relative;
+            z-index:1;
+        }
+        footer strong { color:var(--white); }
+        footer .footer-course { display:block; margin-top:4px; font-size:.9rem; opacity:.8; }
+        footer .footer-divider { width:60px; height:2px; background:var(--gold); margin:14px auto; }
+        footer .footer-contact {
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:center;
+            gap:20px 40px;
+            margin-top:10px;
+            font-size:.9rem;
+        }
+        footer .footer-contact p { margin:4px 0; }
+        footer .footer-contact .label { opacity:.7; font-weight:400; }
+        footer .footer-contact .value { font-weight:600; color:var(--gold-light); }
+
+        /* RESPONSIVE */
+        @media (max-width:1023px) {
+            .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>*,.extra-grid>*,.param-extra-grid>* {
+                flex:0 0 calc(33.33% - 18px);
+                height:130px;
+            }
+        }
+        @media (max-width:767px) {
+            .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>*,.extra-grid>*,.param-extra-grid>* {
+                flex:0 0 calc(50% - 14px);
+                height:120px;
+                font-size:.95rem;
+            }
+            .title-block h1 { font-size:1.2rem; }
+            .title-block .sub-header { font-size:.9rem; }
+            header { padding:12px 16px; }
+            .pdf-container iframe { min-height:420px; }
+            main { padding:12px 12px 30px; }
+            .doc-actions { flex-direction:column; }
+            .btn-open,.btn-back { width:100%; justify-content:center; }
+            .page-header-row {
+                grid-template-columns:1fr;
+                justify-items:center;
+                gap:8px;
+                margin:30px 0;
+            }
+            .page-header-row .btn-back { justify-self:center; order:1; }
+            .page-header-row h2 { order:2; font-size:clamp(1.4rem,5vw,1.8rem); padding:0; }
+            .page-header-row .spacer { display:none; }
+            .logo { height:55px; width:55px; }
+            .footer-contact { flex-direction:column; gap:8px; }
+        }
+        @media (max-width:479px) {
+            .area-grid>*,.param-grid>*,.doc-grid>*,.hierarchy-grid>*,.extra-grid>*,.param-extra-grid>* {
+                flex:0 0 100%;
+                height:100px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo"><img src="images/OMSU-Logo.png" alt="OMSC Logo" onerror="this.parentElement.innerHTML='OMSC'" /></div>
+                <div class="title-block">
+                    <h1>OCCIDENTAL MINDORO STATE UNIVERSITY</h1>
+                    <span class="sub-header">Lubang Campus</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="app"></main>
+
+    <footer>
+        <p>&copy; 2026 Occidental Mindoro State University — <strong>BEED Accreditation Document System</strong></p>
+        <span class="footer-course">Bachelor of Elementary Education</span>
+        <div class="footer-divider"></div>
+        <div class="footer-contact">
+            <p><span class="label">Program Chairperson:</span> <span class="value">Dr. Maria L. Reyes</span></p>
+            <p><span class="label">Email:</span> <span class="value">beed.omsc@email.com</span></p>
+            <p><span class="label">Technical Support:</span> <span class="value">iqa.lubang@omsu.edu.ph</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================================
+        // BEED DATA
+        // ============================================================
+        var PROGRAM_CODE = 'BEED';
+        var PROGRAM_NAME = 'Bachelor of Elementary Education';
+
+        // Areas and Parameters – adapted for Elementary Education
+        var AREAS_FULL = {
+            1: { name: 'Vision, Mission, Goals, and Objectives', params: { A: 'PARAMETER A: STATEMENT OF VISION, MISSION, GOALS AND OBJECTIVES',
+                    B: 'PARAMETER B: DISSEMINATION AND ACCEPTABILITY' } },
+            2: { name: 'Faculty', params: { A: 'PARAMETER A: ACADEMIC QUALIFICATIONS AND PROFESSIONAL EXPERIENCE',
+                    B: 'PARAMETER B: RECRUITMENT, SELECTION, AND ORIENTATION',
+                    C: 'PARAMETER C: FACULTY ADEQUACY AND LEADING',
+                    D: 'PARAMETER D: RANK AND TENURE',
+                    E: 'PARAMETER E: FACULTY DEVELOPMENT',
+                    F: 'PARAMETER F: PROFESSIONAL PERFORMANCE AND SCHOLARLY WORKS',
+                    G: 'PARAMETER G: SALARIES, FRINGE BENEFITS, AND INCENTIVES',
+                    H: 'PARAMETER H: PROFESSIONALISM' } },
+            3: { name: 'Curriculum and Instruction', params: { A: 'PARAMETER A: CURRICULUM AND PROGRAM STUDIES (Elementary Education)',
+                    B: 'PARAMETER B: INSTRUCTIONAL PROCESS, METHODOLOGIES AND LEARNING OPPORTUNITIES',
+                    C: 'PARAMETER C: ASSESSMENT OF ACADEMIC PERFORMANCE',
+                    D: 'PARAMETER D: MANAGEMENT OF LEARNING',
+                    E: 'PARAMETER E: GRADUATION REQUIREMENTS',
+                    F: 'PARAMETER F: ADMINISTRATIVE SUPPORT FOR EFFECTIVE INSTRUCTION' } },
+            4: { name: 'Student Services', params: { A: 'PARAMETER A: STUDENT SERVICES PROGRAM (SSP)',
+                    B: 'PARAMETER B: STUDENT WELFARE',
+                    C: 'PARAMETER C: STUDENT DEVELOPMENT (including Child Psychology and Pedagogy)',
+                    D: 'PARAMETER D: INSTITUTIONAL STUDENT PROGRAM AND SERVICE',
+                    E: 'PARAMETER E: RESEARCH, MONITORING AND EVALUATION' } },
+            5: { name: 'Research', params: { A: 'PARAMETER A: PRIORITIES AND RELEVANCE (Educational Research)',
+                    B: 'PARAMETER B: FUNDING AND OTHER RESOURCES',
+                    C: 'PARAMETER C: IMPLEMENTATION, MONITORING, EVALUATION AND UTILIZATION OF RESEARCH RESULTS/OUTPUTS',
+                    D: 'PARAMETER D: PUBLICATION AND DISSEMINATION' } },
+            6: { name: 'Extension and Community Involvement', params: { A: 'PARAMETER A: PRIORITIES AND RELEVANCE (Community Engagement)',
+                    B: 'PARAMETER B: PLANNING, IMPLEMENTATION, MONITORING, AND EVALUATION',
+                    C: 'PARAMETER C: FUNDING AND OTHER RESOURCES',
+                    D: 'PARAMETER D: MANAGEMENT OF LEARNING' } },
+            7: { name: 'Library', params: { A: 'PARAMETER A: ORGANIZATION AND ADMINISTRATION',
+                    B: 'PARAMETER B: COLLECTION DEVELOPMENT, ORGANIZATION AND PRESERVATION (including Children\'s Literature)',
+                    C: 'PARAMETER C: LIBRARY SERVICES AND UTILIZATION',
+                    D: 'PARAMETER D: PHYSICAL FACILITIES AND EQUIPMENT',
+                    E: 'PARAMETER E: LIBRARY PERSONNEL',
+                    F: 'PARAMETER F: FINANCIAL SUPPORT',
+                    G: 'PARAMETER G: LINKAGES AND NETWORKING',
+                    H: 'PARAMETER H: EVALUATION AND MONITORING' } },
+            8: { name: 'Physical Plant and Facilities', params: { A: 'PARAMETER A: CAMPUS',
+                    B: 'PARAMETER B: BUILDINGS',
+                    C: 'PARAMETER C: CLASSROOMS',
+                    D: 'PARAMETER D: OFFICE AND STAFF ROOMS',
+                    E: 'PARAMETER E: ASSEMBLY, ATHLETIC AND SPORTS FACILITIES',
+                    F: 'PARAMETER F: MEDICAL AND DENTAL CLINIC',
+                    G: 'PARAMETER G: STUDENT CENTER',
+                    H: 'PARAMETER H: FOOD SERVICES/CANTEEN/CAFETERIA',
+                    I: 'PARAMETER I: ACCREDITATION CENTER',
+                    J: 'PARAMETER J: HOUSING (optional)' } },
+            9: { name: 'Laboratories', params: { A: 'PARAMETER A: LABORATORIES, SHOPS/FACILITIES (Science and Computer Labs)',
+                    B: 'PARAMETER B: EQUIPMENT AND MATERIALS',
+                    C: 'PARAMETER C: MAINTENANCE',
+                    D: 'PARAMETER D: SPECIAL PROVISIONS' } },
+            10: { name: 'Administration', params: { A: 'PARAMETER A: ORGANIZATIONAL',
+                    B: 'PARAMETER B: ACADEMIC ADMINISTRATION',
+                    C: 'PARAMETER C: STUDENT ADMINISTRATION',
+                    D: 'PARAMETER D: FINANCIAL MANAGEMENT',
+                    E: 'PARAMETER E: SUPPLY MANAGEMENT',
+                    F: 'PARAMETER F: RECORDS MANAGEMENT',
+                    G: 'PARAMETER G: INSTITUTIONAL PLANNING AND DEVELOPMENT',
+                    H: 'PARAMETER H: PERFORMANCE OF ADMINISTRATIVE PERSONNEL' } }
+        };
+
+        var CATEGORIES = [
+            { key: 'SIP', label: 'System — Inputs and Processes', icon: '📋' },
+            { key: 'IMP', label: 'Implementation', icon: '⚙️' },
+            { key: 'OUT', label: 'Outcome/s', icon: '🏆' }
+        ];
+
+        // ============================================================
+        // SPECIAL FILE IDs – MANUAL NA PAGLALAGAY (per area / per parameter)
+        // ============================================================
+        var EXTRA_FILE_IDS = {
+            // Additional Needed Requirements – naka‑key sa area number (e.g., '1', '2', ...)
+            additional: {
+                '1': 'BEED_ADD_1',   // placeholder – palitan ng actual file ID
+                '2': 'BEED_ADD_2',
+                '3': 'BEED_ADD_3',
+                '4': 'BEED_ADD_4',
+                '5': 'BEED_ADD_5',
+                '6': 'BEED_ADD_6',
+                '7': 'BEED_ADD_7',
+                '8': 'BEED_ADD_8',
+                '9': 'BEED_ADD_9',
+                '10': 'BEED_ADD_10'
+            },
+            // Compliance w/ AACUP Recommendation – naka‑key sa area number
+            compliance: {
+                '1': 'BEED_COMP_1',
+                '2': 'BEED_COMP_2',
+                '3': 'BEED_COMP_3',
+                '4': 'BEED_COMP_4',
+                '5': 'BEED_COMP_5',
+                '6': 'BEED_COMP_6',
+                '7': 'BEED_COMP_7',
+                '8': 'BEED_COMP_8',
+                '9': 'BEED_COMP_9',
+                '10': 'BEED_COMP_10'
+            },
+            // Self Survey – naka‑key sa area number
+            selfsurvey: {
+                '1': 'BEED_SELF_1',
+                '2': 'BEED_SELF_2',
+                '3': 'BEED_SELF_3',
+                '4': 'BEED_SELF_4',
+                '5': 'BEED_SELF_5',
+                '6': 'BEED_SELF_6',
+                '7': 'BEED_SELF_7',
+                '8': 'BEED_SELF_8',
+                '9': 'BEED_SELF_9',
+                '10': 'BEED_SELF_10'
+            },
+            // PPP (Program Performance Profile) – naka‑key sa 'area-param'
+            ppp: {
+                '1-A': 'BEED_PPP_1A',
+                '1-B': 'BEED_PPP_1B',
+                '2-A': 'BEED_PPP_2A',
+                '2-B': 'BEED_PPP_2B',
+                '2-C': 'BEED_PPP_2C',
+                '2-D': 'BEED_PPP_2D',
+                '2-E': 'BEED_PPP_2E',
+                '2-F': 'BEED_PPP_2F',
+                '2-G': 'BEED_PPP_2G',
+                '2-H': 'BEED_PPP_2H',
+                '3-A': 'BEED_PPP_3A',
+                '3-B': 'BEED_PPP_3B',
+                '3-C': 'BEED_PPP_3C',
+                '3-D': 'BEED_PPP_3D',
+                '3-E': 'BEED_PPP_3E',
+                '3-F': 'BEED_PPP_3F',
+                '4-A': 'BEED_PPP_4A',
+                '4-B': 'BEED_PPP_4B',
+                '4-C': 'BEED_PPP_4C',
+                '4-D': 'BEED_PPP_4D',
+                '4-E': 'BEED_PPP_4E',
+                '5-A': 'BEED_PPP_5A',
+                '5-B': 'BEED_PPP_5B',
+                '5-C': 'BEED_PPP_5C',
+                '5-D': 'BEED_PPP_5D',
+                '6-A': 'BEED_PPP_6A',
+                '6-B': 'BEED_PPP_6B',
+                '6-C': 'BEED_PPP_6C',
+                '6-D': 'BEED_PPP_6D',
+                '7-A': 'BEED_PPP_7A',
+                '7-B': 'BEED_PPP_7B',
+                '7-C': 'BEED_PPP_7C',
+                '7-D': 'BEED_PPP_7D',
+                '7-E': 'BEED_PPP_7E',
+                '7-F': 'BEED_PPP_7F',
+                '7-G': 'BEED_PPP_7G',
+                '7-H': 'BEED_PPP_7H',
+                '8-A': 'BEED_PPP_8A',
+                '8-B': 'BEED_PPP_8B',
+                '8-C': 'BEED_PPP_8C',
+                '8-D': 'BEED_PPP_8D',
+                '8-E': 'BEED_PPP_8E',
+                '8-F': 'BEED_PPP_8F',
+                '8-G': 'BEED_PPP_8G',
+                '8-H': 'BEED_PPP_8H',
+                '8-I': 'BEED_PPP_8I',
+                '8-J': 'BEED_PPP_8J',
+                '9-A': 'BEED_PPP_9A',
+                '9-B': 'BEED_PPP_9B',
+                '9-C': 'BEED_PPP_9C',
+                '9-D': 'BEED_PPP_9D',
+                '10-A': 'BEED_PPP_10A',
+                '10-B': 'BEED_PPP_10B',
+                '10-C': 'BEED_PPP_10C',
+                '10-D': 'BEED_PPP_10D',
+                '10-E': 'BEED_PPP_10E',
+                '10-F': 'BEED_PPP_10F',
+                '10-G': 'BEED_PPP_10G',
+                '10-H': 'BEED_PPP_10H'
+            },
+            // Best Practice/s – naka‑key sa 'area-param' (wala nang fallback)
+            bestpractices: {
+                '1-A': 'BEED_BEST_1A',
+                '3-B': 'BEED_BEST_3B',
+                '5-C': 'BEED_BEST_5C'
+                // Magdagdag lamang ng mga parameter na may Best Practice/s
+            }
+        };
+
+        // ============================================================
+        // DOCUMENT FILES – PALITAN NG IYONG ACTUAL NA DATA
+        // ============================================================
+        var DOCUMENT_FILES = {
+            'BEED-1-A-SIP': [
+                { id: 'BEED_SIP_1A_1', name: 'S.1. The institution has a system of determining the Vision and Mission.' },
+                { id: 'BEED_SIP_1A_2', name: 'S.2. The Vision clearly reflects what the institution hopes to become in the future.' }
+            ],
+            'BEED-1-A-BEST': [
+                { id: 'BEED_BEST_1A_DOC', name: 'B.1. The institution has a system of determining the Vision and Mission.' }
+            ],
+            // Idagdag ang iba pang mga dokumento ayon sa pangangailangan
+        };
+
+        // ============================================================
+        // HELPER FUNCTIONS (same as BSIT, with BEED data)
+        // ============================================================
+        function getParamsForProgram(program, areaNum) {
+            var areaData = AREAS_FULL[areaNum];
+            return areaData ? areaData.params : {};
+        }
+
+        function getAreaNameForProgram(program, areaNum) {
+            var areaData = AREAS_FULL[areaNum];
+            return areaData ? areaData.name : 'Area ' + areaNum;
+        }
+
+        function getDocumentFiles(program, area, param, catKey) {
+            var key = program + '-' + area + '-' + param + '-' + catKey;
+            return DOCUMENT_FILES[key] || [];
+        }
+
+        function getDriveLink(fileId) {
+            if (!fileId || fileId.indexOf('BEED_') === 0 || fileId.indexOf('SAMPLE_') === 0) return null;
+            return 'https://drive.google.com/file/d/' + fileId + '/preview';
+        }
+
+        function getDriveOpenLink(fileId) {
+            if (!fileId || fileId.indexOf('BEED_') === 0 || fileId.indexOf('SAMPLE_') === 0) return null;
+            return 'https://drive.google.com/file/d/' + fileId + '/view?usp=sharing';
+        }
+
+        /**
+         * Kunin ang file ID para sa isang espesyal na uri (additional, compliance, selfsurvey, ppp, bestpractices)
+         */
+        function getExtraFileId(type, area, param) {
+            var map = EXTRA_FILE_IDS[type];
+            if (!map) return null;
+
+            if (type === 'additional' || type === 'compliance' || type === 'selfsurvey') {
+                return map[String(area)] || null;
+            } else if (type === 'ppp' || type === 'bestpractices') {
+                if (!param) return null;
+                var key = area + '-' + param;
+                return map[key] || null;
+            }
+            return null;
+        }
+
+        // HIERARCHY BUILDER (unchanged)
+        function parseHierarchyCode(name) {
+            var cleaned = name.replace(/\.\s+/g, '.').replace(/\s+\./g, '.');
+            var match = cleaned.match(/^([A-Z]\.\d+(?:\.\d+)*)/);
+            return match ? match[1] : null;
+        }
+
+        function buildHierarchy(files) {
+            var root = { children: [] };
+            var nodeMap = {};
+            files.forEach(function(file) {
+                var code = parseHierarchyCode(file.name);
+                if (!code) return;
+                if (!nodeMap[code]) nodeMap[code] = { code: code, name: file.name, id: null, index: null,
+                    children: [] };
+            });
+            files.forEach(function(file, index) {
+                var code = parseHierarchyCode(file.name);
+                if (!code) { root.children.push({ code: null, name: file.name, id: file.id, index: index,
+                        children: [] }); return; }
+                var node = nodeMap[code];
+                if (node) { node.id = file.id;
+                    node.index = index;
+                    node.name = file.name; }
+            });
+            var allCodes = Object.keys(nodeMap);
+            allCodes.forEach(function(code) {
+                var parts = code.split('.');
+                if (parts.length === 1) { root.children.push(nodeMap[code]); } else {
+                    var parentCode = parts.slice(0, -1).join('.');
+                    if (nodeMap[parentCode]) nodeMap[parentCode].children.push(nodeMap[code]);
+                    else root.children.push(nodeMap[code]);
+                }
+            });
+
+            function sortChildren(node) {
+                if (node.children) {
+                    node.children.sort(function(a, b) {
+                        var aParts = a.code.split('.'),
+                            bParts = b.code.split('.');
+                        for (var i = 0; i < Math.min(aParts.length, bParts.length); i++) {
+                            if (aParts[i] !== bParts[i]) {
+                                var aNum = parseInt(aParts[i]),
+                                    bNum = parseInt(bParts[i]);
+                                if (!isNaN(aNum) && !isNaN(bNum)) return aNum - bNum;
+                                return aParts[i].localeCompare(bParts[i]);
+                            }
+                        }
+                        return aParts.length - bParts.length;
+                    });
+                    node.children.forEach(sortChildren);
+                }
+            }
+            sortChildren(root);
+            return root.children;
+        }
+
+        // ============================================================
+        // ROUTER (HASH-BASED) – identical to BSIT
+        // ============================================================
+        var state = {
+            page: 'landing',
+            program: PROGRAM_CODE,
+            area: null,
+            param: null,
+            category: null,
+            fileIndex: null,
+            currentPath: [],
+            specialFileId: null,
+            specialFileName: null,
+            specialType: null,
+            fromArea: null,
+            fromParam: null
+        };
+
+        function parseHash() {
+            var hash = window.location.hash.replace(/^#/, '') || '/';
+            var parts = hash.split('/').filter(Boolean);
+            if (parts.length === 0) return { page: 'landing' };
+
+            if (parts.length === 1) {
+                var page = parts[0];
+                if (page === 'additional' || page === 'compliance' || page === 'selfsurvey' ||
+                    page === 'ppp' || page === 'bestpractices') {
+                    return { page: 'special', specialType: page };
+                }
+                if (AREAS_FULL[page]) return { page: 'area', area: page };
+                else return { page: 'notfound' };
+            }
+            if (parts.length === 2) {
+                var area = parts[0],
+                    param = parts[1];
+                var params = getParamsForProgram(PROGRAM_CODE, area);
+                if (AREAS_FULL[area] && params[param]) return { page: 'parameter', area: area, param: param };
+                else return { page: 'notfound' };
+            }
+            if (parts.length === 3) {
+                var area = parts[0],
+                    param = parts[1],
+                    cat = parts[2];
+                var isValidCat = CATEGORIES.some(function(c) { return c.key === cat; });
+                var params2 = getParamsForProgram(PROGRAM_CODE, area);
+                if (AREAS_FULL[area] && params2[param] && isValidCat) return { page: 'category', area: area,
+                    param: param, category: cat };
+                else return { page: 'notfound' };
+            }
+            if (parts.length === 4) {
+                var area = parts[0],
+                    param = parts[1],
+                    cat = parts[2],
+                    idx = parseInt(parts[3]);
+                var isValidCat2 = CATEGORIES.some(function(c) { return c.key === cat; });
+                var params3 = getParamsForProgram(PROGRAM_CODE, area);
+                if (AREAS_FULL[area] && params3[param] && isValidCat2 && !isNaN(idx)) return { page: 'document',
+                    area: area, param: param, category: cat, fileIndex: idx };
+                else return { page: 'notfound' };
+            }
+            return { page: 'notfound' };
+        }
+
+        function navigateTo(page, data) {
+            data = data || {};
+            var newState = Object.assign({}, state, { page: page }, data);
+            state = newState;
+
+            var parts = [];
+            if (data.area) parts.push(data.area);
+            if (data.param) parts.push(data.param);
+            if (data.category) parts.push(data.category);
+            if (data.fileIndex !== undefined && data.fileIndex !== null) parts.push(data.fileIndex);
+
+            if (page === 'special' && data.specialType) {
+                parts = [data.specialType];
+            }
+
+            var hash = parts.length ? '#/' + parts.join('/') : '#/';
+            window.location.hash = hash;
+            render();
+        }
+
+        window.addEventListener('hashchange', function() {
+            var parsed = parseHash();
+            state = Object.assign({}, state, parsed);
+            render();
+        });
+
+        // ============================================================
+        // RENDER FUNCTIONS – identical to BSIT, but with BEED data
+        // ============================================================
+
+        function applyStaggeredAnimation(container) {
+            if (!container) return;
+            var items = container.children;
+            for (var i = 0; i < items.length; i++) {
+                items[i].style.animationDelay = ((i + 1) * 0.1) + 's';
+            }
+        }
+
+        function renderNotFound() {
+            var wrap = document.createElement('div');
+            wrap.innerHTML =
+                `<div class="empty-state" style="margin-top:60px;"><div class="icon">🔍</div><h3>Page Not Found</h3><p>The requested page does not exist in this accreditation system.</p><button class="btn-back" onclick="navigateTo('landing',{})">← Go to Home</button></div>`;
+            return wrap;
+        }
+
+        function crumb(items) {
+            var clickable = items.slice(0, -1);
+            var html = '<nav class="breadcrumb">';
+            clickable.forEach(function(it, i) {
+                html += '<a href="#" data-crumb="' + i + '">' + it.label + '</a>';
+                if (i < clickable.length - 1) html += '<span class="sep">/</span>';
+            });
+            if (items.length > 0) {
+                var last = items[items.length - 1];
+                if (clickable.length > 0) html += '<span class="sep">/</span>';
+                html += '<span class="current">' + last.label + '</span>';
+            }
+            html += '</nav>';
+            return html;
+        }
+
+        function bindCrumbs(container, items) {
+            var clickable = items.slice(0, -1);
+            container.querySelectorAll('[data-crumb]').forEach(function(a) {
+                var idx = Number(a.dataset.crumb);
+                if (idx < clickable.length) {
+                    a.addEventListener('click', function(e) { e.preventDefault();
+                        clickable[idx].go(); });
+                }
+            });
+        }
+
+        function render() {
+            var app = document.getElementById('app');
+            app.innerHTML = '';
+            app.classList.remove('is-visible');
+            var node;
+            switch (state.page) {
+                case 'landing':
+                    node = renderLanding();
+                    break;
+                case 'area':
+                    node = renderArea();
+                    break;
+                case 'parameter':
+                    node = renderParameter();
+                    break;
+                case 'category':
+                    node = renderCategory();
+                    break;
+                case 'document':
+                    node = renderDocument();
+                    break;
+                case 'special':
+                    node = renderSpecialDocument();
+                    break;
+                default:
+                    node = renderNotFound();
+            }
+            app.appendChild(node);
+            void app.offsetWidth;
+            app.style.animation = 'none';
+            void app.offsetHeight;
+            app.style.animation = '';
+            app.classList.add('is-visible');
+
+            var grids = node.querySelectorAll('.area-grid, .param-grid, .doc-grid, .hierarchy-grid, .extra-grid, .param-extra-grid');
+            for (var g = 0; g < grids.length; g++) {
+                applyStaggeredAnimation(grids[g]);
+            }
+
+            var title = 'BEED — AACCUP Accreditation';
+            if (state.page === 'area' && state.area) { var areaName = getAreaNameForProgram(PROGRAM_CODE, state.area);
+                title = 'Area ' + state.area + ' — ' + areaName; } else if (state.page === 'parameter' && state.param) {
+                var pn = getParamsForProgram(PROGRAM_CODE, state.area)[state.param] || 'Parameter';
+                title = pn; } else if (state.page === 'category') { var cat = CATEGORIES.find(function(c) { return c
+                        .key === state.category; });
+                title = cat ? cat.label : state.category; } else if (state.page === 'document') { var files =
+                    getDocumentFiles(PROGRAM_CODE, state.area, state.param, state.category);
+                var f = files[state.fileIndex];
+                title = f ? f.name : 'Document'; } else if (state.page === 'special') { title = state.specialFileName ||
+                    'Document'; }
+            document.title = title + ' | BEED | OMSC';
+        }
+
+        // ---- LANDING ----
+        function renderLanding() {
+            var wrap = document.createElement('div');
+            var items = [{ label: 'BEED Home', go: function() { navigateTo('landing', {}); } }];
+            var html = crumb(items);
+            html += '<div class="page-header-row">';
+            html += '<a href="index.html" class="btn-back">← Back to Home</a>';
+            html += '<h2>BEED - Bachelor of Elementary Education</h2>';
+            html += '<span class="spacer"></span>';
+            html += '</div>';
+            html += '<div class="area-grid">';
+            var areaKeys = Object.keys(AREAS_FULL);
+            for (var a = 0; a < areaKeys.length; a++) {
+                var key = areaKeys[a];
+                var name = getAreaNameForProgram(PROGRAM_CODE, key);
+                html += '<button class="btn-area" data-area="' + key + '"><span class="num">' + key +
+                    '</span><span class="label">' + name + '</span><span class="arrow">›</span></button>';
+            }
+            html += '</div>';
+            wrap.innerHTML = html;
+            bindCrumbs(wrap, items);
+            wrap.querySelectorAll('.btn-area').forEach(function(b) {
+                b.addEventListener('click', function() { navigateTo('area', { area: b.dataset.area }); });
+            });
+            return wrap;
+        }
+
+        // ---- AREA ----
+        function renderArea() {
+            var area = state.area;
+            var areaName = getAreaNameForProgram(PROGRAM_CODE, area);
+            var params = getParamsForProgram(PROGRAM_CODE, area);
+            var wrap = document.createElement('div');
+            var items = [
+                { label: 'BEED Home', go: function() { navigateTo('landing', {}); } },
+                { label: 'Area ' + area, go: function() { navigateTo('area', { area: area }); } }
+            ];
+            var html = crumb(items);
+
+            html +=
+                '<div class="page-header-row"><button class="btn-back" data-back>← Back to Areas</button><h2>' +
+                areaName + '</h2><span class="spacer"></span></div>';
+
+            html += '<div class="param-grid">';
+            var paramKeys = Object.keys(params);
+            for (var p = 0; p < paramKeys.length; p++) {
+                var code = paramKeys[p];
+                var name = params[code];
+                html += '<button class="btn-param" data-param="' + code + '"><span class="letter">' + code +
+                    '</span><span class="label">' + name + '</span><span class="arrow">›</span></button>';
+            }
+            html += '</div>';
+
+            // Extra buttons (Additional, Compliance, Self Survey)
+            var additionalId = getExtraFileId('additional', area);
+            var complianceId = getExtraFileId('compliance', area);
+            var selfsurveyId = getExtraFileId('selfsurvey', area);
+
+            html += '<div class="extra-grid">';
+            if (additionalId) {
+                html += '<button class="btn-extra" data-type="additional" data-fileid="' + additionalId +
+                    '">📋 Additional Needed Requirements</button>';
+            }
+            if (complianceId) {
+                html += '<button class="btn-extra" data-type="compliance" data-fileid="' + complianceId +
+                    '">✅ Compliance w/ AACUP Recommendation</button>';
+            }
+            if (selfsurveyId) {
+                html += '<button class="btn-extra" data-type="selfsurvey" data-fileid="' + selfsurveyId +
+                    '">📝 Self Survey</button>';
+            }
+            html += '</div>';
+
+            wrap.innerHTML = html;
+            bindCrumbs(wrap, items);
+
+            wrap.querySelector('[data-back]').addEventListener('click', function() { navigateTo('landing', {}); });
+
+            wrap.querySelectorAll('.btn-param').forEach(function(b) {
+                b.addEventListener('click', function() {
+                    navigateTo('parameter', { area: area, param: b.dataset.param });
+                });
+            });
+
+            wrap.querySelectorAll('.btn-extra').forEach(function(b) {
+                b.addEventListener('click', function() {
+                    var fileId = b.dataset.fileid;
+                    var type = b.dataset.type;
+                    var nameMap = {
+                        'additional': 'Additional Needed Requirements',
+                        'compliance': 'Compliance w/ AACUP Recommendation',
+                        'selfsurvey': 'Self Survey'
+                    };
+                    var displayName = nameMap[type] || b.textContent.trim();
+                    navigateTo('special', {
+                        specialType: type,
+                        specialFileId: fileId,
+                        specialFileName: displayName,
+                        fromArea: area
+                    });
+                });
+            });
+
+            return wrap;
+        }
+
+        // ---- PARAMETER ----
+        function renderParameter() {
+            var area = state.area,
+                param = state.param;
+            var params = getParamsForProgram(PROGRAM_CODE, area);
+            var paramName = params[param] || 'Parameter ' + param;
+            var wrap = document.createElement('div');
+            var items = [
+                { label: 'BEED Home', go: function() { navigateTo('landing', {}); } },
+                { label: 'Area ' + area, go: function() { navigateTo('area', { area: area }); } },
+                { label: 'Parameter ' + param, go: function() { navigateTo('parameter', { area: area,
+                        param: param }); } }
+            ];
+            var html = crumb(items);
+            html +=
+                '<div class="page-header-row"><button class="btn-back" data-back>← Back to Area ' + area +
+                '</button><h2>' + paramName + '</h2><span class="spacer"></span></div>';
+
+            // SIP, IMP, OUT
+            html += '<div class="doc-grid">';
+            for (var c = 0; c < CATEGORIES.length; c++) {
+                var cat = CATEGORIES[c];
+                html += '<button class="btn-doc" data-cat="' + cat.key + '"><span class="icon">' + cat.icon +
+                    '</span><span class="label">' + cat.label + '</span></button>';
+            }
+            html += '</div>';
+
+            // PPP and Best Practice/s
+            html += '<div class="param-extra-grid">';
+            var pppId = getExtraFileId('ppp', area, param);
+            if (pppId) {
+                html += '<button class="btn-param-extra" data-type="ppp" data-fileid="' + pppId +
+                    '">📊 PPP</button>';
+            }
+            var bestId = getExtraFileId('bestpractices', area, param);
+            if (bestId) {
+                html += '<button class="btn-param-extra" data-type="bestpractices" data-fileid="' + bestId +
+                    '">⭐ Best Practice/s</button>';
+            }
+            html += '</div>';
+
+            wrap.innerHTML = html;
+            bindCrumbs(wrap, items);
+            wrap.querySelector('[data-back]').addEventListener('click', function() { navigateTo('area', { area: area }); });
+
+            wrap.querySelectorAll('.btn-doc').forEach(function(b) {
+                b.addEventListener('click', function() {
+                    navigateTo('category', { area: area, param: param, category: b.dataset.cat });
+                });
+            });
+
+            wrap.querySelectorAll('.btn-param-extra').forEach(function(b) {
+                b.addEventListener('click', function() {
+                    var fileId = b.dataset.fileid;
+                    var type = b.dataset.type;
+                    var displayName = (type === 'ppp') ? 'PPP (Program Performance Profile)' :
+                    'Best Practice/s';
+                    navigateTo('special', {
+                        specialType: type,
+                        specialFileId: fileId,
+                        specialFileName: displayName,
+                        fromArea: area,
+                        fromParam: param
+                    });
+                });
+            });
+
+            return wrap;
+        }
+
+        // ---- CATEGORY (unchanged) ----
+        function renderCategory() {
+            var area = state.area,
+                param = state.param,
+                category = state.category;
+            var params = getParamsForProgram(PROGRAM_CODE, area);
+            var catInfo = CATEGORIES.find(function(c) { return c.key === category; });
+            var files = getDocumentFiles(PROGRAM_CODE, area, param, category);
+            var tree = buildHierarchy(files);
+            if (!state.currentPath || !Array.isArray(state.currentPath)) state.currentPath = [];
+            var currentNode = { children: tree };
+            for (var cp = 0; cp < state.currentPath.length; cp++) {
+                var code = state.currentPath[cp];
+                var child = null;
+                for (var cc = 0; cc < currentNode.children.length; cc++) {
+                    if (currentNode.children[cc].code === code) { child = currentNode.children[cc]; break; }
+                }
+                if (!child) { state.currentPath = [];
+                    currentNode = { children: tree }; break; }
+                currentNode = child;
+            }
+            var displayNodes = currentNode.children || [];
+
+            var pathLabels = [];
+            var temp = { children: tree };
+            for (var lp = 0; lp < state.currentPath.length; lp++) {
+                var cCode = state.currentPath[lp];
+                var found = null;
+                for (var fc = 0; fc < temp.children.length; fc++) {
+                    if (temp.children[fc].code === cCode) { found = temp.children[fc]; break; }
+                }
+                if (!found) break;
+                pathLabels.push({ code: found.code, name: found.name });
+                temp = found;
+            }
+
+            var wrap = document.createElement('div');
+            var items = [
+                { label: 'BEED Home', go: function() { navigateTo('landing', {}); } },
+                { label: 'Area ' + area, go: function() { navigateTo('area', { area: area }); } },
+                { label: 'Parameter ' + param, go: function() { navigateTo('parameter', { area: area,
+                        param: param }); } },
+                { label: catInfo ? catInfo.label : category, go: function() { navigateTo('category', { area: area,
+                        param: param, category: category }); } }
+            ];
+            for (var pl = 0; pl < pathLabels.length; pl++) {
+                (function(idx) {
+                    var p = pathLabels[idx];
+                    var pathUpTo = state.currentPath.slice(0, idx + 1);
+                    items.push({ label: p.code, go: function() { navigateTo('category', { area: area,
+                                param: param, category: category, currentPath: pathUpTo }); } });
+                })(pl);
+            }
+            var html = crumb(items);
+            var backTarget, backLabel;
+            if (state.currentPath && state.currentPath.length > 0) {
+                var parentPath = state.currentPath.slice(0, -1);
+                backTarget = function() { navigateTo('category', { area: area, param: param, category: category,
+                        currentPath: parentPath }); };
+                backLabel = '← Back';
+            } else {
+                backTarget = function() { navigateTo('parameter', { area: area, param: param }); };
+                backLabel = '← Back to Parameter';
+            }
+            html += '<div class="page-header-row"><button class="btn-back" data-back>' + backLabel +
+                '</button><h2>' + (catInfo ? catInfo.label : category) +
+                '</h2><span class="spacer"></span></div>';
+            if (displayNodes.length === 0) {
+                html +=
+                    '<div class="empty-state"><div class="icon">📁</div><h3>No items in this level</h3><p>This folder is empty.</p></div>';
+            } else {
+                html += '<div class="hierarchy-grid">';
+                for (var dn = 0; dn < displayNodes.length; dn++) {
+                    var node = displayNodes[dn];
+                    var isLeaf = node.children.length === 0;
+                    var icon = isLeaf ? '📄' : '📂';
+                    var dataAttr = isLeaf ? 'data-index="' + node.index + '"' : 'data-code="' + node.code + '"';
+                    html += '<button class="btn-file" ' + dataAttr + '><span class="file-icon">' + icon +
+                        '</span><span class="file-name">' + node.name +
+                        '</span><span class="arrow">›</span></button>';
+                }
+                html += '</div>';
+            }
+            wrap.innerHTML = html;
+            bindCrumbs(wrap, items);
+            wrap.querySelector('[data-back]').addEventListener('click', backTarget);
+            wrap.querySelectorAll('.btn-file').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var index = this.dataset.index;
+                    if (index !== undefined) {
+                        navigateTo('document', { area: area, param: param, category: category,
+                            fileIndex: parseInt(index) });
+                    } else {
+                        var code2 = this.dataset.code;
+                        if (code2) {
+                            var newPath = state.currentPath.concat([code2]);
+                            navigateTo('category', { area: area, param: param, category: category,
+                                currentPath: newPath });
+                        }
+                    }
+                });
+            });
+            return wrap;
+        }
+
+        // ---- DOCUMENT ----
+        function renderDocument() {
+            var area = state.area,
+                param = state.param,
+                category = state.category,
+                fileIndex = state.fileIndex;
+            var params = getParamsForProgram(PROGRAM_CODE, area);
+            var catInfo = CATEGORIES.find(function(c) { return c.key === category; });
+            var files = getDocumentFiles(PROGRAM_CODE, area, param, category);
+            var file = files[fileIndex];
+
+            var wrap = document.createElement('div');
+            var items = [
+                { label: 'BEED Home', go: function() { navigateTo('landing', {}); } },
+                { label: 'Area ' + area, go: function() { navigateTo('area', { area: area }); } },
+                { label: 'Parameter ' + param, go: function() { navigateTo('parameter', { area: area,
+                        param: param }); } },
+                { label: catInfo ? catInfo.label : category, go: function() { navigateTo('category', { area: area,
+                        param: param, category: category, currentPath: state.currentPath || [] }); } }
+            ];
+            var filesForCat = getDocumentFiles(PROGRAM_CODE, area, param, category);
+            var tree2 = buildHierarchy(filesForCat);
+            var pathLabels2 = [];
+            var temp2 = { children: tree2 };
+            for (var lp2 = 0; lp2 < (state.currentPath || []).length; lp2++) {
+                var cCode2 = state.currentPath[lp2];
+                var found2 = null;
+                for (var fc2 = 0; fc2 < temp2.children.length; fc2++) {
+                    if (temp2.children[fc2].code === cCode2) { found2 = temp2.children[fc2]; break; }
+                }
+                if (!found2) break;
+                pathLabels2.push({ code: found2.code, name: found2.name });
+                temp2 = found2;
+            }
+            for (var pl2 = 0; pl2 < pathLabels2.length; pl2++) {
+                (function(idx) {
+                    var p2 = pathLabels2[idx];
+                    var pathUpTo2 = (state.currentPath || []).slice(0, idx + 1);
+                    items.push({ label: p2.code, go: function() { navigateTo('category', { area: area,
+                                param: param, category: category, currentPath: pathUpTo2 }); } });
+                })(pl2);
+            }
+
+            var html = crumb(items);
+            if (!file) {
+                html +=
+                    '<div class="page-header-row"><button class="btn-back" data-back>← Back to files</button><h2>File not found</h2><span class="spacer"></span></div><div class="empty-state"><div class="icon">❌</div><p>The requested document could not be found.</p></div>';
+                wrap.innerHTML = html;
+                bindCrumbs(wrap, items);
+                wrap.querySelector('[data-back]').addEventListener('click', function() { navigateTo('category', {
+                        area: area,
+                        param: param,
+                        category: category,
+                        currentPath: state.currentPath || []
+                    }); });
+                return wrap;
+            }
+
+            var previewLink = getDriveLink(file.id);
+            var openLink = getDriveOpenLink(file.id);
+            html += '<div class="page-header-row"><button class="btn-back" data-back>← Back to files</button><h2>' +
+                file.name + '</h2><span class="spacer"></span></div>';
+            if (previewLink) {
+                html += '<div class="pdf-container"><iframe src="' + previewLink +
+                    '" allow="autoplay" title="' + file.name +
+                    '"></iframe></div><div class="doc-actions"><a class="btn-open" href="' + openLink +
+                    '" target="_blank" rel="noopener">Open in new tab</a></div>';
+            } else {
+                var isSample = file.id && file.id.indexOf('BEED_') === 0;
+                var msg = isSample ?
+                    'This is a sample document placeholder. Please replace the file ID with an actual Google Drive file ID.' :
+                    'No Google Drive file has been assigned to this document yet.';
+                html += '<div class="empty-state"><div class="icon">📄</div><h3>' + (isSample ? 'Sample Document' :
+                    'Document not yet linked') + '</h3><p>' + msg +
+                    '</p><p style="font-size:.8rem;color:var(--ink-soft);margin-top:8px;">File ID: ' + file.id +
+                    '</p></div>';
+            }
+            wrap.innerHTML = html;
+            bindCrumbs(wrap, items);
+            wrap.querySelector('[data-back]').addEventListener('click', function() { navigateTo('category', { area: area,
+                    param: param, category: category, currentPath: state.currentPath || [] }); });
+            return wrap;
+        }
+
+        // ---- SPECIAL DOCUMENT ----
+        function renderSpecialDocument() {
+            var fileId = state.specialFileId;
+            var fileName = state.specialFileName || 'Document';
+            var specialType = state.specialType;
+            var fromArea = state.fromArea || null;
+            var fromParam = state.fromParam || null;
+
+            var wrap = document.createElement('div');
+
+            var items = [];
+            items.push({ label: 'BEED Home', go: function() { navigateTo('landing', {}); } });
+
+            if (fromArea) {
+                var areaName = getAreaNameForProgram(PROGRAM_CODE, fromArea);
+                items.push({ label: 'Area ' + fromArea, go: function() { navigateTo('area', { area: fromArea }); } });
+                if (fromParam) {
+                    var params = getParamsForProgram(PROGRAM_CODE, fromArea);
+                    var paramName = params[fromParam] || 'Parameter ' + fromParam;
+                    items.push({ label: paramName, go: function() { navigateTo('parameter', { area: fromArea,
+                            param: fromParam }); } });
+                }
+            }
+            items.push({ label: fileName, go: function() { /* same page */ } });
+
+            var html = crumb(items);
+
+            var backTarget;
+            var backLabel = '← Back';
+            if (fromArea) {
+                if (fromParam) {
+                    backTarget = function() { navigateTo('parameter', { area: fromArea, param: fromParam }); };
+                    backLabel = '← Back to Parameter';
+                } else {
+                    backTarget = function() { navigateTo('area', { area: fromArea }); };
+                    backLabel = '← Back to Area ' + fromArea;
+                }
+            } else {
+                backTarget = function() { navigateTo('landing', {}); };
+                backLabel = '← Back to Home';
+            }
+
+            html += '<div class="page-header-row"><button class="btn-back" data-back>' + backLabel +
+                '</button><h2>' + fileName + '</h2><span class="spacer"></span></div>';
+
+            var previewLink = getDriveLink(fileId);
+            var openLink = getDriveOpenLink(fileId);
+            if (previewLink) {
+                html += '<div class="pdf-container"><iframe src="' + previewLink +
+                    '" allow="autoplay" title="' + fileName +
+                    '"></iframe></div><div class="doc-actions"><a class="btn-open" href="' + openLink +
+                    '" target="_blank" rel="noopener">Open in new tab</a></div>';
+            } else {
+                var isSample = fileId && fileId.indexOf('BEED_') === 0;
+                var msg = isSample ?
+                    'This is a sample document placeholder. Please replace the file ID with an actual Google Drive file ID.' :
+                    'No Google Drive file has been assigned to this document yet.';
+                html += '<div class="empty-state"><div class="icon">📄</div><h3>' + (isSample ? 'Sample Document' :
+                    'Document not yet linked') + '</h3><p>' + msg +
+                    '</p><p style="font-size:.8rem;color:var(--ink-soft);margin-top:8px;">File ID: ' + fileId +
+                    '</p></div>';
+            }
+
+            wrap.innerHTML = html;
+            bindCrumbs(wrap, items);
+            wrap.querySelector('[data-back]').addEventListener('click', backTarget);
+            return wrap;
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        function init() {
+            var parsed = parseHash();
+            state = Object.assign({}, state, parsed, { currentPath: [] });
+
+            if (parsed.page === 'special') {
+                var type = parsed.specialType;
+                var fileId = null;
+                var nameMap = {
+                    'additional': 'Additional Needed Requirements',
+                    'compliance': 'Compliance w/ AACUP Recommendation',
+                    'selfsurvey': 'Self Survey',
+                    'ppp': 'PPP (Program Performance Profile)',
+                    'bestpractices': 'Best Practice/s'
+                };
+
+                var areaKey = state.fromArea || null;
+                var paramKey = state.fromParam || null;
+
+                if (type === 'additional' || type === 'compliance' || type === 'selfsurvey') {
+                    if (areaKey) {
+                        fileId = getExtraFileId(type, areaKey);
+                    }
+                } else if (type === 'ppp' || type === 'bestpractices') {
+                    if (areaKey && paramKey) {
+                        fileId = getExtraFileId(type, areaKey, paramKey);
+                    }
+                }
+
+                if (!fileId) {
+                    navigateTo('landing', {});
+                    return;
+                }
+
+                state.specialFileId = fileId;
+                state.specialFileName = nameMap[type] || type;
+            }
+
+            render();
+        }
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

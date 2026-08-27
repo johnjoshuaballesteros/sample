@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AACCUP Accreditation System — OMSC</title>
+  <style>
+    /* ===== LANDING STYLES (gaya ng bsit.html) ===== */
+    :root {
+      --primary: #0047AB;
+      --primary-dark: #002a66;
+      --primary-light: #3F7FE0;
+      --gold: #D4AF5A;
+      --gold-light: #F0D999;
+      --gold-dark: #A87F2E;
+      --white: #FFFFFF;
+      --paper: #F4F6FA;
+      --line: #E1E6EE;
+      --ink: #1B2430;
+      --ink-soft: #5B6472;
+      --radius: 8px;
+      --shadow: 0 2px 8px rgba(0, 0, 0, .06);
+      --shadow-hover: 0 4px 16px rgba(0, 71, 171, .15);
+      --ease: cubic-bezier(.4, 0, .2, 1);
+      --blue-3: var(--primary-light);
+      --blue-4: #1257bf;
+      --blue-5: #001f4d;
+      --btn-glow: rgba(63, 127, 224, .45);
+    }
+
+    /* RESET & BASE */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== HEADER (eksaktong kapareho ng bsit.html) ===== */
+    header {
+      background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--white);
+      padding: 14px 32px;
+      box-shadow: 0 2px 14px rgba(0, 20, 60, .3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 3px solid var(--gold);
+    }
+    .header-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      max-width: 1400px;
+    }
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex: 1;
+    }
+    .logo {
+      height: 70px;
+      width: 70px;
+      border-radius: 50%;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: .5px solid var(--gold-light);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .25);
+    }
+    .logo img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .title-block {
+      flex: 1;
+    }
+    .title-block h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: 0.5px;
+    }
+    .title-block .sub-header {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 600;
+      opacity: .9;
+      letter-spacing: 1px;
+    }
+
+    /* ===== MAIN ===== */
+    main {
+      flex: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px 16px 60px;
+      width: 100%;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      text-align: center;
+      padding: 20px 20px 44px;
+    }
+    .hero .eyebrow {
+      display: inline-block;
+      font-size: .72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--primary);
+      font-weight: 700;
+      background: rgba(0, 71, 171, .08);
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+    .hero h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--ink);
+      margin-bottom: 12px;
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--ink-soft);
+      max-width: 1200px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ===== PROGRAM GRID (may background logos) ===== */
+    .program-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    /* bawat card — may pseudo‑element para sa logo */
+    .program-grid a {
+      flex: 0 0 calc(25% - 18px);
+      height: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 16px;
+      text-align: center;
+      word-break: break-word;
+      border-radius: 12px;
+      /* pangunahing gradient background */
+      background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 45%),
+                  linear-gradient(165deg, var(--blue-3) 0%, var(--blue-4) 42%, var(--blue-5) 100%);
+      border: 1px solid rgba(0, 20, 60, .4);
+      color: var(--white);
+      text-shadow: 0 1px 3px rgba(0, 10, 40, .45);
+      box-shadow: 0 4px 14px rgba(0, 20, 60, .28),
+                  inset 0 1px 0 rgba(255, 255, 255, .55),
+                  inset 0 -10px 16px rgba(0, 10, 40, .28);
+      transition: transform .25s var(--ease), box-shadow .25s var(--ease),
+                  border-color .25s var(--ease), background .35s var(--ease);
+      cursor: pointer;
+      font-weight: 600;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      text-decoration: none;
+    }
+    /* gold seam sa itaas */
+    .program-grid a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 14%;
+      right: 14%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold-light) 50%, transparent);
+      opacity: .75;
+      z-index: 2; /* nasa itaas ng logo */
+    }
+
+    /* pseudo‑element para sa department logo */
+    .program-grid a::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.15;           /* mababang opacity para hindi matabunan ang text */
+      pointer-events: none;    /* hindi nakaka‑intercept ng click */
+      z-index: 0;             /* nasa likod ng gradient at text */
+      transition: opacity .3s ease;
+    }
+
+    /* i‑assign ang kanya‑kanyang logo */
+    .program-grid a[href="bsit.html"]::after {
+      background-image: url('images/bsit-logo.png');
+    }
+    .program-grid a[href="beed.html"]::after {
+      background-image: url('images/beed-logo.png');
+    }
+    .program-grid a[href="bsba.html"]::after {
+      background-image: url('images/bsba-logo.png');
+    }
+
+    /* iangat ang text sa itaas ng logo */
+    .program-grid .code,
+    .program-grid .full {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* hover / active effects */
+    .program-grid a:hover {
+      background: radial-gradient(120% 140% at 20% -20%, rgba(255,255,255,.65) 0%, rgba(255,255,255,0) 48%),
+                  linear-gradient(165deg, #6fa2ea 0%, var(--primary-light) 42%, var(--blue-4) 100%);
+      border-color: var(--gold);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0, 20, 60, .35),
+                  0 0 0 4px var(--btn-glow),
+                  inset 0 1px 0 rgba(255, 255, 255, .65),
+                  inset 0 -10px 16px rgba(0, 10, 40, .22);
+    }
+    .program-grid a:hover::after {
+      opacity: 0.25; /* bahagyang lumilinaw ang logo kapag naka‑hover */
+    }
+    .program-grid a:active {
+      transform: scale(.97) translateY(0);
+      background: linear-gradient(165deg, var(--blue-5) 0%, #001433 100%);
+      box-shadow: inset 0 3px 8px rgba(0, 0, 0, .4),
+                  inset 0 1px 0 rgba(255, 255, 255, .2);
+    }
+
+    .program-grid .code {
+      display: block;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      background: linear-gradient(180deg, #ffffff, var(--gold-light));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+      filter: drop-shadow(0 1px 2px rgba(0, 10, 40, .5));
+      margin-bottom: 4px;
+    }
+    .program-grid .full {
+      font-size: .85rem;
+      font-weight: 400;
+      color: var(--white);
+      opacity: .92;
+      -webkit-text-fill-color: var(--white);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-height: 3.6em;
+      line-height: 1.2;
+    }
+
+    /* ===== FOOTER (katulad ng bsit.html) ===== */
+    footer {
+      background: var(--primary-dark);
+      color: rgba(255, 255, 255, .9);
+      text-align: center;
+      padding: 28px 32px;
+      font-size: .95rem;
+      margin-top: auto;
+      border-top: 2px solid var(--gold);
+    }
+    footer strong {
+      color: var(--white);
+    }
+    footer .footer-course {
+      display: block;
+      margin-top: 4px;
+      font-size: .9rem;
+      opacity: .8;
+    }
+    footer .footer-divider {
+      width: 60px;
+      height: 2px;
+      background: var(--gold);
+      margin: 14px auto;
+    }
+    footer .footer-contact {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px 40px;
+      margin-top: 10px;
+      font-size: .9rem;
+    }
+    footer .footer-contact p {
+      margin: 4px 0;
+    }
+    footer .footer-contact .label {
+      opacity: .7;
+      font-weight: 400;
+    }
+    footer .footer-contact .value {
+      font-weight: 600;
+      color: var(--gold-light);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1023px) {
+      .program-grid a {
+        flex: 0 0 calc(33.33% - 18px);
+        height: 130px;
+      }
+    }
+    @media (max-width: 767px) {
+      .program-grid a {
+        flex: 0 0 calc(50% - 14px);
+        height: 120px;
+        font-size: .95rem;
+      }
+      .title-block h1 {
+        font-size: 1.2rem;
+      }
+      .title-block .sub-header {
+        font-size: .9rem;
+      }
+      header {
+        padding: 12px 16px;
+      }
+      main {
+        padding: 20px 12px 40px;
+      }
+      .logo {
+        height: 55px;
+        width: 55px;
+      }
+      .footer-contact {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+    @media (max-width: 479px) {
+      .program-grid a {
+        flex: 0 0 100%;
+        height: 100px;
+      }
+    }
+
+    /* ===== ANIMATION ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .program-grid a {
+      animation: fadeUp .5s var(--ease) both;
+    }
+    .program-grid a:nth-child(1) { animation-delay: .1s; }
+    .program-grid a:nth-child(2) { animation-delay: .2s; }
+    .program-grid a:nth-child(3) { animation-delay: .3s; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="header-container">
+      <div class="logo-section">
+        <div class="logo">
+          <img src="images/OMSU-Logo.png" alt="OMSC Logo" onerror="this.parentElement.innerHTML='OMSC'" />
+        </div>
+        <div class="title-block">
+          <h1>OCCIDENTAL MINDORO STATE UNIVERSITY</h1>
+          <span class="sub-header">Lubang Campus</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main>
+    <section class="hero">
+      <span class="eyebrow">AACCUP PROGRAM ACCREDITATION PORTAL Level II Accreditation</span>
+      <h2>Assessment Period: August 2024 – March 2027</h2>
+      <p>Welcome to the AACCUP Program Accreditation Portal of Occidental Mindoro State University – Lubang Campus. This portal provides organized and convenient access to accreditation documents, supporting evidences, and relevant records of the academic programs undergoing Level II Accreditation.</p>
+    </section>
+
+    <section class="program-grid">
+      <a href="bsit.html">
+        <span class="code">BSIT</span>
+        <span class="full">Bachelor of Science in Information Technology</span>
+      </a>
+      <a href="beed.html">
+        <span class="code">BEED</span>
+        <span class="full">Bachelor of Elementary Education</span>
+      </a>
+      <a href="bsba.html">
+        <span class="code">BSBA</span>
+        <span class="full">Bachelor of Science in Business Administration</span>
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Occidental Mindoro State University — <strong>AACCUP Accreditation Document Management System</strong></p>
+    <span class="footer-course">Lubang Campus</span>
+    <div class="footer-divider"></div>
+    <div class="footer-contact">
+      <p><span class="label">Campus Director:</span> <span class="value">Miguel C. Elausa</span></p>
+      <p><span class="label">Email:</span> <span class="value">sample-email@gmail.com</span></p>
+      <p><span class="label">Technical Support:</span> <span class="value">iqa.lubang@omsu.edu.ph</span></p>
+    </div>
+  </footer>
+
+</body>
+</html>
